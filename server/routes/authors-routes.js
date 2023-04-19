@@ -19,7 +19,7 @@ router.post(
     check("nationality").not().isEmpty(),
     check("age").isNumeric(),
   ],
-  authorsController.createAuthor
+  authorsController.addAuthor
 );
 
 router.patch(

@@ -11,7 +11,7 @@ const bookSchema = new Schema({
   status: { type: String, required: true },
   author: { type: mongoose.Types.ObjectId, required: true, ref: "Author" },
   branch: { type: mongoose.Types.ObjectId, required: true, ref: "Branch" },
-  user: { type: mongoose.Types.ObjectId, required: true, ref: "User" },
+  user: { type: mongoose.Types.ObjectId, ref: "User" },
 });
 
 module.exports = mongoose.model("Book", bookSchema);

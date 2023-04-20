@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 
 const HttpError = require("../models/http-error");
 const Book = require("../models/book");
+const User = require("../models/user");
 
 const getBooksByBranch = async (req, res, next) => {
   const branchId = req.params.brid;
@@ -33,16 +34,19 @@ const createBook = async (req, res, next) => {
       new HttpError("Invalid inputs passed, please check your data.", 422)
     );
   }
-  const { title, author, genre, description, year_published } = req.body;
+  const { title, genre, description, year_published, authorId, branchId } =
+    req.body;
 
   const newBook = new Book({
     title,
-    author,
     genre,
     description,
     year_published,
     loan_expiry: null,
-    status: free,
+    status: "free",
+    author: authorId,
+    branch: branchId,
+    user: null,
   });
 
   try {
@@ -84,7 +88,7 @@ const updateBook = async (req, res, next) => {
 
   let book;
   try {
-    book = await book.findById(bookId);
+    book = await Book.findById(bookId);
   } catch (err) {
     return next(
       new HttpError("Something went wrong, couldn't update book."),
@@ -109,11 +113,181 @@ const updateBook = async (req, res, next) => {
   res.status(200).json({ book: book.toObject({ getters: true }) });
 };
 
-const assignBook = async (req, res, next) => {};
+const assignBook = async (req, res, next) => {
+  const bookId = req.params.bid;
+  const { userId } = req.body;
 
-const reserveBook = async (req, res, next) => {};
+  let book;
+  try {
+    book = await Book.findById(bookId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't assign book."),
+      500
+    );
+  }
 
-const returnBook = async (req, res, next) => {};
+  if (!book) {
+    return next(
+      new HttpError("Couldn't find a book for the provided ID."),
+      404
+    );
+  }
+
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't assign book."),
+      500
+    );
+  }
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    book.status = "taken";
+    book.user = user;
+    await book.save({ session: sess });
+    user.books.push(book);
+    user.reservations.push({
+      reservationDate: new Date().toISOString(),
+      returnDate: null,
+      bookId: bookId,
+    });
+    await user.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't assign book."),
+      500
+    );
+  }
+
+  res.status(200).json({
+    book: book.toObject({ getters: true }),
+    user: user.toObject({ getters: true }),
+  });
+};
+
+const reserveBook = async (req, res, next) => {
+  const bookId = req.params.bid;
+  const { userId } = req.body;
+
+  let book;
+  try {
+    book = await Book.findById(bookId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't assign book."),
+      500
+    );
+  }
+
+  if (!book) {
+    return next(
+      new HttpError("Couldn't find a book for the provided ID."),
+      404
+    );
+  }
+
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't assign book."),
+      500
+    );
+  }
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    book.status = "reserved";
+    book.user = user;
+    await book.save({ session: sess });
+    user.books.push(book);
+    user.reservations.push({
+      reservationDate: new Date().toISOString(),
+      returnDate: null,
+      bookId: bookId,
+    });
+    await user.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't assign book."),
+      500
+    );
+  }
+
+  res.status(200).json({
+    book: book.toObject({ getters: true }),
+    user: user.toObject({ getters: true }),
+  });
+};
+
+const returnBook = async (req, res, next) => {
+  const bookId = req.params.bid;
+  const { userId } = req.body;
+
+  let book;
+  try {
+    book = await Book.findById(bookId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't assign book."),
+      500
+    );
+  }
+
+  if (!book) {
+    return next(
+      new HttpError("Couldn't find a book for the provided ID."),
+      404
+    );
+  }
+
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't assign book."),
+      500
+    );
+  }
+
+  const previousReservations = (id) => id === bookId;
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    book.status = "free";
+    book.user = null;
+    await book.save({ session: sess });
+    user.books.pull(book);
+    let bookIndex = user.reservations.findLastIndex(previousReservations);
+    user.reservations[bookIndex] = {
+      ...user.reservations[bookIndex],
+      returnDate: new Date().toISOString(),
+    };
+    await user.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't assign book."),
+      500
+    );
+  }
+
+  res.status(200).json({
+    book: book.toObject({ getters: true }),
+    user: user.toObject({ getters: true }),
+  });
+};
 
 const deleteBook = async (req, res, next) => {
   const bookId = req.params.bid;

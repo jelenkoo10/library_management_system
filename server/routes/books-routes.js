@@ -13,9 +13,9 @@ router.post(
   "/",
   [
     check("title").not().isEmpty(),
-    check("author").not().isEmpty(),
     check("genre").not().isEmpty(),
     check("description").isLength({ min: 20 }),
+    check("year_published").not().isEmpty(),
   ],
   booksController.createBook
 );
@@ -24,9 +24,9 @@ router.patch(
   "/:bid",
   [
     check("title").not().isEmpty(),
-    check("author").not().isEmpty(),
     check("genre").not().isEmpty(),
     check("description").isLength({ min: 20 }),
+    check("year_published").not().isEmpty(),
   ],
   booksController.updateBook
 );
@@ -34,6 +34,8 @@ router.patch(
 router.patch("/assign/:bid", booksController.assignBook);
 
 router.patch("/reserve/:bid", booksController.reserveBook);
+
+router.patch("/return/:bid", booksController.returnBook);
 
 router.delete("/:bid", booksController.deleteBook);
 

@@ -113,6 +113,8 @@ const assignBook = async (req, res, next) => {};
 
 const reserveBook = async (req, res, next) => {};
 
+const returnBook = async (req, res, next) => {};
+
 const deleteBook = async (req, res, next) => {
   const bookId = req.params.bid;
 
@@ -151,4 +153,5 @@ exports.getBookById = getBookById;
 exports.updateBook = updateBook;
 exports.assignBook = assignBook;
 exports.reserveBook = reserveBook;
+exports.returnBook = returnBook;
 exports.deleteBook = deleteBook;

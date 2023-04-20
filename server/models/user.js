@@ -10,7 +10,14 @@ const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, minlength: 8 },
   subscription_expiry: { type: String, required: true },
-  // is_admin: { type: Boolean, required: true },
+  is_admin: { type: Boolean, required: true },
+  reservations: [
+    {
+      reservationDate: String,
+      returnDate: String,
+      bookId: mongoose.Types.ObjectId,
+    },
+  ],
   books: [{ type: mongoose.Types.ObjectId, required: true, ref: "Book" }],
   branches: [{ type: mongoose.Types.ObjectId, required: true, ref: "Branch" }],
 });

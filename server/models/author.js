@@ -8,7 +8,7 @@ const authorSchema = new Schema({
   biography: { type: String, required: true },
   date_of_birth: { type: String, required: true },
   nationality: { type: String, required: true },
-  age: { type: Integer, required: true },
+  age: { type: Number, required: true, min: 10, max: 100 },
   books: [{ type: mongoose.Types.ObjectId, required: true, ref: "Book" }],
 });
 

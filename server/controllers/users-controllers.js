@@ -69,6 +69,8 @@ const signup = async (req, res, next) => {
     email,
     password,
     subscription_expiry,
+    is_admin: false,
+    reservations: {},
   });
 
   try {

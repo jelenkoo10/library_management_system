@@ -1,4 +1,6 @@
 const { validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
@@ -42,7 +44,7 @@ const signup = async (req, res, next) => {
       new HttpError("Invalid inputs passed, please check your data.", 422)
     );
   }
-  const { name, surname, phone, email, password } = req.body;
+  const { name, surname, phone, email, password, branchId } = req.body;
 
   let existingUser;
   try {
@@ -62,15 +64,24 @@ const signup = async (req, res, next) => {
     new Date().setFullYear(new Date().getFullYear() + 1)
   );
 
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 12);
+  } catch (err) {
+    return next(new HttpError("Could not create user, please try again.", 500));
+  }
+
   const newUser = new User({
     name,
     surname,
     phone,
     email,
-    password,
+    password: hashedPassword,
     subscription_expiry,
     is_admin: false,
-    reservations: {},
+    reservations: [],
+    books: [],
+    branches: [branchId],
   });
 
   try {
@@ -79,7 +90,22 @@ const signup = async (req, res, next) => {
     return next("Signing up failed, please try again.", 500);
   }
 
-  res.status(201).json({ user: newUser.toObject({ getters: true }) });
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: newUser.id, email: newUser.email },
+      "pitajkonobara",
+      { expiresIn: "1h" }
+    );
+  } catch (err) {
+    return next(
+      new HttpError("Signing up failed, please try again later.", 500)
+    );
+  }
+
+  res
+    .status(201)
+    .json({ userId: newUser.id, email: newUser.email, token: token });
 };
 
 const login = async (req, res, next) => {
@@ -98,16 +124,48 @@ const login = async (req, res, next) => {
     return next(new HttpError("Logging in failed, please try again"), 500);
   }
 
-  if (!existingUser || existingUser.password !== password) {
+  if (!existingUser) {
     return next(
       new HttpError("Invalid credentials, couldn't log you in."),
       401
     );
   }
 
+  let isValidPassword = false;
+  try {
+    isValidPassword = await bcrypt.compare(password, existingUser.password);
+  } catch (err) {
+    return next(
+      new HttpError(
+        "Could not log you in, please check your credentials and try again.",
+        500
+      )
+    );
+  }
+
+  if (!isValidPassword) {
+    return next(
+      new HttpError("Invalid credentials, could not log you in.", 403)
+    );
+  }
+
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: existingUser.id, email: existingUser.email },
+      "pitajkonobara",
+      { expiresIn: "1h" }
+    );
+  } catch (err) {
+    return next(
+      new HttpError("Logging in failed, please try again later.", 500)
+    );
+  }
+
   res.json({
-    message: "Successfully logged in!",
-    user: existingUser.toObject({ getters: true }),
+    userId: existingUser.id,
+    email: existingUser.email,
+    token: token,
   });
 };
 
@@ -137,7 +195,14 @@ const resetForgottenPassword = async (req, res, next) => {
     );
   }
 
-  user.password = password;
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 12);
+  } catch (err) {
+    return next(new HttpError("Could not create user, please try again.", 500));
+  }
+
+  user.password = hashedPassword;
 
   try {
     await user.save();
@@ -179,17 +244,29 @@ const resetPassword = async (req, res, next) => {
     );
   }
 
+  let isValidPassword = false;
+  try {
+    isValidPassword = await bcrypt.compare(oldPassword, user.password);
+  } catch (err) {
+    const error = new HttpError(
+      "Could not log you in, please check your credentials and try again.",
+      500
+    );
+    return next(error);
+  }
+
   if (oldPassword !== repeatedOldPassword) {
     return next(
       new HttpError("Old password doesn't match repeated old password.", 422)
     );
-  } else if (user.password !== oldPassword) {
+  } else if (!isValidPassword) {
     return next(
       new HttpError("Typed password doesn't match your old password.", 422)
     );
   } else {
-    user.password = newPassword;
     try {
+      let hashedPassword = await bcrypt.hash(newPassword, 12);
+      user.password = hashedPassword;
       await user.save();
     } catch (err) {
       return next(

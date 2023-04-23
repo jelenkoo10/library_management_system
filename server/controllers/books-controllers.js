@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const mongoose = require("mongoose");
 
 const HttpError = require("../models/http-error");
 const Book = require("../models/book");
@@ -10,7 +11,7 @@ const getBooksByBranch = async (req, res, next) => {
 
   let books;
   try {
-    books = await Book.find({});
+    books = await Book.find({ branch: branchId });
   } catch (err) {
     return next(
       new HttpError("Fetching books failed, please try again later.", 500)
@@ -22,9 +23,7 @@ const getBooksByBranch = async (req, res, next) => {
   }
 
   res.json({
-    books: books
-      .filter((book) => book.branch === branchId)
-      .map((book) => book.toObject({ getters: true })),
+    books: books.map((book) => book.toObject({ getters: true })),
   });
 };
 
@@ -190,9 +189,38 @@ const assignBook = async (req, res, next) => {
     );
   }
 
-  let user;
+  let foundUser;
   try {
-    user = await User.findById(userId);
+    foundUser = await User.findById(userId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't assign book."),
+      500
+    );
+  }
+
+  if (foundUser.books.length >= 3) {
+    return next(
+      new HttpError("Couldn't assign book, user already has 3 books."),
+      422
+    );
+  }
+
+  book.status = "taken";
+  foundUser.reservations.push({
+    reservationDate: new Date().toISOString(),
+    returnDate: new Date(
+      new Date().setMonth(new Date().getMonth() + 1)
+    ).toISOString(),
+    bookId: bookId,
+  });
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    foundUser.books.push(book);
+    await foundUser.save({ session: sess });
+    await sess.commitTransaction();
   } catch (err) {
     return next(
       new HttpError("Something went wrong, couldn't assign book."),
@@ -203,16 +231,8 @@ const assignBook = async (req, res, next) => {
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
-    book.status = "taken";
-    book.user = user;
+    book.user.push(foundUser);
     await book.save({ session: sess });
-    user.books.push(book);
-    user.reservations.push({
-      reservationDate: new Date().toISOString(),
-      returnDate: null,
-      bookId: bookId,
-    });
-    await user.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
     return next(
@@ -258,18 +278,18 @@ const reserveBook = async (req, res, next) => {
     );
   }
 
+  book.status = "reserved";
+  user.reservations.push({
+    reservationDate: new Date().toISOString(),
+    returnDate: null,
+    bookId: bookId,
+  });
+
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
-    book.status = "reserved";
-    book.user = user;
     await book.save({ session: sess });
     user.books.push(book);
-    user.reservations.push({
-      reservationDate: new Date().toISOString(),
-      returnDate: null,
-      bookId: bookId,
-    });
     await user.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
@@ -316,25 +336,25 @@ const returnBook = async (req, res, next) => {
     );
   }
 
+  book.status = "free";
+
   const previousReservations = (id) => id === bookId;
+  let bookIndex = user.reservations.findLastIndex(previousReservations);
+  user.reservations[bookIndex] = {
+    ...user.reservations[bookIndex],
+    returnDate: new Date().toISOString(),
+  };
 
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
-    book.status = "free";
-    book.user = null;
     await book.save({ session: sess });
     user.books.pull(book);
-    let bookIndex = user.reservations.findLastIndex(previousReservations);
-    user.reservations[bookIndex] = {
-      ...user.reservations[bookIndex],
-      returnDate: new Date().toISOString(),
-    };
     await user.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't assign book."),
+      new HttpError("Something went wrong, couldn't return book."),
       500
     );
   }

@@ -3,6 +3,7 @@ const { validationResult } = require("express-validator");
 const HttpError = require("../models/http-error");
 const Book = require("../models/book");
 const User = require("../models/user");
+const Author = require("../models/author");
 
 const getBooksByBranch = async (req, res, next) => {
   const branchId = req.params.brid;
@@ -70,8 +71,63 @@ const getBookById = async (req, res, next) => {
     );
   }
 
+  if (!book) {
+    return next(
+      new HttpError("Couldn't find a book for the provided ID.", 404)
+    );
+  }
+
   res.json({
     book: book.toObject({ getters: true }),
+  });
+};
+
+const searchBooks = async (req, res, next) => {
+  const { searchQuery } = req.body;
+
+  let books;
+  try {
+    books = await Book.find({});
+  } catch (err) {
+    return next(
+      new HttpError("Fetching books failed, please try again later.", 500)
+    );
+  }
+  let authors;
+  if (!books) {
+    return next(new HttpError("There are no books found, sorry.", 404));
+  } else {
+    try {
+      authors = await Author.find({});
+    } catch (err) {
+      return next(
+        new HttpError("Fetching authors failed, please try again later.", 500)
+      );
+    }
+    authors = authors
+      .filter(
+        (author) =>
+          author.name.toLowerCase().includes(searchQuery) ||
+          author.surname.toLowerCase().includes(searchQuery) ||
+          author.name.toUpperCase().includes(searchQuery) ||
+          author.surname.toUpperCase().includes(searchQuery)
+      )
+      .map((foundAuthor) => foundAuthor.id);
+    books = books.filter(
+      (book) =>
+        book.title.toLowerCase().includes(searchQuery) ||
+        book.title.toUpperCase().includes(searchQuery) ||
+        authors.includes(book.author)
+    );
+  }
+
+  if (!books) {
+    return next(new HttpError("There are no books found, sorry.", 404));
+  }
+
+  res.json({
+    books: books.map((book) => book.toObject({ getters: true })),
+    authors: authors,
   });
 };
 
@@ -324,6 +380,7 @@ const deleteBook = async (req, res, next) => {
 exports.getBooksByBranch = getBooksByBranch;
 exports.createBook = createBook;
 exports.getBookById = getBookById;
+exports.searchBooks = searchBooks;
 exports.updateBook = updateBook;
 exports.assignBook = assignBook;
 exports.reserveBook = reserveBook;

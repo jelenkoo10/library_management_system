@@ -5,9 +5,11 @@ const booksController = require("../controllers/books-controllers");
 
 const router = express.Router();
 
-router.get("/:bid", booksController.getBookById);
+router.get("/id/:bid", booksController.getBookById);
 
-router.get("/:brid", booksController.getBooksByBranch);
+router.get("/branch/:brid", booksController.getBooksByBranch);
+
+router.get("/search", booksController.searchBooks);
 
 router.post(
   "/",

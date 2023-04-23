@@ -138,7 +138,7 @@ const updateBook = async (req, res, next) => {
     );
   }
 
-  const { title, author, genre, description } = req.body;
+  const { title, genre, description, year_published } = req.body;
   const bookId = req.params.bid;
 
   let book;
@@ -152,7 +152,7 @@ const updateBook = async (req, res, next) => {
   }
 
   book.title = title;
-  book.author = author;
+  book.year_published = year_published;
   book.genre = genre;
   book.description = description;
 
@@ -206,32 +206,22 @@ const assignBook = async (req, res, next) => {
     );
   }
 
-  book.status = "taken";
-  foundUser.reservations.push({
-    reservationDate: new Date().toISOString(),
-    returnDate: new Date(
-      new Date().setMonth(new Date().getMonth() + 1)
-    ).toISOString(),
-    bookId: bookId,
-  });
-
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
+    book.status = "taken";
+    book.loan_expiry = new Date(
+      new Date().setMonth(new Date().getMonth() + 1)
+    ).toISOString();
+    foundUser.reservations.push({
+      reservationDate: new Date().toISOString(),
+      returnDate: new Date(
+        new Date().setMonth(new Date().getMonth() + 1)
+      ).toISOString(),
+      bookId: bookId,
+    });
     foundUser.books.push(book);
     await foundUser.save({ session: sess });
-    await sess.commitTransaction();
-  } catch (err) {
-    return next(
-      new HttpError("Something went wrong, couldn't assign book."),
-      500
-    );
-  }
-
-  try {
-    const sess = await mongoose.startSession();
-    sess.startTransaction();
-    book.user.push(foundUser);
     await book.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
@@ -243,7 +233,7 @@ const assignBook = async (req, res, next) => {
 
   res.status(200).json({
     book: book.toObject({ getters: true }),
-    user: user.toObject({ getters: true }),
+    user: foundUser.toObject({ getters: true }),
   });
 };
 
@@ -268,9 +258,9 @@ const reserveBook = async (req, res, next) => {
     );
   }
 
-  let user;
+  let foundUser;
   try {
-    user = await User.findById(userId);
+    foundUser = await User.findById(userId);
   } catch (err) {
     return next(
       new HttpError("Something went wrong, couldn't assign book."),
@@ -278,19 +268,30 @@ const reserveBook = async (req, res, next) => {
     );
   }
 
-  book.status = "reserved";
-  user.reservations.push({
-    reservationDate: new Date().toISOString(),
-    returnDate: null,
-    bookId: bookId,
-  });
+  if (foundUser.books.length >= 3) {
+    return next(
+      new HttpError("Couldn't assign book, user already has 3 books."),
+      422
+    );
+  }
 
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
+    book.status = "reserved";
+    book.loan_expiry = new Date(
+      new Date().setMonth(new Date().getMonth() + 1)
+    ).toISOString();
+    foundUser.reservations.push({
+      reservationDate: new Date().toISOString(),
+      returnDate: new Date(
+        new Date().setMonth(new Date().getMonth() + 1)
+      ).toISOString(),
+      bookId: bookId,
+    });
+    foundUser.books.push(book);
+    await foundUser.save({ session: sess });
     await book.save({ session: sess });
-    user.books.push(book);
-    await user.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
     return next(
@@ -301,20 +302,20 @@ const reserveBook = async (req, res, next) => {
 
   res.status(200).json({
     book: book.toObject({ getters: true }),
-    user: user.toObject({ getters: true }),
+    user: foundUser.toObject({ getters: true }),
   });
 };
 
 const returnBook = async (req, res, next) => {
-  const bookId = req.params.bid;
+  const foundBookId = req.params.bid;
   const { userId } = req.body;
 
   let book;
   try {
-    book = await Book.findById(bookId);
+    book = await Book.findById(foundBookId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't assign book."),
+      new HttpError("Something went wrong, couldn't return book."),
       500
     );
   }
@@ -331,23 +332,24 @@ const returnBook = async (req, res, next) => {
     user = await User.findById(userId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't assign book."),
+      new HttpError("Something went wrong, couldn't return book."),
       500
     );
   }
 
-  book.status = "free";
-
-  const previousReservations = (id) => id === bookId;
-  let bookIndex = user.reservations.findLastIndex(previousReservations);
-  user.reservations[bookIndex] = {
-    ...user.reservations[bookIndex],
-    returnDate: new Date().toISOString(),
-  };
-
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
+    book.status = "free";
+    book.loan_expiry = null;
+    const resIndex = user.reservations
+      .map((res) => res.bookId)
+      .lastIndexOf(foundBookId);
+    user.reservations[resIndex] = Object.assign(
+      {},
+      user.reservations[resIndex],
+      { returnDate: new Date().toISOString() }
+    );
     await book.save({ session: sess });
     user.books.pull(book);
     await user.save({ session: sess });

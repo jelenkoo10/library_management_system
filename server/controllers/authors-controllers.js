@@ -51,6 +51,7 @@ const addAuthor = async (req, res, next) => {
     date_of_birth,
     nationality,
     age,
+    books: [],
   });
 
   try {

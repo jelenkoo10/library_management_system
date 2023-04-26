@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
+const Book = require("../models/book");
 
 const getUsers = async (req, res, next) => {
   let users;
@@ -281,9 +282,80 @@ const resetPassword = async (req, res, next) => {
   res.status(200).json({ user: user.toObject({ getters: true }) });
 };
 
+const getUserReservations = async (req, res, next) => {
+  const { startDate, endDate } = req.body;
+  const userId = req.params.uid;
+
+  let startDateFormatted = new Date(startDate);
+
+  let endDateFormatted = new Date(endDate);
+
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(new HttpError("Couldn't find user with the provided ID", 404));
+  }
+
+  let bookIds;
+  let books = [];
+  let filteredReservations = [];
+  if (user.reservations) {
+    bookIds = user.reservations.map((reservation) => reservation.bookId);
+  }
+
+  if (startDate !== "" && endDate !== "") {
+    for (let i = 0; i < user.reservations.length; i++) {
+      let resDate = new Date(user.reservations[i].reservationDate);
+      if (resDate > startDateFormatted && resDate < endDateFormatted) {
+        filteredReservations.push(user.reservations[i]);
+      }
+    }
+    bookIds = filteredReservations.map((reservation) => reservation.bookId);
+  } else if (user.reservations) {
+    bookIds = user.reservations.map((reservation) => reservation.bookId);
+  } else {
+    return next(
+      new HttpError(
+        "Couldn't find any reservations for the provided dates.",
+        404
+      )
+    );
+  }
+
+  for (let j = 0; j < bookIds.length; j++) {
+    try {
+      let book = await Book.findById(bookIds[j]);
+      books.push(book);
+    } catch (err) {
+      return next(
+        new HttpError(
+          "Couldn't fetch books for the provided user, please try again later.",
+          500
+        )
+      );
+    }
+  }
+
+  if (startDate === "" && endDate === "") {
+    res.json({
+      reservations: user.reservations.map((reservation) =>
+        reservation.toObject({ getters: true })
+      ),
+      books,
+    });
+  } else {
+    res.json({
+      reservations: filteredReservations,
+      books,
+    });
+  }
+};
+
 exports.getUsers = getUsers;
 exports.getUsersByBranch = getUsersByBranch;
 exports.signup = signup;
 exports.login = login;
 exports.resetForgottenPassword = resetForgottenPassword;
 exports.resetPassword = resetPassword;
+exports.getUserReservations = getUserReservations;

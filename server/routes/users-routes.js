@@ -9,6 +9,8 @@ router.get("/", usersController.getUsers);
 
 router.get("/:brid", usersController.getUsersByBranch);
 
+router.get("/reservations/:uid", usersController.getUserReservations);
+
 router.post(
   "/signup",
   [

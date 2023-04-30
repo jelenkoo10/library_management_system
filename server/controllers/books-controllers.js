@@ -98,26 +98,25 @@ const searchBooks = async (req, res, next) => {
   } else {
     try {
       authors = await Author.find({});
+      authors = authors
+        .filter(
+          (author) =>
+            author.name.toLowerCase().includes(searchQuery) ||
+            author.surname.toLowerCase().includes(searchQuery) ||
+            author.name.toUpperCase().includes(searchQuery) ||
+            author.surname.toUpperCase().includes(searchQuery)
+        )
+        .map((foundAuthor) => foundAuthor.id);
+      books = books.filter(
+        (book) =>
+          book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          authors.includes(`${book.author}`)
+      );
     } catch (err) {
       return next(
         new HttpError("Fetching authors failed, please try again later.", 500)
       );
     }
-    authors = authors
-      .filter(
-        (author) =>
-          author.name.toLowerCase().includes(searchQuery) ||
-          author.surname.toLowerCase().includes(searchQuery) ||
-          author.name.toUpperCase().includes(searchQuery) ||
-          author.surname.toUpperCase().includes(searchQuery)
-      )
-      .map((foundAuthor) => foundAuthor.id);
-    books = books.filter(
-      (book) =>
-        book.title.toLowerCase().includes(searchQuery) ||
-        book.title.toUpperCase().includes(searchQuery) ||
-        authors.includes(book.author)
-    );
   }
 
   if (!books) {

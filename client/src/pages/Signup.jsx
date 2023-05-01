@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "./Button";
-import Input from "./Input";
+import Button from "../components/UIElements/Button";
+import Input from "../components/UIElements/Input";
 
 const Signup = () => {
   return (

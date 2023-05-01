@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import Button from "../components/UIElements/Button";
 import Input from "../components/UIElements/Input";
 
@@ -19,10 +20,17 @@ const Login = () => {
         inputType="password"
         inputLabel="Šifra "
       />
-      <Button
+      {/* <Button
         btnStyle="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md"
         btnText="Prijavi se"
-      />
+      /> */}
+      <NavLink
+        to="/profile/1"
+        className="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md max-w-fit"
+        btnText="Prijavi se"
+      >
+        Prijavi se
+      </NavLink>
     </form>
   );
 };

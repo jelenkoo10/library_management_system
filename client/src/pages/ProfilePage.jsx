@@ -3,7 +3,7 @@ import { NavLink, Outlet } from "react-router-dom";
 
 const ProfilePage = () => {
   return (
-    <div className="flex mt-20 ml-20 items-center">
+    <div className="flex mt-20 ml-20">
       <nav className="flex flex-col text-[#C75D2C] text-xl font-bold">
         <NavLink className="border border-[#C75D2C] p-10 bg-[#DDD]" to=".">
           Moje knjige

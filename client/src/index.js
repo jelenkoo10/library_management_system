@@ -6,7 +6,6 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-  Link,
 } from "react-router-dom";
 import Layout from "./pages/Layout";
 import Login from "./pages/Login";
@@ -16,6 +15,13 @@ import NotFound from "./pages/NotFound";
 import ProfilePage from "./pages/ProfilePage";
 import BookList from "./components/books/BookList";
 import ProfileUpdate from "./components/profile/ProfileUpdate";
+import Reservations from "./components/reservations/Reservations";
+import CurrentReservations from "./components/reservations/CurrentReservations";
+import FilteredReservations from "./components/reservations/FilteredReservations";
+import ReservationsHistory from "./components/reservations/ReservationsHistory";
+import SearchPage from "./components/books/SearchPage";
+import SearchResults from "./components/books/SearchResults";
+import FilteredBooks from "./components/books/FilteredBooks";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,21 +42,19 @@ const router = createBrowserRouter(
             />
           }
         />
-        {/* <Route path="reservations" element={<Reservations />}>
+        <Route path="reservations" element={<Reservations />}>
           <Route index element={<CurrentReservations />} />
           <Route path="filter" element={<FilteredReservations />} />
           <Route path="history" element={<ReservationsHistory />} />
-        </Route> */}
+        </Route>
       </Route>
-      {/* <Route path="search/" element={<SearchPage />}>
-        <Route path="filter" element={<FilteredBooks />} />
-        <Route path="results" element={<SearchResults />} />
-      </Route>
-      <Route path="book/1/" element={<BookPage />}>
-        <Route index element={<BookInfo />} />
-        <Route path="detailed" element={<BookDetailed />} />
-        <Route path="availability" element={<AvailabilityTable />} />
-      </Route> */}
+      <Route path="search/" element={<SearchPage />} />
+      <Route path="results/" element={<SearchResults />} />
+      {/*  <Route path="book/1/" element={<BookPage />}>
+         <Route index element={<BookInfo />} />
+         <Route path="detailed" element={<BookDetailed />} />
+         <Route path="availability" element={<AvailabilityTable />} />
+       </Route> */}
       <Route path="*" element={<NotFound />} />
     </Route>
   )

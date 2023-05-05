@@ -21,7 +21,7 @@ import FilteredReservations from "./components/reservations/FilteredReservations
 import ReservationsHistory from "./components/reservations/ReservationsHistory";
 import SearchPage from "./components/books/SearchPage";
 import SearchResults from "./components/books/SearchResults";
-import FilteredBooks from "./components/books/FilteredBooks";
+import BookPage from "./pages/BookPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -50,11 +50,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="search/" element={<SearchPage />} />
       <Route path="results/" element={<SearchResults />} />
-      {/*  <Route path="book/1/" element={<BookPage />}>
-         <Route index element={<BookInfo />} />
-         <Route path="detailed" element={<BookDetailed />} />
-         <Route path="availability" element={<AvailabilityTable />} />
-       </Route> */}
+      <Route path="book/1/" element={<BookPage />} />
       <Route path="*" element={<NotFound />} />
     </Route>
   )

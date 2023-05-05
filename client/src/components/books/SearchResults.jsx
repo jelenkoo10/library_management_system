@@ -7,6 +7,10 @@ import BookCard from "./BookCard";
 const SearchResults = () => {
   return (
     <>
+      <div className="absolute top-[4.25rem] left-0 bg-white w-[250px] opacity-80 h-[91%]">
+        <h1 className="text-2xl text-[#C75D2C] text-center mt-2">Filteri</h1>
+        
+      </div>
       <div className="py-5 px-14 mx-auto bg-white w-1/2 opacity-80 mt-[30px] rounded-2xl">
         <h1 className="text-2xl text-[#C75D2C] mb-5 text-center">
           Pretraga knjiga

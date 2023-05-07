@@ -26,7 +26,7 @@ const Login = () => {
       /> */}
       <NavLink
         to="/profile/1"
-        className="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md max-w-fit"
+        className="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md max-w-fit hover:bg-[#D76D3C]"
         btnText="Prijavi se"
       >
         Prijavi se

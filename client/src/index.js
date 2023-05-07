@@ -19,7 +19,7 @@ import Reservations from "./components/reservations/Reservations";
 import CurrentReservations from "./components/reservations/CurrentReservations";
 import FilteredReservations from "./components/reservations/FilteredReservations";
 import ReservationsHistory from "./components/reservations/ReservationsHistory";
-import SearchPage from "./components/books/SearchPage";
+import SearchPage from "./pages/SearchPage";
 import SearchResults from "./components/books/SearchResults";
 import BookPage from "./pages/BookPage";
 

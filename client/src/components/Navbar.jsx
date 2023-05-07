@@ -12,6 +12,15 @@ const Navbar = () => {
           BIBLIOTEKA
         </NavLink>
         <div>
+          <NavLink to="/" className="p-2 text-white font-semibold opacity-100">
+            Početna strana
+          </NavLink>
+          <NavLink
+            to="/search"
+            className="p-2 mx-2 text-white font-semibold opacity-100"
+          >
+            Pretraga knjiga
+          </NavLink>
           <NavLink
             to="/signup"
             className="p-2 mx-2 bg-white text-[#C75D2C] font-semibold opacity-100 rounded-md"

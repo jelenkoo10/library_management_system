@@ -1,5 +1,5 @@
 import React from "react";
-import Input from "../UIElements/Input";
+import Input from "../components/UIElements/Input";
 import { NavLink } from "react-router-dom";
 
 const SearchPage = () => {
@@ -28,7 +28,7 @@ const SearchPage = () => {
       /> */}
       <NavLink
         to="/results"
-        className="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md max-w-fit"
+        className="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md max-w-fit hover:bg-[#D76D3C]"
         btnText="Prijavi se"
       >
         Pretraži

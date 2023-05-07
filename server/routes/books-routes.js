@@ -9,6 +9,8 @@ router.get("/id/:bid", booksController.getBookById);
 
 router.get("/branch/:brid", booksController.getBooksByBranch);
 
+router.get("/:uid/books", booksController.getBooksByUser);
+
 router.get("/search", booksController.searchBooks);
 
 router.post(

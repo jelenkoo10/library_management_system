@@ -27,6 +27,47 @@ const getBooksByBranch = async (req, res, next) => {
   });
 };
 
+const getBooksByUser = async (req, res, next) => {
+  const userId = req.params.uid;
+
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(
+      new HttpError("Fetching user failed, please try again later.", 500)
+    );
+  }
+
+  let books = [];
+  for (let i = 0; i < user.books.length; i++) {
+    let book;
+    try {
+      book = await Book.findById(user.books[i]);
+    } catch (err) {
+      return next(
+        new HttpError("Fetching books failed, please try again later.", 500)
+      );
+    }
+    books.push(book);
+  }
+
+  let authors = [];
+  for (let i = 0; i < books.length; i++) {
+    let author;
+    try {
+      author = await Author.findById(books[i].author);
+    } catch (err) {
+      return next(
+        new HttpError("Fetching authors failed, please try again later.", 500)
+      );
+    }
+    authors.push({name: author.name, surname: author.surname});
+  }
+
+  res.json({ books, authors });
+};
+
 const createBook = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -401,6 +442,7 @@ const deleteBook = async (req, res, next) => {
 exports.getBooksByBranch = getBooksByBranch;
 exports.createBook = createBook;
 exports.getBookById = getBookById;
+exports.getBooksByUser = getBooksByUser;
 exports.searchBooks = searchBooks;
 exports.updateBook = updateBook;
 exports.assignBook = assignBook;

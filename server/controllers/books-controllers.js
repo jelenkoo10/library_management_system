@@ -62,10 +62,26 @@ const getBooksByUser = async (req, res, next) => {
         new HttpError("Fetching authors failed, please try again later.", 500)
       );
     }
-    authors.push({name: author.name, surname: author.surname});
+    authors.push({ name: author.name, surname: author.surname });
   }
 
-  res.json({ books, authors });
+  for (let i = 0; i < books.length; i++) {
+    books[i] = {
+      author: books[i].author,
+      branch: books[i].branch,
+      description: books[i].description,
+      genre: books[i].genre,
+      loan_expiry: books[i].loan_expiry,
+      status: books[i].status,
+      title: books[i].title,
+      user: books[i].user,
+      year_published: books[i].year_published,
+      id: books[i].id,
+      authorName: authors[i].name + " " + authors[i].surname,
+    };
+  }
+
+  res.json({ books });
 };
 
 const createBook = async (req, res, next) => {

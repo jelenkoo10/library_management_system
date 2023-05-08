@@ -50,7 +50,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="search/" element={<SearchPage />} />
       <Route path="results/" element={<SearchResults />} />
-      <Route path="book/1/" element={<BookPage />} />
+      <Route path="book/:bid/" element={<BookPage />} />
       <Route path="*" element={<NotFound />} />
     </Route>
   )

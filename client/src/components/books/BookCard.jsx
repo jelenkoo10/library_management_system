@@ -1,14 +1,25 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const BookCard = (props) => {
+  const { book, cardStyle } = props;
   return (
-    <div className={props.cardStyle}>
-      <h1 className="text-xl font-bold">{props.title}</h1>
-      <p className="text-md font-semibold">{props.author}</p>
-      {props.expiry_date && (
-        <p className="text-sm">Rok isteka pozajmice: {props.expiry_date}</p>
+    <>
+      {book && (
+        <Link to={`/book/${book.id}`}>
+          <div className={cardStyle}>
+            <h1 className="text-xl font-bold">{book.title}</h1>
+            <p className="text-md font-semibold">{book.authorName}</p>
+            {book.loan_expiry && (
+              <p className="text-sm">
+                Rok isteka pozajmice: {book.loan_expiry}
+              </p>
+            )}
+            <p className="text-sm">Godina izdavanja: {book.year_published}</p>
+          </div>
+        </Link>
       )}
-    </div>
+    </>
   );
 };
 

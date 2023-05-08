@@ -15,7 +15,9 @@ const BookCard = (props) => {
                 Rok isteka pozajmice: {book.loan_expiry}
               </p>
             )}
-            <p className="text-sm">Godina izdavanja: {book.year_published}</p>
+            {book.branchName && (
+              <p className="text-sm">Ogranak: {book.branchName}</p>
+            )}
           </div>
         </Link>
       )}

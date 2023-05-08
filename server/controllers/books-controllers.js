@@ -5,6 +5,7 @@ const HttpError = require("../models/http-error");
 const Book = require("../models/book");
 const User = require("../models/user");
 const Author = require("../models/author");
+const Branch = require("../models/branch");
 
 const getBooksByBranch = async (req, res, next) => {
   const branchId = req.params.brid;
@@ -65,6 +66,19 @@ const getBooksByUser = async (req, res, next) => {
     authors.push({ name: author.name, surname: author.surname });
   }
 
+  let branches = [];
+  for (let i = 0; i < books.length; i++) {
+    let branch;
+    try {
+      branch = await Branch.findById(books[i].branch);
+    } catch (err) {
+      return next(
+        new HttpError("Fetching branchs failed, please try again later.", 500)
+      );
+    }
+    branches.push({ name: branch.name, city: branch.city });
+  }
+
   for (let i = 0; i < books.length; i++) {
     books[i] = {
       author: books[i].author,
@@ -78,6 +92,7 @@ const getBooksByUser = async (req, res, next) => {
       year_published: books[i].year_published,
       id: books[i].id,
       authorName: authors[i].name + " " + authors[i].surname,
+      branchName: branches[i].name + ", " + branches[i].city,
     };
   }
 

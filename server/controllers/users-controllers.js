@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
 const Book = require("../models/book");
+const Branch = require("../models/branch");
 
 const getUsers = async (req, res, next) => {
   let users;
@@ -283,7 +284,8 @@ const resetPassword = async (req, res, next) => {
 };
 
 const getUserReservations = async (req, res, next) => {
-  const { startDate, endDate } = req.body;
+  const startDate = req.query.startdate;
+  const endDate = req.query.enddate;
   const userId = req.params.uid;
 
   let startDateFormatted = new Date(startDate);
@@ -403,6 +405,34 @@ const getCurrentReservations = async (req, res, next) => {
   });
 };
 
+const getUserBranches = async (req, res, next) => {
+  const userId = req.params.uid;
+
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(new HttpError("Couldn't find user with the provided ID", 404));
+  }
+
+  let branches = [];
+  try {
+    for (let i = 0; i < user.branches.length; i++) {
+      let branch = await Branch.findById(user.branches[i]);
+      branches.push(branch);
+    }
+  } catch (err) {
+    return next(
+      new HttpError(
+        "Couldn't fetch branches correctly, please try again later",
+        404
+      )
+    );
+  }
+
+  res.json({ branches });
+};
+
 exports.getUsers = getUsers;
 exports.getUsersByBranch = getUsersByBranch;
 exports.signup = signup;
@@ -411,3 +441,4 @@ exports.resetForgottenPassword = resetForgottenPassword;
 exports.resetPassword = resetPassword;
 exports.getUserReservations = getUserReservations;
 exports.getCurrentReservations = getCurrentReservations;
+exports.getUserBranches = getUserBranches;

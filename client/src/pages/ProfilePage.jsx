@@ -14,6 +14,12 @@ const ProfilePage = () => {
         >
           Moje rezervacije
         </NavLink>
+        <NavLink
+          className="border border-[#C75D2C] p-10 bg-[#DDD]"
+          to="libraries"
+        >
+          Moje biblioteke
+        </NavLink>
         <NavLink className="border border-[#C75D2C] p-10 bg-[#DDD]" to="update">
           Ažuriraj profil
         </NavLink>

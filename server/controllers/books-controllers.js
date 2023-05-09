@@ -154,7 +154,7 @@ const getBookById = async (req, res, next) => {
 };
 
 const searchBooks = async (req, res, next) => {
-  const { searchQuery } = req.body;
+  const searchQuery = req.query.searchquery;
 
   let books;
   try {

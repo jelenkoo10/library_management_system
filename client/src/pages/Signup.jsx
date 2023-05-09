@@ -8,6 +8,7 @@ const Signup = () => {
       <Input
         inputId="name"
         inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
+        divStyle="flex justify-between items-center"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="text"
         inputLabel="Ime "
@@ -15,6 +16,7 @@ const Signup = () => {
       <Input
         inputId="surname"
         inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
+        divStyle="flex justify-between items-center"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="text"
         inputLabel="Prezime "
@@ -22,6 +24,7 @@ const Signup = () => {
       <Input
         inputId="phone"
         inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
+        divStyle="flex justify-between items-center"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="text"
         inputLabel="Broj telefona "
@@ -29,6 +32,7 @@ const Signup = () => {
       <Input
         inputId="email"
         inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
+        divStyle="flex justify-between items-center"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="email"
         inputLabel="Email adresa "
@@ -36,6 +40,7 @@ const Signup = () => {
       <Input
         inputId="password"
         inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
+        divStyle="flex justify-between items-center"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="password"
         inputLabel="Šifra "
@@ -43,6 +48,7 @@ const Signup = () => {
       <Input
         inputId="branchId"
         inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
+        divStyle="flex justify-between items-center"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="text"
         inputLabel="Ogranak "

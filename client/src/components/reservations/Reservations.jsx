@@ -10,12 +10,6 @@ const Reservations = () => {
         </NavLink>
         <NavLink
           className="border border-[#C75D2C] px-5 py-2 bg-[#DDD]"
-          to="filter"
-        >
-          Filter rezervacija
-        </NavLink>
-        <NavLink
-          className="border border-[#C75D2C] px-5 py-2 bg-[#DDD]"
           to="history"
         >
           Istorija rezervacija

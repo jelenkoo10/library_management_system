@@ -9,6 +9,7 @@ const Login = () => {
       <Input
         inputId="username"
         inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
+        divStyle="flex justify-between items-center"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="text"
         inputLabel="Korisničko ime "
@@ -16,6 +17,7 @@ const Login = () => {
       <Input
         inputId="password"
         inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
+        divStyle="flex justify-between items-center"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="password"
         inputLabel="Šifra "

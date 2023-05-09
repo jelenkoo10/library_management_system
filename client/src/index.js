@@ -17,7 +17,6 @@ import BookList from "./components/books/BookList";
 import ProfileUpdate from "./components/profile/ProfileUpdate";
 import Reservations from "./components/reservations/Reservations";
 import CurrentReservations from "./components/reservations/CurrentReservations";
-import FilteredReservations from "./components/reservations/FilteredReservations";
 import ReservationsHistory from "./components/reservations/ReservationsHistory";
 import SearchPage from "./pages/SearchPage";
 import SearchResults from "./components/books/SearchResults";
@@ -44,7 +43,6 @@ const router = createBrowserRouter(
         />
         <Route path="reservations" element={<Reservations />}>
           <Route index element={<CurrentReservations />} />
-          <Route path="filter" element={<FilteredReservations />} />
           <Route path="history" element={<ReservationsHistory />} />
         </Route>
       </Route>

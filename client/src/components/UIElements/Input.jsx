@@ -1,10 +1,11 @@
 import React from "react";
 
 const Input = (props) => {
-  const { inputId, inputStyle, labelStyle, inputType, inputLabel } = props;
+  const { inputId, inputStyle, labelStyle, divStyle, inputType, inputLabel } =
+    props;
 
   return (
-    <div className="flex justify-between items-center">
+    <div className={divStyle}>
       <label htmlFor={inputId} className={labelStyle}>
         {inputLabel}
       </label>

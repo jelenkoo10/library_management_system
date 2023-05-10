@@ -21,7 +21,7 @@ const LibraryPage = () => {
   console.log(myBranches);
 
   return (
-    <section className="flex bg-white opacity-80 border-[#C75D2C] border p-12 flex flex-col">
+    <section className="flex bg-[#DDD] opacity-90 border-[#C75D2C] border p-12 flex flex-col">
       <h1 className="font-bold text-xl text-center text-[#C75D2C] mb-10">
         Ogranci u kojima ste učlanjeni
       </h1>

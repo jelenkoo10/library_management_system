@@ -53,50 +53,39 @@ const getBooksByUser = async (req, res, next) => {
     books.push(book);
   }
 
-  let authors = [];
-  for (let i = 0; i < books.length; i++) {
-    let author;
-    try {
-      author = await Author.findById(books[i].author);
-    } catch (err) {
-      return next(
-        new HttpError("Fetching authors failed, please try again later.", 500)
-      );
-    }
-    authors.push({ name: author.name, surname: author.surname });
-  }
-
-  let branches = [];
-  for (let i = 0; i < books.length; i++) {
-    let branch;
-    try {
-      branch = await Branch.findById(books[i].branch);
-    } catch (err) {
-      return next(
-        new HttpError("Fetching branchs failed, please try again later.", 500)
-      );
-    }
-    branches.push({ name: branch.name, city: branch.city });
-  }
-
-  for (let i = 0; i < books.length; i++) {
-    books[i] = {
-      author: books[i].author,
-      branch: books[i].branch,
-      description: books[i].description,
-      genre: books[i].genre,
-      loan_expiry: books[i].loan_expiry,
-      status: books[i].status,
-      title: books[i].title,
-      user: books[i].user,
-      year_published: books[i].year_published,
-      id: books[i].id,
-      authorName: authors[i].name + " " + authors[i].surname,
-      branchName: branches[i].name + ", " + branches[i].city,
-    };
-  }
-
   res.json({ books });
+};
+
+const getBookAvailability = async (req, res, next) => {
+  const bookName = req.query.book;
+  const authorName = req.query.author;
+
+  let books;
+  try {
+    books = await Book.find({});
+  } catch (err) {
+    return next(
+      new HttpError("Fetching books failed, please try again later.", 500)
+    );
+  }
+
+  if (!books) {
+    return next(new HttpError("There are no books found, sorry.", 404));
+  } else {
+    books = books.filter(
+      (book) =>
+        book.title.toLowerCase().includes(bookName.toLowerCase()) &&
+        book.authorName.toLowerCase().includes(authorName.toLowerCase())
+    );
+  }
+
+  if (!books) {
+    return next(new HttpError("There are no books found, sorry.", 404));
+  }
+
+  res.json({
+    books: books.map((book) => book.toObject({ getters: true })),
+  });
 };
 
 const createBook = async (req, res, next) => {
@@ -109,6 +98,21 @@ const createBook = async (req, res, next) => {
   const { title, genre, description, year_published, authorId, branchId } =
     req.body;
 
+  let author;
+  let branch;
+
+  try {
+    author = await Author.findById(authorId);
+  } catch (err) {
+    return next(new HttpError("Something went wrong, please try again.", 500));
+  }
+
+  try {
+    branch = await Branch.findById(branchId);
+  } catch (err) {
+    return next(new HttpError("Something went wrong, please try again.", 500));
+  }
+
   const newBook = new Book({
     title,
     genre,
@@ -117,7 +121,9 @@ const createBook = async (req, res, next) => {
     loan_expiry: null,
     status: "free",
     author: authorId,
+    authorName: author.name + " " + author.surname,
     branch: branchId,
+    branchName: branch.name + ", " + branch.city,
     user: null,
   });
 
@@ -164,31 +170,15 @@ const searchBooks = async (req, res, next) => {
       new HttpError("Fetching books failed, please try again later.", 500)
     );
   }
-  let authors;
+
   if (!books) {
     return next(new HttpError("There are no books found, sorry.", 404));
   } else {
-    try {
-      authors = await Author.find({});
-      authors = authors
-        .filter(
-          (author) =>
-            author.name.toLowerCase().includes(searchQuery) ||
-            author.surname.toLowerCase().includes(searchQuery) ||
-            author.name.toUpperCase().includes(searchQuery) ||
-            author.surname.toUpperCase().includes(searchQuery)
-        )
-        .map((foundAuthor) => foundAuthor.id);
-      books = books.filter(
-        (book) =>
-          book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          authors.includes(`${book.author}`)
-      );
-    } catch (err) {
-      return next(
-        new HttpError("Fetching authors failed, please try again later.", 500)
-      );
-    }
+    books = books.filter(
+      (book) =>
+        book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        book.authorName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
   }
 
   if (!books) {
@@ -197,7 +187,6 @@ const searchBooks = async (req, res, next) => {
 
   res.json({
     books: books.map((book) => book.toObject({ getters: true })),
-    authors: authors,
   });
 };
 
@@ -474,6 +463,7 @@ exports.getBooksByBranch = getBooksByBranch;
 exports.createBook = createBook;
 exports.getBookById = getBookById;
 exports.getBooksByUser = getBooksByUser;
+exports.getBookAvailability = getBookAvailability;
 exports.searchBooks = searchBooks;
 exports.updateBook = updateBook;
 exports.assignBook = assignBook;

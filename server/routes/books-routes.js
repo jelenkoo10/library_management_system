@@ -11,6 +11,8 @@ router.get("/branch/:brid", booksController.getBooksByBranch);
 
 router.get("/:uid/books", booksController.getBooksByUser);
 
+router.get("/availability", booksController.getBookAvailability);
+
 router.get("/search", booksController.searchBooks);
 
 router.post(

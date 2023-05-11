@@ -33,7 +33,7 @@ const BookPage = () => {
       <div className="w-2/5">
         <BookInfo
           title={book.title}
-          author={book.author}
+          authorName={book.authorName}
           year_published={book.year_published}
         />
         <BookDetailed
@@ -42,7 +42,7 @@ const BookPage = () => {
           language={book.language}
         />
       </div>
-      <AvailabilityTable />
+      <AvailabilityTable bookTitle={book.title} authorName={book.authorName} />
     </div>
   );
 };

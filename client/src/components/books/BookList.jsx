@@ -18,8 +18,6 @@ const BookList = (props) => {
     fetchBooks();
   }, []);
 
-  console.log(myBooks);
-
   return (
     <section className="p-12 bg-[#DDD] border border-[#C75D2C] opacity-90 grid grid-cols-2 gap-6 items-center">
       {myBooks && (

@@ -32,6 +32,7 @@ const AvailabilityTable = (props) => {
       {allBooks &&
         allBooks.map((book) => (
           <AvailabilityCard
+            id={book.id}
             title={book.title}
             authorName={book.authorName}
             branchName={book.branchName}

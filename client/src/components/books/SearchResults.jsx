@@ -1,10 +1,40 @@
 import React from "react";
 import Input from "../UIElements/Input";
-import { NavLink } from "react-router-dom";
-import { Link } from "react-router-dom";
-import BookCard from "./BookCard";
+import { useState, useEffect } from "react";
+import { useHttpClient } from "../../hooks/http-hook";
+import Button from "../UIElements/Button";
+import AvailabilityCard from "./AvailabilityCard";
 
 const SearchResults = () => {
+  const [books, setBooks] = useState([]);
+  console.log(books);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearched, setIsSearched] = useState(false);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
+  const queryHandler = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  useEffect(() => {
+    async function searchForBooks() {
+      const responseData = await sendRequest(
+        `http://localhost:5000/api/books/search?searchquery=${searchQuery}`,
+        "GET",
+        null,
+        {
+          "Content-Type": "application/json",
+        }
+      );
+      setBooks(responseData.books);
+    }
+
+    if (isSearched) {
+      searchForBooks();
+      setIsSearched(false);
+    }
+  }, [isSearched]);
+
   return (
     <>
       <div className="absolute top-[4.25rem] left-0 bg-white w-[250px] opacity-80 h-[91%]">
@@ -22,45 +52,32 @@ const SearchResults = () => {
             labelStyle="text-xl text-[#C75D2C] mr-5"
             inputType="text"
             inputLabel="Knjiga ili autor "
+            onChange={queryHandler}
           />
         </div>
         {/* <Button
         btnStyle="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md"
         btnText="Prijavi se"
       /> */}
-        <NavLink
-          to="results"
-          className="mx-auto mt-2 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md max-w-fit"
-          btnText="Prijavi se"
-        >
-          Pretraži
-        </NavLink>
+        <Button
+          onClick={() => {
+            setIsSearched(true);
+          }}
+          btnText="Pretraži"
+          btnStyle="mx-auto mt-2 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md max-w-fit"
+        />
       </div>
-      <div className="grid grid-cols-2 gap-6 items-center w-1/2 mx-auto mt-10">
-        <Link to="../book/1">
-          <BookCard
-            cardStyle="bg-white text-[#C75D2C] rounded-md pr-8 pl-2 py-4 opacity-80"
-            title="Hope to Die"
-            author="James Patterson"
-            expiry_date=""
-          />
-        </Link>
-        <Link to="../book/1">
-          <BookCard
-            cardStyle="bg-white text-[#C75D2C] rounded-md pr-8 pl-2 py-4 opacity-80"
-            title="Cross my Heart"
-            author="James Patterson"
-            expiry_date=""
-          />
-        </Link>
-        <Link to="../book/1">
-          <BookCard
-            cardStyle="bg-white text-[#C75D2C] rounded-md pr-8 pl-2 py-4 opacity-80"
-            title="The Judgement"
-            author="Ju Nesbe"
-            expiry_date=""
-          />
-        </Link>
+      <div className="text-center text-white">
+        {books &&
+          books.map((book) => (
+            <AvailabilityCard
+              id={book.id}
+              title={book.title}
+              authorName={book.authorName}
+              branchName={book.branchName}
+              status={book.status}
+            />
+          ))}
       </div>
     </>
   );

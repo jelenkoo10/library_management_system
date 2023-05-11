@@ -1,20 +1,38 @@
 import React from "react";
 import Input from "../UIElements/Input";
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useHttpClient } from "../../hooks/http-hook";
 import Button from "../UIElements/Button";
 import AvailabilityCard from "./AvailabilityCard";
 
 const SearchResults = () => {
+  const location = useLocation();
+  const { state } = location;
   const [books, setBooks] = useState([]);
-  console.log(books);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(state.query);
   const [isSearched, setIsSearched] = useState(false);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
-
+  console.log(searchQuery);
   const queryHandler = (e) => {
     setSearchQuery(e.target.value);
   };
+
+  useEffect(() => {
+    async function searchForBooks() {
+      const responseData = await sendRequest(
+        `http://localhost:5000/api/books/search?searchquery=${searchQuery}`,
+        "GET",
+        null,
+        {
+          "Content-Type": "application/json",
+        }
+      );
+      setBooks(responseData.books);
+    }
+
+    searchForBooks();
+  }, []);
 
   useEffect(() => {
     async function searchForBooks() {

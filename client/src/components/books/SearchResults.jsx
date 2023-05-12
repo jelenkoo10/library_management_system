@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useHttpClient } from "../../hooks/http-hook";
 import Button from "../UIElements/Button";
 import AvailabilityCard from "./AvailabilityCard";
+import LoadingSpinner from "../UIElements/LoadingSpinner/LoadingSpinner";
 
 const SearchResults = () => {
   const location = useLocation();
@@ -55,10 +56,11 @@ const SearchResults = () => {
 
   return (
     <>
-      <div className="absolute top-[4.25rem] left-0 bg-white w-[250px] opacity-80 h-[91%]">
+      {isLoading && <LoadingSpinner asOverlay />}
+      <div className="absolute top-[4.25rem] left-0 bg-white w-[250px] bg-opacity-80 h-[91%]">
         <h1 className="text-2xl text-[#C75D2C] text-center mt-2">Filteri</h1>
       </div>
-      <div className="py-5 px-14 mx-auto bg-white w-1/3 opacity-80 mt-[30px] rounded-2xl">
+      <div className="py-5 px-14 mx-auto bg-white w-1/3 bg-opacity-80 mt-[30px] rounded-2xl">
         <h1 className="text-2xl text-[#C75D2C] mb-5 text-center">
           Pretraga knjiga
         </h1>

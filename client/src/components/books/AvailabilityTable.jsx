@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useHttpClient } from "../../hooks/http-hook";
 import AvailabilityCard from "./AvailabilityCard";
+import LoadingSpinner from "../UIElements/LoadingSpinner/LoadingSpinner";
 
 const AvailabilityTable = (props) => {
   const { bookTitle, authorName } = props;
@@ -29,6 +30,7 @@ const AvailabilityTable = (props) => {
 
   return (
     <div className="w-3/5">
+      {isLoading && <LoadingSpinner asOverlay />}
       {allBooks &&
         allBooks.map((book) => (
           <AvailabilityCard

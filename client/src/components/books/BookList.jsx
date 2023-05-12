@@ -4,15 +4,17 @@ import { useState } from "react";
 import BookCard from "./BookCard";
 import { useHttpClient } from "../../hooks/http-hook";
 import LoadingSpinner from "../UIElements/LoadingSpinner/LoadingSpinner";
+import { useParams } from "react-router-dom";
 
 const BookList = (props) => {
   const [myBooks, setMyBooks] = useState([]);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { uid } = useParams();
 
   useEffect(() => {
     async function fetchBooks() {
       const responseData = await sendRequest(
-        "http://localhost:5000/api/books/644506351bd88b2d9ccd80c0/books",
+        `http://localhost:5000/api/books/${uid}/books`,
         "GET",
         null,
         { "Content-Type": "application/json" }

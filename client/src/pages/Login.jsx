@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Button from "../components/UIElements/Button";
 import Input from "../components/UIElements/Input";
 import { useHttpClient } from "../hooks/http-hook";
+import { ModalContext } from "../context/modal-context";
+import { AuthContext } from "../context/auth-context";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  let { handleModal } = useContext(ModalContext);
+  const auth = useContext(AuthContext);
+  const navigate = useNavigate();
   const [inputData, setInputData] = useState({});
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
@@ -20,16 +26,22 @@ const Login = () => {
   };
 
   const loginUser = async (e) => {
-    e.preventDefault();
-    const responseData = await sendRequest(
-      "http://localhost:5000/api/users/login",
-      "POST",
-      JSON.stringify(inputData),
-      {
-        "Content-Type": "application/json",
-      }
-    );
-    console.log(responseData);
+    let responseData;
+    try {
+      e.preventDefault();
+      responseData = await sendRequest(
+        "http://localhost:5000/api/users/login",
+        "POST",
+        JSON.stringify(inputData),
+        {
+          "Content-Type": "application/json",
+        }
+      );
+    } catch (err) {
+      handleModal("Neuspešno prijavljivanje", error);
+    }
+    auth.login(responseData.userId, responseData.token);
+    navigate(`/profile/${responseData.userId}`);
   };
 
   return (
@@ -60,13 +72,6 @@ const Login = () => {
         btnText="Prijavi se"
         type="submit"
       />
-      {/* <NavLink
-        to="/profile/1"
-        className="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md max-w-fit hover:bg-[#D76D3C]"
-        btnText="Prijavi se"
-      >
-        Prijavi se
-      </NavLink> */}
     </form>
   );
 };

@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.get("/", usersController.getUsers);
 
+router.get("/id/:uid", usersController.getUserById);
+
 router.get("/:brid", usersController.getUsersByBranch);
 
 router.get("/reservations/:uid", usersController.getUserReservations);

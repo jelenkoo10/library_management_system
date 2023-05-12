@@ -21,6 +21,21 @@ const getUsers = async (req, res, next) => {
   });
 };
 
+const getUserById = async (req, res, next) => {
+  const uid = req.params.uid;
+  let user;
+  try {
+    user = await User.findById(uid);
+  } catch (err) {
+    return next(
+      new HttpError("Fetching user failed, please try again later.", 500)
+    );
+  }
+  res.json({
+    user: user.toObject({ getters: true }),
+  });
+};
+
 const getUsersByBranch = async (req, res, next) => {
   const branchId = req.params.brid;
 
@@ -434,6 +449,7 @@ const getUserBranches = async (req, res, next) => {
 };
 
 exports.getUsers = getUsers;
+exports.getUserById = getUserById;
 exports.getUsersByBranch = getUsersByBranch;
 exports.signup = signup;
 exports.login = login;

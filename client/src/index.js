@@ -23,6 +23,8 @@ import LibraryPage from "./pages/LibraryPage";
 import SearchResults from "./components/books/SearchResults";
 import BookPage from "./pages/BookPage";
 import { ModalProvider } from "./context/modal-context";
+import { AuthContext } from "./context/auth-context";
+import { useAuth } from "./hooks/auth-hook";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,19 +32,9 @@ const router = createBrowserRouter(
       <Route index element={<Homepage />} />
       <Route path="login/" element={<Login />} />
       <Route path="signup/" element={<Signup />} />
-      <Route path="profile/1/" element={<ProfilePage />}>
+      <Route path="profile/:uid/" element={<ProfilePage />}>
         <Route index element={<BookList />} />
-        <Route
-          path="update"
-          element={
-            <ProfileUpdate
-              name="Veljko"
-              surname="Jelenkovic"
-              phone="0615763440"
-              email="veljkojelenkovic00@gmail.com"
-            />
-          }
-        />
+        <Route path="update" element={<ProfileUpdate />} />
         <Route path="reservations" element={<Reservations />}>
           <Route index element={<CurrentReservations />} />
           <Route path="history" element={<ReservationsHistory />} />
@@ -58,10 +50,21 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  const { token, login, logout, userId } = useAuth();
   return (
-    <ModalProvider>
-      <RouterProvider router={router} />
-    </ModalProvider>
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: !!token,
+        token: token,
+        userId: userId,
+        login: login,
+        logout: logout,
+      }}
+    >
+      <ModalProvider>
+        <RouterProvider router={router} />
+      </ModalProvider>
+    </AuthContext.Provider>
   );
 }
 

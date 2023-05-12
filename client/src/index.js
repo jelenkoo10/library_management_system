@@ -22,6 +22,7 @@ import SearchPage from "./pages/SearchPage";
 import LibraryPage from "./pages/LibraryPage";
 import SearchResults from "./components/books/SearchResults";
 import BookPage from "./pages/BookPage";
+import { ModalProvider } from "./context/modal-context";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -57,7 +58,11 @@ const router = createBrowserRouter(
 );
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ModalProvider>
+      <RouterProvider router={router} />
+    </ModalProvider>
+  );
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);

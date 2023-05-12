@@ -13,7 +13,7 @@ const Homepage = () => {
       </p>
       <Link
         to="/login"
-        className="px-3 py-2 text-white font-semibold text-2xl border-[#C75D2C] border-2 bg-[#A73D0C] opacity-80 rounded-md hover:bg-[#C75D2C]"
+        className="px-3 py-2 text-white font-semibold text-2xl border-[#C75D2C] border-2 bg-[#A73D0C] rounded-md hover:bg-[#C75D2C]"
       >
         Pronađi knjigu
       </Link>

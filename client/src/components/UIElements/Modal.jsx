@@ -1,23 +1,33 @@
 import React from "react";
+import ReactDOM from "react-dom";
+import { ModalContext } from "../../context/modal-context";
 
-const Modal = (props) => {
-  const { visible, onClose, modalTitle, modalContent } = props;
+const Modal = () => {
+  let { modalTitle, modalContent, handleModal, modal } =
+    React.useContext(ModalContext);
 
-  if (!visible) return null;
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-80 blackdrop-blur-sm flex justify-center items-center">
-      <div className="bg-white p-4 rounded-md w-[500px]">
-        <button className="ml-auto block mb-2" onClick={onClose}>
-          X
-        </button>
-        <h1 className="text-xl font-bold text-[#C75D2C] mb-5 text-center">
-          {modalTitle}
-        </h1>
-        <div>{modalContent}</div>
-      </div>
-    </div>
-  );
+  if (modal) {
+    return ReactDOM.createPortal(
+      <div
+        className="fixed top-0 left-0 h-screen w-full flex items-center justify-center"
+        style={{ background: "rgba(0,0,0,0.8)" }}
+      >
+        <div className="bg-white relative p-5 shadow-lg rounded flex flex-col items-start text-lg text-gray-800 w-[600px]">
+          <button
+            className="absolute top-0 right-0 -mt-12 font-bold self-end rounded-full bg-[#C75D2C] mb-3 text-white w-8 h-8"
+            onClick={() => handleModal()}
+          >
+            &times;
+          </button>
+          <h1 className="text-xl font-bold text-[#C75D2C] mb-5 text-center">
+            {modalTitle}
+          </h1>
+          <div>{modalContent}</div>
+        </div>
+      </div>,
+      document.querySelector("#modal-root")
+    );
+  }
 };
 
 export default Modal;

@@ -1,15 +1,9 @@
 import React from "react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import Modal from "./UIElements/Modal";
+import { ModalContext } from "../context/modal-context";
 
 const Footer = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [whichModal, setWhichModal] = useState("");
-
-  const handleOnClose = () => {
-    setShowModal(false);
-  };
+  let { handleModal } = React.useContext(ModalContext);
 
   return (
     <footer className="p-3 bg-[#C75D23] opacity-80 absolute bottom-0 left-0 right-0">
@@ -20,8 +14,18 @@ const Footer = () => {
         <span
           className="px-4 cursor-pointer"
           onClick={() => {
-            setShowModal(true);
-            setWhichModal("signup");
+            handleModal(
+              "Kako se učlaniti",
+              <p>
+                Pritiskom na dugme{" "}
+                <a href="/signup" className="text-[#C75D23] font-bold">
+                  Registruj se
+                </a>
+                , bićete odvedeni na stranicu za registraciju, na kojoj možete
+                popuniti svoje podatke, i odabrati ogranak u koji želite da se
+                učlanite.
+              </p>
+            );
           }}
         >
           Kako se učlaniti?
@@ -32,58 +36,12 @@ const Footer = () => {
         <span
           className="px-4 cursor-pointer border-l-2"
           onClick={() => {
-            setShowModal(true);
-            setWhichModal("creators");
+            handleModal("O kreatorima", "sadržaj");
           }}
         >
           O kreatorima
         </span>
       </div>
-      {whichModal == "signup" ? (
-        <Modal
-          onClose={handleOnClose}
-          visible={showModal}
-          modalTitle="Kako se učlaniti?"
-          modalContent={
-            <p>
-              Pritiskom na dugme{" "}
-              <Link
-                to="/signup"
-                onClick={handleOnClose}
-                className="text-[#C75D23] font-bold"
-              >
-                Registruj se
-              </Link>
-              , bićete odvedeni na stranicu za registraciju, na kojoj možete
-              popuniti svoje podatke, i odabrati ogranak u koji želite da se
-              učlanite.
-            </p>
-          }
-        />
-      ) : whichModal == "creators" ? (
-        <Modal
-          onClose={handleOnClose}
-          visible={showModal}
-          modalTitle="O kreatorima"
-          modalContent={
-            <p>
-              Pritiskom na dugme{" "}
-              <Link
-                to="/signup"
-                onClick={handleOnClose}
-                className="text-[#C75D23] font-bold"
-              >
-                Registruj se
-              </Link>
-              , bićete odvedeni na stranicu za registraciju, na kojoj možete
-              popuniti svoje podatke, i odabrati ogranak u koji želite da se
-              učlanite.
-            </p>
-          }
-        />
-      ) : (
-        <div></div>
-      )}
     </footer>
   );
 };

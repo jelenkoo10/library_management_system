@@ -31,7 +31,7 @@ const Signup = () => {
   }, []);
 
   return (
-    <form className="px-10 py-20 mx-auto bg-white w-1/3 opacity-80 mt-[60px] rounded-3xl">
+    <form className="px-10 py-16 mx-auto bg-white w-1/3 bg-opacity-80 mt-[20px] rounded-3xl">
       <Input
         inputId="name"
         inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"

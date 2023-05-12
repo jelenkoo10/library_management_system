@@ -1,16 +1,13 @@
-import React, { useState } from "react";
-import Modal from "../UIElements/Modal";
+import React from "react";
+import { ModalContext } from "../../context/modal-context";
+import PasswordChange from "./PasswordChange";
 
 const ProfileUpdate = (props) => {
-  const [showModal, setShowModal] = useState(false);
+  let { handleModal } = React.useContext(ModalContext);
   const { name, surname, phone, email } = props;
 
-  const handleOnClose = () => {
-    setShowModal(false);
-  };
-
   return (
-    <section className="p-12 bg-[#DDD] border border-[#C75D2C] text-[#C75D2C] opacity-90">
+    <section className="p-12 bg-[#DDD] border border-[#C75D2C] text-[#C75D2C] bg-opacity-90">
       <h1 className="font-bold text-xl text-center">
         Informacije o Vašem profilu
       </h1>
@@ -26,18 +23,24 @@ const ProfileUpdate = (props) => {
         <div>Izmeni</div>
       </div>
       <div
-        className="bg-[#C75D2C] rounded-sm px-4 py-2 mt-4 text-white block"
-        onClick={() => setShowModal(true)}
+        className="bg-[#C75D2C] rounded-md cursor-pointer px-4 py-2 mt-4 text-white block"
+        onClick={() =>
+          handleModal(
+            "Promena zaboravljene lozinke",
+            <PasswordChange mode="forgotten" />
+          )
+        }
       >
         Zaboravili ste lozinku?
       </div>
       <div
-        className="bg-[#C75D2C] rounded-sm px-4 py-2 mt-4 text-white block"
-        onClick={() => setShowModal(true)}
+        className="bg-[#C75D2C] rounded-md cursor-pointer px-4 py-2 mt-4 text-white block"
+        onClick={() =>
+          handleModal("Promena lozinke", <PasswordChange mode="change" />)
+        }
       >
         Želite da promenite lozinku?
       </div>
-      <Modal visible={showModal} onClose={handleOnClose} />
     </section>
   );
 };

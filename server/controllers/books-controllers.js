@@ -161,6 +161,10 @@ const getBookById = async (req, res, next) => {
 
 const searchBooks = async (req, res, next) => {
   const searchQuery = req.query.searchquery;
+  const genre = req.query.genre || "";
+  const language = req.query.language;
+  const status = req.query.status || "";
+  const year = req.query.year || "";
 
   let books;
   try {
@@ -179,6 +183,13 @@ const searchBooks = async (req, res, next) => {
         book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         book.authorName.toLowerCase().includes(searchQuery.toLowerCase())
     );
+    books = books.filter(
+      (book) =>
+        book.genre.toLowerCase().includes(genre.toLowerCase()) &&
+        book.status.toLowerCase().includes(status.toLowerCase()) &&
+        book.year_published.toLowerCase().includes(year.toLowerCase())
+    );
+    /* book.language.toLowerCase().includes(language.toLowerCase()) */
   }
 
   if (!books) {

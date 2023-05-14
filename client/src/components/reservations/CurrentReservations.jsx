@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import ReservationCard from "./ReservationCard";
 
 const CurrentReservations = () => {
   const [myReservations, setMyReservations] = useState([]);
   const [myReservedBooks, setMyReservedBooks] = useState([]);
+  const { uid } = useParams();
 
   useEffect(() => {
     async function getReservations() {
       const response = await fetch(
-        "http://localhost:5000/api/users/reservations/current/644506351bd88b2d9ccd80c0"
+        `http://localhost:5000/api/users/reservations/current/${uid}`
       );
       const data = await response.json();
       setMyReservations(data.reservations);

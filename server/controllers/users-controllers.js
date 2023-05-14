@@ -301,6 +301,7 @@ const resetPassword = async (req, res, next) => {
 const getUserReservations = async (req, res, next) => {
   const startDate = req.query.startdate;
   const endDate = req.query.enddate;
+  const bookName = req.query.bookname;
   const userId = req.params.uid;
 
   let startDateFormatted = new Date(startDate);
@@ -329,21 +330,17 @@ const getUserReservations = async (req, res, next) => {
       }
     }
     bookIds = filteredReservations.map((reservation) => reservation.bookId);
-  } else if (user.reservations) {
-    bookIds = user.reservations.map((reservation) => reservation.bookId);
-  } else {
-    return next(
-      new HttpError(
-        "Couldn't find any reservations for the provided dates.",
-        404
-      )
-    );
   }
 
   for (let j = 0; j < bookIds.length; j++) {
     try {
       let book = await Book.findById(bookIds[j]);
-      books.push(book);
+      if (
+        bookName == "" ||
+        book.title.toLowerCase().includes(bookName.toLowerCase())
+      ) {
+        books.push(book);
+      }
     } catch (err) {
       return next(
         new HttpError(
@@ -354,7 +351,7 @@ const getUserReservations = async (req, res, next) => {
     }
   }
 
-  if (startDate === "" && endDate === "") {
+  if (startDate == "" && endDate == "") {
     res.json({
       reservations: user.reservations.map((reservation) =>
         reservation.toObject({ getters: true })

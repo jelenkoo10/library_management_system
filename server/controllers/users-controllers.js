@@ -445,6 +445,57 @@ const getUserBranches = async (req, res, next) => {
   res.json({ branches });
 };
 
+const addUserBranch = async (req, res, next) => {
+  const userId = req.params.uid;
+  const { branchId } = req.body;
+
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't assign user."),
+      500
+    );
+  }
+
+  if (!user) {
+    return next(
+      new HttpError("Couldn't find a user for the provided ID."),
+      404
+    );
+  }
+
+  let branch;
+  try {
+    branch = await Branch.findById(branchId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't add branch."),
+      500
+    );
+  }
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    user.branches.push(branch);
+    await user.save({ session: sess });
+    await branch.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't add branch."),
+      500
+    );
+  }
+
+  res.status(200).json({
+    branch: branch.toObject({ getters: true }),
+    user: user.toObject({ getters: true }),
+  });
+};
+
 exports.getUsers = getUsers;
 exports.getUserById = getUserById;
 exports.getUsersByBranch = getUsersByBranch;
@@ -455,3 +506,4 @@ exports.resetPassword = resetPassword;
 exports.getUserReservations = getUserReservations;
 exports.getCurrentReservations = getCurrentReservations;
 exports.getUserBranches = getUserBranches;
+exports.addUserBranch = addUserBranch;

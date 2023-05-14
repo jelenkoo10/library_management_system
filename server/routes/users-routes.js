@@ -53,4 +53,6 @@ router.patch(
   usersController.resetForgottenPassword
 );
 
+router.patch("/:uid/branch_update", usersController.addUserBranch);
+
 module.exports = router;

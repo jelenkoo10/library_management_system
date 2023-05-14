@@ -22,10 +22,11 @@ const Select = (props) => {
         id={selectId}
         onChange={onChange}
       >
-        {options.map(({ id, name }) => {
+        {options.map(({ id, name, city }) => {
           return (
             <option value={id} key={id}>
               {name}
+              {city ? ", " + city : null}
             </option>
           );
         })}

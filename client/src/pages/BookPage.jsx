@@ -29,7 +29,7 @@ const BookPage = () => {
   }, []);
 
   return (
-    <div className="flex bg-white opacity-80 w-3/4 mx-auto mt-10 p-8 rounded-lg">
+    <div className="flex bg-white bg-opacity-80 w-3/4 mx-auto mt-10 p-8 rounded-lg">
       <div className="w-2/5">
         <BookInfo
           title={book.title}

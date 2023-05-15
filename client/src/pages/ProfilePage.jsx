@@ -1,26 +1,61 @@
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
 const ProfilePage = () => {
+  const [currentPage, setCurrentPage] = useState(null);
+  const [isChanged, setIsChanged] = useState(false);
+
+  useEffect(() => {
+    if (window.location.href.includes("reservations")) {
+      setCurrentPage("reservations");
+    } else if (window.location.href.includes("libraries")) {
+      setCurrentPage("libraries");
+    } else if (window.location.href.includes("update")) {
+      setCurrentPage("update");
+    } else {
+      setCurrentPage("books");
+    }
+  }, [isChanged]);
+
   return (
     <div className="flex mt-20 ml-20">
       <nav className="flex flex-col text-[#C75D2C] text-xl font-bold">
-        <NavLink className="border border-[#C75D2C] p-10 bg-[#DDD]" to=".">
+        <NavLink
+          className={`border border-[#C75D2C] p-10 bg-[#DDD] ${
+            currentPage == "books" ? "underline" : ""
+          }`}
+          onClick={() => setIsChanged((prev) => !prev)}
+          to="."
+        >
           Moje knjige
         </NavLink>
         <NavLink
-          className="border border-[#C75D2C] p-10 bg-[#DDD]"
+          className={`border border-[#C75D2C] p-10 bg-[#DDD] ${
+            currentPage == "reservations" ? "underline" : ""
+          }`}
+          onClick={() => setIsChanged((prev) => !prev)}
           to="reservations"
         >
           Moje rezervacije
         </NavLink>
         <NavLink
-          className="border border-[#C75D2C] p-10 bg-[#DDD]"
+          className={`border border-[#C75D2C] p-10 bg-[#DDD] ${
+            currentPage == "libraries" ? "underline" : ""
+          }`}
+          onClick={() => setIsChanged((prev) => !prev)}
           to="libraries"
         >
           Moje biblioteke
         </NavLink>
-        <NavLink className="border border-[#C75D2C] p-10 bg-[#DDD]" to="update">
+        <NavLink
+          className={`border border-[#C75D2C] p-10 bg-[#DDD] ${
+            currentPage == "update" ? "underline" : ""
+          }`}
+          onClick={() => setIsChanged((prev) => !prev)}
+          to="update"
+        >
           Ažuriraj profil
         </NavLink>
       </nav>

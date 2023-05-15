@@ -10,7 +10,7 @@ const Navbar = () => {
   return (
     <>
       {auth.isLoggedIn ? (
-        <header className="w-[100%] bg-[#C75D2C] px-[30px] py-[20px] opacity-80">
+        <header className="w-[100%] bg-[#C75D2C] px-[30px] py-[16px] opacity-80">
           <nav className="flex justify-between items-center">
             <NavLink
               to="/"

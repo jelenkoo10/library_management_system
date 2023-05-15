@@ -5,6 +5,7 @@ import { useHttpClient } from "../hooks/http-hook";
 import { ModalContext } from "../context/modal-context";
 import { AuthContext } from "../context/auth-context";
 import { useNavigate } from "react-router-dom";
+import PasswordChange from "../components/profile/PasswordChange";
 
 const Login = () => {
   let { handleModal } = useContext(ModalContext);
@@ -72,6 +73,17 @@ const Login = () => {
         btnText="Prijavi se"
         type="submit"
       />
+      <div
+        className="cursor-pointer mt-6 text-[#C75D2C] text-center font-bold text-lg"
+        onClick={() =>
+          handleModal(
+            "Promena zaboravljene lozinke",
+            <PasswordChange mode="forgotten" />
+          )
+        }
+      >
+        Zaboravili ste lozinku?
+      </div>
     </form>
   );
 };

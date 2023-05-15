@@ -100,7 +100,7 @@ const SearchResults = () => {
   return (
     <>
       {isLoading && <LoadingSpinner asOverlay />}
-      <div className="absolute top-[5rem] left-0 bg-white w-[250px] bg-opacity-80 h-[91%] px-4">
+      <div className="absolute top-[4.35rem] left-0 bg-white w-[250px] bg-opacity-80 h-[90.5%] px-4">
         <h1 className="text-2xl text-[#C75D2C] text-center mt-2">Filteri</h1>
         <Select
           selectStyle="my-4 block border-b-2 border-[#B8572A] w-[100px]"

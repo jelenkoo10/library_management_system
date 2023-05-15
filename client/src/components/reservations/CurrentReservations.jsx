@@ -1,21 +1,26 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useHttpClient } from "../../hooks/http-hook";
 import ReservationCard from "./ReservationCard";
+import LoadingSpinner from "../UIElements/LoadingSpinner/LoadingSpinner";
 
 const CurrentReservations = () => {
   const [myReservations, setMyReservations] = useState([]);
   const [myReservedBooks, setMyReservedBooks] = useState([]);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const { uid } = useParams();
 
   useEffect(() => {
     async function getReservations() {
-      const response = await fetch(
-        `http://localhost:5000/api/users/reservations/current/${uid}`
+      const responseData = await sendRequest(
+        `http://localhost:5000/api/users/reservations/current/${uid}`,
+        "GET",
+        null,
+        { "Content-Type": "application/json" }
       );
-      const data = await response.json();
-      setMyReservations(data.reservations);
-      setMyReservedBooks(data.books);
+      setMyReservations(responseData.reservations);
+      setMyReservedBooks(responseData.books);
     }
     getReservations();
   }, []);
@@ -24,6 +29,7 @@ const CurrentReservations = () => {
 
   return (
     <section className="p-12 bg-[#DDD] border border-[#C75D2C] h-[330px] opacity-90 overflow-y-scroll">
+      {isLoading && <LoadingSpinner asOverlay />}
       {myReservations !== [] ? (
         <>
           <ReservationCard

@@ -5,6 +5,7 @@ import BranchCard from "../components/profile/BranchCard";
 import { useHttpClient } from "../hooks/http-hook";
 import { ModalContext } from "../context/modal-context";
 import AddBranch from "../components/profile/AddBranch";
+import LoadingSpinner from "../components/UIElements/LoadingSpinner/LoadingSpinner";
 
 const LibraryPage = () => {
   let { handleModal } = React.useContext(ModalContext);
@@ -28,6 +29,7 @@ const LibraryPage = () => {
 
   return (
     <section className="flex bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 flex flex-col">
+      {isLoading && <LoadingSpinner asOverlay />}
       <h1 className="font-bold text-xl text-center text-[#C75D2C] mb-10">
         Ogranci u kojima ste učlanjeni
       </h1>

@@ -2,9 +2,11 @@ import React, { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth-context";
 import Button from "./UIElements/Button";
+import ProfileCard from "../assets/profile_card.png";
 
 const Navbar = () => {
   const auth = useContext(AuthContext);
+  const userName = JSON.parse(localStorage.getItem("userData")).name;
   const navigate = useNavigate();
 
   return (
@@ -32,7 +34,12 @@ const Navbar = () => {
                 Pretraga knjiga
               </NavLink>
               <div className="inline-block p-2 mx-2 text-white font-semibold opacity-100">
-                Korisnik
+                <img
+                  className="inline-block mr-2"
+                  src={ProfileCard}
+                  alt="A profile card icon"
+                />
+                {userName}
               </div>
               <Button
                 btnStyle="p-2 mx-2 bg-white text-[#C75D2C] font-semibold opacity-100 rounded-md"

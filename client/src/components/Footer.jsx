@@ -16,15 +16,22 @@ const Footer = () => {
           onClick={() => {
             handleModal(
               "Kako se učlaniti",
-              <p>
-                Pritiskom na dugme{" "}
-                <a href="/signup" className="text-[#C75D23] font-bold">
-                  Registruj se
-                </a>
-                , bićete odvedeni na stranicu za registraciju, na kojoj možete
-                popuniti svoje podatke, i odabrati ogranak u koji želite da se
-                učlanite.
-              </p>
+              <>
+                <p>
+                  Pritiskom na dugme{" "}
+                  <a href="/signup" className="text-[#C75D23] font-bold">
+                    Registruj se
+                  </a>
+                  , bićete odvedeni na stranicu za registraciju, na kojoj možete
+                  popuniti svoje podatke, i odabrati ogranak u koji želite da se
+                  učlanite.
+                </p>
+                <p>
+                  Kada se registrujete, dobijate mogućnost da pregledate svoje
+                  knjige, rezervacije i ogranke, i da rezervišete i preuzimate
+                  knjige u određenoj biblioteci u kojoj ste učlanjeni.
+                </p>
+              </>
             );
           }}
         >
@@ -36,7 +43,40 @@ const Footer = () => {
         <span
           className="px-4 cursor-pointer border-l-2"
           onClick={() => {
-            handleModal("O kreatorima", "sadržaj");
+            handleModal(
+              "O kreatorima",
+              <>
+                <p>
+                  Kreatori ove aplikacije su studenti 4. godine softverskog
+                  inženjerstva, na Fakultetu inženjerskih nauka u Kragujevcu.
+                  Aplikacija je kreirana u sklopu predmeta E-poslovanje.
+                </p>
+                <p>
+                  Za više informacija o aplikaciji, ili eventualnom korišćenju,
+                  kontaktirajte nas na nekom od sledećih linkova.
+                </p>
+                <div>
+                  <a
+                    className="block text-[#C75D2C]"
+                    href="https://github.com/jelenkoo10"
+                  >
+                    Student 1 - Backend & Frontend
+                  </a>
+                  <a
+                    className="block text-[#C75D2C]"
+                    href="https://github.com/kila369"
+                  >
+                    Student 2 - Frontend
+                  </a>
+                  <a
+                    className="block text-[#C75D2C]"
+                    href="https://github.com/jovanzivadinovic"
+                  >
+                    Student 3 - Design
+                  </a>
+                </div>
+              </>
+            );
           }}
         >
           O kreatorima

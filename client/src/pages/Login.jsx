@@ -41,7 +41,13 @@ const Login = () => {
     } catch (err) {
       handleModal("Neuspešno prijavljivanje", error);
     }
-    auth.login(responseData.userId, responseData.token);
+    auth.login(
+      responseData.userId,
+      responseData.token,
+      null,
+      responseData.is_admin,
+      responseData.name
+    );
     navigate(`/profile/${responseData.userId}`);
   };
 

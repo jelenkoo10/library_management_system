@@ -22,7 +22,8 @@ const Modal = () => {
           <h1 className="text-xl font-bold text-[#C75D2C] mb-5 text-center">
             {modalTitle}
           </h1>
-          <div>{modalContent}</div>
+          <hr className="w-[550px] h-[1px] text-[#AAA] bg-[#AAA] border-none" />
+          <div className="mt-5">{modalContent}</div>
         </div>
       </div>,
       document.querySelector("#modal-root")

@@ -120,9 +120,13 @@ const signup = async (req, res, next) => {
     );
   }
 
-  res
-    .status(201)
-    .json({ userId: newUser.id, email: newUser.email, token: token });
+  res.status(201).json({
+    userId: newUser.id,
+    email: newUser.email,
+    is_admin: newUser.is_admin,
+    name: newUser.name + " " + newUser.surname,
+    token: token,
+  });
 };
 
 const login = async (req, res, next) => {
@@ -182,6 +186,8 @@ const login = async (req, res, next) => {
   res.json({
     userId: existingUser.id,
     email: existingUser.email,
+    is_admin: existingUser.is_admin,
+    name: existingUser.name + " " + existingUser.surname,
     token: token,
   });
 };

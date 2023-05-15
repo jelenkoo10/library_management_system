@@ -3,6 +3,7 @@ import { ModalContext } from "../../context/modal-context";
 import PasswordChange from "./PasswordChange";
 import { useHttpClient } from "../../hooks/http-hook";
 import PenIcon from "../../assets/pen_icon.png";
+import LoadingSpinner from "../UIElements/LoadingSpinner/LoadingSpinner";
 
 const ProfileUpdate = (props) => {
   let { handleModal } = React.useContext(ModalContext);
@@ -26,6 +27,7 @@ const ProfileUpdate = (props) => {
 
   return (
     <section className="p-12 bg-[#DDD] border border-[#C75D2C] text-[#C75D2C] bg-opacity-90">
+      {isLoading && <LoadingSpinner asOverlay />}
       <h1 className="font-bold text-xl text-center">
         Informacije o Vašem profilu
       </h1>

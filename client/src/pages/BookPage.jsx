@@ -35,6 +35,7 @@ const BookPage = () => {
           title={book.title}
           authorName={book.authorName}
           year_published={book.year_published}
+          author={book.author}
         />
         <BookDetailed
           description={book.description}

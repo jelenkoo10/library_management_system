@@ -6,6 +6,7 @@ const bookSchema = new Schema({
   title: { type: String, required: true },
   genre: { type: String, required: true },
   description: { type: String, required: true },
+  language: { type: String, required: true },
   year_published: { type: String, required: true },
   loan_expiry: { type: String },
   status: { type: String, required: true },

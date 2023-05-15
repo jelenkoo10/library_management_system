@@ -28,25 +28,21 @@ const CurrentReservations = () => {
   console.log(myReservedBooks);
 
   return (
-    <section className="p-12 bg-[#DDD] border border-[#C75D2C] h-[330px] opacity-90 overflow-y-scroll">
+    <section className="p-12 bg-[#DDD] border border-[#C75D2C] h-[439px] opacity-90 overflow-y-scroll">
       {isLoading && <LoadingSpinner asOverlay />}
-      {myReservations !== [] ? (
-        <>
-          <ReservationCard
-            reservation={myReservations[0]}
-            book={myReservedBooks[0]}
-          />
-          <ReservationCard
-            reservation={myReservations[1]}
-            book={myReservedBooks[1]}
-          />
-          <ReservationCard
-            reservation={myReservations[2]}
-            book={myReservedBooks[2]}
-          />
-        </>
-      ) : (
-        <p>Trenutno nema rezervisanih knjiga.</p>
+      <>
+        {myReservations &&
+          myReservations.map((reservation, i) => (
+            <ReservationCard
+              reservation={reservation}
+              book={myReservedBooks[i]}
+            />
+          ))}
+      </>
+      {!myReservations[0] && (
+        <p className="text-[#C75D2C] text-lg font-bold">
+          Trenutno nema rezervisanih knjiga.
+        </p>
       )}
     </section>
   );

@@ -12,26 +12,29 @@ const Select = (props) => {
   } = props;
 
   return (
-    <div className="flex justify-between items-center">
-      <label className={labelStyle} htmlFor={selectId}>
-        {labelName}
-      </label>
-      <select
-        className={selectStyle}
-        name={selectName}
-        id={selectId}
-        onChange={onChange}
-      >
-        {options.map(({ id, name, city }) => {
-          return (
-            <option value={id} key={id}>
-              {name}
-              {city ? ", " + city : null}
-            </option>
-          );
-        })}
-      </select>
-    </div>
+    <>
+      {options && (
+        <div className="flex justify-between items-center">
+          <label className={labelStyle} htmlFor={selectId}>
+            {labelName}
+          </label>
+          <select
+            className={selectStyle}
+            name={selectName}
+            id={selectId}
+            onChange={onChange}
+          >
+            {options.map((option) => {
+              return (
+                <option value={option.id} key={option.id}>
+                  {option.name}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+      )}
+    </>
   );
 };
 

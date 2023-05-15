@@ -28,14 +28,22 @@ const BookList = (props) => {
   return (
     <>
       {isLoading && <LoadingSpinner asOverlay />}
-      <section className="p-12 bg-[#DDD] border border-[#C75D2C] bg-opacity-90 grid grid-cols-2 gap-6 items-center">
-        {myBooks &&
-          myBooks.map((book) => (
-            <BookCard
-              cardStyle="bg-[#C75D2C] rounded-md pr-8 pl-2 py-4 text-white"
-              book={book}
-            />
-          ))}
+      <section className="p-12 bg-[#DDD] border border-[#C75D2C] bg-opacity-90">
+        <div className="grid grid-cols-2 gap-6 items-center">
+          {myBooks &&
+            myBooks.map((book) => (
+              <BookCard
+                cardStyle="bg-[#C75D2C] rounded-md pr-8 pl-2 py-4 text-white"
+                book={book}
+              />
+            ))}
+        </div>
+        {!myBooks[0] && (
+          <p className="text-[#C75D2C] text-lg font-bold w-3/5">
+            Trenutno nema vaših knjiga. Kada rezervišete knjigu, ona će biti
+            prikazana ovde.
+          </p>
+        )}
       </section>
     </>
   );

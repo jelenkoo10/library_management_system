@@ -95,8 +95,15 @@ const createBook = async (req, res, next) => {
       new HttpError("Invalid inputs passed, please check your data.", 422)
     );
   }
-  const { title, genre, description, year_published, authorId, branchId } =
-    req.body;
+  const {
+    title,
+    genre,
+    description,
+    language,
+    year_published,
+    authorId,
+    branchId,
+  } = req.body;
 
   let author;
   let branch;
@@ -117,6 +124,7 @@ const createBook = async (req, res, next) => {
     title,
     genre,
     description,
+    language,
     year_published,
     loan_expiry: null,
     status: "free",
@@ -187,9 +195,9 @@ const searchBooks = async (req, res, next) => {
       (book) =>
         book.genre.toLowerCase().includes(genre.toLowerCase()) &&
         book.status.toLowerCase().includes(status.toLowerCase()) &&
-        book.year_published.toLowerCase().includes(year.toLowerCase())
+        book.year_published.toLowerCase().includes(year.toLowerCase()) &&
+        book.language.toLowerCase().includes(language.toLowerCase())
     );
-    /* book.language.toLowerCase().includes(language.toLowerCase()) */
   }
 
   if (!books) {
@@ -209,7 +217,7 @@ const updateBook = async (req, res, next) => {
     );
   }
 
-  const { title, genre, description, year_published } = req.body;
+  const { title, genre, description, language, year_published } = req.body;
   const bookId = req.params.bid;
 
   let book;
@@ -226,6 +234,7 @@ const updateBook = async (req, res, next) => {
   book.year_published = year_published;
   book.genre = genre;
   book.description = description;
+  book.language = language;
 
   try {
     await book.save();
@@ -470,6 +479,42 @@ const deleteBook = async (req, res, next) => {
   res.status(200).json({ message: "Deleted book." });
 };
 
+const getFilters = async (req, res, next) => {
+  let books;
+  try {
+    books = await Book.find({});
+  } catch (err) {
+    return next(
+      new HttpError("Fetching books failed, please try again later.", 500)
+    );
+  }
+
+  let languages = [];
+  let genres = [];
+  for (let i = 0; i < books.length; i++) {
+    if (!languages.includes(books[i].language)) {
+      languages.push(books[i].language);
+    }
+    let bookGenres = books[i].genre.split(", ");
+    for (let j = 0; j < bookGenres.length; j++) {
+      if (!genres.includes(bookGenres[j])) {
+        genres.push(bookGenres[j]);
+      }
+    }
+  }
+
+  let languageObjects = [{ id: "", name: "" }];
+  let genreObjects = [{ id: "", name: "" }];
+  for (let i = 0; i < languages.length; i++) {
+    languageObjects.push({ id: languages[i], name: languages[i] });
+  }
+  for (let i = 0; i < genres.length; i++) {
+    genreObjects.push({ id: genres[i], name: genres[i] });
+  }
+
+  res.json({ languages: languageObjects, genres: genreObjects });
+};
+
 exports.getBooksByBranch = getBooksByBranch;
 exports.createBook = createBook;
 exports.getBookById = getBookById;
@@ -481,3 +526,4 @@ exports.assignBook = assignBook;
 exports.reserveBook = reserveBook;
 exports.returnBook = returnBook;
 exports.deleteBook = deleteBook;
+exports.getFilters = getFilters;

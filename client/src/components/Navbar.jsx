@@ -6,7 +6,9 @@ import ProfileCard from "../assets/profile_card.png";
 
 const Navbar = () => {
   const auth = useContext(AuthContext);
-  const userName = JSON.parse(localStorage.getItem("userData")).name;
+  const userName = auth.isLoggedIn
+    ? JSON.parse(localStorage.getItem("userData")).name
+    : null;
   const navigate = useNavigate();
 
   return (

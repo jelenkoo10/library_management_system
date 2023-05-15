@@ -15,6 +15,8 @@ router.get("/availability", booksController.getBookAvailability);
 
 router.get("/search", booksController.searchBooks);
 
+router.get("/filters", booksController.getFilters);
+
 router.post(
   "/",
   [

@@ -99,6 +99,7 @@ const signup = async (req, res, next) => {
     reservations: [],
     books: [],
     branches: [branchId],
+    image: req.file ? "http://localhost:5000/" + req.file.path : null,
   });
 
   try {

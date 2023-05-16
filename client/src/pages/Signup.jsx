@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import Button from "../components/UIElements/Button";
 import Input from "../components/UIElements/Input";
 import Select from "../components/UIElements/Select";
+import ImageUpload from "../components/UIElements/ImageUpload";
 import { useHttpClient } from "../hooks/http-hook";
 import { ModalContext } from "../context/modal-context";
 import { AuthContext } from "../context/auth-context";
@@ -76,27 +77,41 @@ const Signup = () => {
     });
   };
 
+  const imageInputHandler = (value, isValid) => {
+    if (isValid) {
+      setInputData((oldData) => {
+        return { ...oldData, image: value };
+      });
+    }
+  };
+
   const signupUser = async (e) => {
     let responseData;
     try {
       e.preventDefault();
+      const formData = new FormData();
+      formData.append("name", inputData.name);
+      formData.append("surname", inputData.surname);
+      formData.append("phone", inputData.phone);
+      formData.append("email", inputData.email);
+      formData.append("password", inputData.password);
+      formData.append("branchId", inputData.branchId);
+      formData.append("image", inputData.image);
       responseData = await sendRequest(
         "http://localhost:5000/api/users/signup",
         "POST",
-        JSON.stringify(inputData),
-        {
-          "Content-Type": "application/json",
-        }
+        formData
       );
     } catch (err) {
       handleModal("Neuspešna registracija", error);
     }
-    auth.login(responseData.userId, responseData.token);
-    navigate(`/profile/${responseData.userId}`);
+    // auth.login(responseData.userId, responseData.token);
+    // navigate(`/profile/${responseData.userId}`);
   };
 
   return (
     <form
+      encType="multipart/form-data"
       onSubmit={signupUser}
       className="px-10 py-16 mx-auto bg-white w-1/3 bg-opacity-80 mt-[20px] rounded-3xl"
     >
@@ -151,9 +166,10 @@ const Signup = () => {
         selectName="branch"
         labelName="Ogranak"
         labelStyle="text-2xl text-[#C75D2C]"
-        options={branches}
+        options={[{ name: "", id: "" }].concat(branches)}
         onChange={branchInputHandler}
       />
+      <ImageUpload id="image" onInput={imageInputHandler} />
       <Button
         btnStyle="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md hover:bg-[#D76D3C]"
         btnText="Registruj se"

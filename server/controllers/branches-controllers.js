@@ -33,6 +33,7 @@ const createBranch = async (req, res, next) => {
     address,
     worktime,
     books: [],
+    users: [],
   });
 
   try {

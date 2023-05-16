@@ -8,6 +8,7 @@ const branchSchema = new Schema({
   address: { type: String, required: true },
   worktime: { type: String, required: true },
   books: [{ type: mongoose.Types.ObjectId, required: true, ref: "Book" }],
+  users: [{ type: mongoose.Types.ObjectId, ref: "User" }],
 });
 
 module.exports = mongoose.model("Branch", branchSchema);

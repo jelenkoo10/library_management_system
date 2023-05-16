@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <>
       {auth.isLoggedIn ? (
-        <header className="w-[100%] bg-[#C75D2C] px-[30px] py-[16px] opacity-80">
+        <header className="w-[100%] bg-[#C75D2C] px-[30px] py-[16px] bg-opacity-80">
           <nav className="flex justify-between items-center">
             <NavLink
               to="/"
@@ -76,18 +76,20 @@ const Navbar = () => {
               >
                 Pretraga knjiga
               </NavLink>
-              <NavLink
-                to="/signup"
-                className="p-2 mx-2 bg-white text-[#C75D2C] font-semibold opacity-100 rounded-md"
-              >
-                Registruj se
-              </NavLink>
-              <NavLink
-                to="/login"
-                className="p-2 mx-2 bg-white text-[#C75D2C] font-semibold opacity-100 rounded-md"
-              >
-                Prijavi se
-              </NavLink>
+              <Button
+                btnStyle="p-2 mx-2 bg-white text-[#C75D2C] font-semibold opacity-100 rounded-md"
+                btnText="Registruj se"
+                onClick={() => {
+                  navigate(`/signup`);
+                }}
+              />
+              <Button
+                btnStyle="p-2 mx-2 bg-white text-[#C75D2C] font-semibold opacity-100 rounded-md"
+                btnText="Prijavi se"
+                onClick={() => {
+                  navigate(`/login`);
+                }}
+              />
             </div>
           </nav>
         </header>

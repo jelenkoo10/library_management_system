@@ -30,13 +30,15 @@ const LibraryPage = () => {
   return (
     <section className="flex bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 flex flex-col">
       {isLoading && <LoadingSpinner asOverlay />}
-      <h1 className="font-bold text-xl text-center text-[#C75D2C] mb-10">
+      <h1 className="font-bold text-xl text-center text-[#C75D2C] mb-6">
         Ogranci u kojima ste učlanjeni
       </h1>
-      {myBranches &&
-        myBranches.map((branch) => (
-          <BranchCard branch={branch} key={branch.id} />
-        ))}
+      <div className="overflow-y-scroll h-[200px] border">
+        {myBranches &&
+          myBranches.map((branch) => (
+            <BranchCard branch={branch} key={branch.id} />
+          ))}
+      </div>
       <div
         className="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md max-w-fit hover:bg-[#D76D3C] cursor-pointer"
         onClick={() =>

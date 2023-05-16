@@ -33,7 +33,7 @@ const BookList = (props) => {
           {myBooks &&
             myBooks.map((book) => (
               <BookCard
-                cardStyle="bg-[#C75D2C] rounded-md pr-8 pl-2 py-4 text-white"
+                cardStyle="bg-[#CCC] text-[#C75D2C] rounded-md pr-8 pl-4 py-4 text-white border border-[#C75D2C] bg-opacity-90"
                 book={book}
               />
             ))}

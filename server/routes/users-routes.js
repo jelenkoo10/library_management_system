@@ -55,4 +55,6 @@ router.patch(
 
 router.patch("/:uid/branch_update", usersController.addUserBranch);
 
+router.patch("/:uid/data_update", usersController.updateUserData);
+
 module.exports = router;

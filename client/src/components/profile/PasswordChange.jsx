@@ -60,7 +60,7 @@ const PasswordChange = (props) => {
         const responseData = await sendRequest(
           `http://localhost:5000/api/users/${uid}/reset_password`,
           "PATCH",
-          password,
+          JSON.stringify(password),
           {
             "Content-Type": "application/json",
           }
@@ -69,9 +69,6 @@ const PasswordChange = (props) => {
     } catch (err) {
       handleModal("Neuspešna promena lozinke", error);
     }
-    // if (mode == "change") {
-    //   navigate(`/profile/${uid}`);
-    // }
   };
 
   return (

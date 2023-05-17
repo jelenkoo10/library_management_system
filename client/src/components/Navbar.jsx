@@ -9,6 +9,9 @@ const Navbar = () => {
   const userName = auth.isLoggedIn
     ? JSON.parse(localStorage.getItem("userData")).name
     : null;
+  const userId = auth.isLoggedIn
+    ? JSON.parse(localStorage.getItem("userData")).userId
+    : null;
   const navigate = useNavigate();
 
   return (
@@ -35,14 +38,17 @@ const Navbar = () => {
               >
                 Pretraga knjiga
               </NavLink>
-              <div className="inline-block p-2 mx-2 text-white font-semibold opacity-100">
+              <NavLink
+                to={`/profile/${userId}`}
+                className="inline-block p-2 mx-2 text-white font-semibold opacity-100"
+              >
                 <img
                   className="inline-block mr-2"
                   src={ProfileCard}
                   alt="A profile card icon"
                 />
                 {userName}
-              </div>
+              </NavLink>
               <Button
                 btnStyle="p-2 mx-2 bg-white text-[#C75D2C] font-semibold opacity-100 rounded-md"
                 btnText="Odjavi se"

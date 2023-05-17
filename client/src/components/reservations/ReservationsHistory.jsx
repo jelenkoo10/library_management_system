@@ -65,7 +65,7 @@ const ReservationsHistory = () => {
   };
 
   return (
-    <section className="bg-white bg-opacity-80 p-12 border border-[#B8572A] h-[439px]">
+    <section className="bg-white bg-opacity-80 p-12 border border-[#B8572A] h-[439px] w-[900px]">
       {isLoading && <LoadingSpinner asOverlay />}
       <h1 className="text-2xl font-semibold text-[#C75D2C] mb-5 text-center">
         Filteri
@@ -112,7 +112,7 @@ const ReservationsHistory = () => {
           type="submit"
         />
       </form>
-      <div className="mt-6 grid grid-cols-2 gap-6 items-center">
+      <div className="mt-6 mx-auto flex flex-col items-center overflow-y-scroll h-[200px]">
         {allReservations &&
           allReservations.map((reservation, i) => (
             <ReservationCard reservation={reservation} book={allBooks[i]} />

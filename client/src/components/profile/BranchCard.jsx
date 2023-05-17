@@ -4,7 +4,7 @@ const BranchCard = (props) => {
   const { branch } = props;
 
   return (
-    <div className="border border-[#C75D2C] my-4 rounded-md p-4 text-white flex justify-between w-[420px]">
+    <div className="border border-[#C75D2C] my-4 rounded-md p-4 text-white flex justify-between w-[380px]">
       <div>
         <h1 className="text-[#C75D2C] font-bold">
           {branch.name}, {branch.city}

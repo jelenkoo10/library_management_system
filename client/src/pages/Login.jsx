@@ -55,7 +55,7 @@ const Login = () => {
   return (
     <form
       onSubmit={loginUser}
-      className="px-10 py-20 mx-auto bg-white w-1/3 bg-opacity-80 mt-[150px] rounded-3xl"
+      className="px-10 py-20 mx-auto bg-white w-1/3 bg-opacity-80 mt-[100px] rounded-3xl"
     >
       <Input
         inputId="email"

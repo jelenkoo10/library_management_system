@@ -127,7 +127,7 @@ const createBook = async (req, res, next) => {
     language,
     year_published,
     loan_expiry: null,
-    status: "free",
+    status: "slobodno",
     author: authorId,
     authorName: author.name + " " + author.surname,
     branch: branchId,
@@ -289,7 +289,7 @@ const assignBook = async (req, res, next) => {
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
-    book.status = "taken";
+    book.status = "zauzeto";
     book.loan_expiry = new Date(
       new Date().setMonth(new Date().getMonth() + 1)
     ).toISOString();
@@ -358,7 +358,7 @@ const reserveBook = async (req, res, next) => {
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
-    book.status = "reserved";
+    book.status = "rezervisano";
     book.loan_expiry = new Date(
       new Date().setMonth(new Date().getMonth() + 1)
     ).toISOString();
@@ -420,7 +420,7 @@ const returnBook = async (req, res, next) => {
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
-    book.status = "free";
+    book.status = "slobodno";
     book.loan_expiry = null;
     const resIndex = user.reservations
       .map((res) => res.bookId)

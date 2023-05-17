@@ -19,10 +19,6 @@ const ImageUpload = (props) => {
     fileReader.readAsDataURL(file);
   }, [file]);
 
-  const pickImageHandler = () => {
-    filePickerRef.current.click();
-  };
-
   const pickedHandler = (event) => {
     let pickedFile;
     let fileIsValid = isValid;
@@ -39,20 +35,18 @@ const ImageUpload = (props) => {
   };
 
   return (
-    <div>
+    <div className="flex mt-3 justify-between items-center w-[100%]">
+      <label htmlFor="image" className="text-2xl text-[#C75D2C]">
+        Profilna slika
+      </label>
       <input
+        className="ml-4"
         id="image"
         ref={filePickerRef}
         type="file"
         accept=".jpg,.png,.jpeg"
         onChange={pickedHandler}
       />
-      <div>
-        <div className="flex">
-          {previewUrl && <img src={previewUrl} alt="Preview" />}
-          <Button btnText="Dodajte sliku" onClick={pickImageHandler} />
-        </div>
-      </div>
       {!isValid && <p>{props.errorText}</p>}
     </div>
   );

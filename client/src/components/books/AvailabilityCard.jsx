@@ -42,9 +42,9 @@ const AvailabilityCard = (props) => {
           <p>{branchName}</p>
         </Link>
       </div>
-      <div>
+      <div className="flex flex-col items-center">
         <p>{status}</p>
-        {auth.isLoggedIn && status == "free" && (
+        {auth.isLoggedIn && status == "slobodno" && (
           <>
             {isLoading && <LoadingSpinner asOverlay />}
             <Button

@@ -105,15 +105,21 @@ const Signup = () => {
     } catch (err) {
       handleModal("Neuspešna registracija", error);
     }
-    // auth.login(responseData.userId, responseData.token);
-    // navigate(`/profile/${responseData.userId}`);
+    auth.login(
+      responseData.userId,
+      responseData.token,
+      null,
+      responseData.is_admin,
+      responseData.name
+    );
+    navigate(`/profile/${responseData.userId}`);
   };
 
   return (
     <form
       encType="multipart/form-data"
       onSubmit={signupUser}
-      className="px-10 py-16 mx-auto bg-white w-1/3 bg-opacity-80 mt-[20px] rounded-3xl"
+      className="px-10 py-12 mx-auto bg-white w-1/3 bg-opacity-80 mt-[15px] rounded-3xl"
     >
       <Input
         inputId="name"

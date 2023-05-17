@@ -22,6 +22,7 @@ import SearchPage from "./pages/SearchPage";
 import LibraryPage from "./pages/LibraryPage";
 import SearchResults from "./components/books/SearchResults";
 import BookPage from "./pages/BookPage";
+import Admin from "./pages/Admin";
 import { ModalProvider } from "./context/modal-context";
 import { AuthContext } from "./context/auth-context";
 import { useAuth } from "./hooks/auth-hook";
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
         </Route>
         <Route path="libraries" element={<LibraryPage />} />
       </Route>
+      <Route path="admin" element={<Admin />} />
       <Route path="search/" element={<SearchPage />} />
       <Route path="results/" element={<SearchResults />} />
       <Route path="book/:bid/" element={<BookPage />} />

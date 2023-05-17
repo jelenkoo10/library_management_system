@@ -48,7 +48,11 @@ const Login = () => {
       responseData.is_admin,
       responseData.name
     );
-    navigate(`/profile/${responseData.userId}`);
+    if (responseData.is_admin) {
+      navigate("/admin");
+    } else {
+      navigate(`/profile/${responseData.userId}`);
+    }
   };
 
   return (

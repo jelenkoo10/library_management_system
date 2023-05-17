@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useHttpClient } from "../../hooks/http-hook";
 import UserCard from "./UserCard";
 import UserAssignModal from "./UserAssignModal";
+import UserReturnBook from "./UserReturnBook";
 
 const Users = (props) => {
   const [users, setUsers] = useState([]);
@@ -50,6 +51,9 @@ const Users = (props) => {
             />
           ))}
         {assign && <UserAssignModal closeModal={closeModal} user={assign} />}
+        {returnBookFromUser && (
+          <UserReturnBook closeModal={closeModal} user={returnBookFromUser} />
+        )}
       </div>
     </section>
   );

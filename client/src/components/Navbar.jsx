@@ -50,7 +50,7 @@ const Navbar = () => {
                   alt="A profile card icon"
                 />
                 {userData.name}
-              </div>
+              </NavLink>
               <Button
                 btnStyle="p-2 mx-2 bg-white text-[#C75D2C] font-semibold opacity-100 rounded-md"
                 btnText="Odjavi se"

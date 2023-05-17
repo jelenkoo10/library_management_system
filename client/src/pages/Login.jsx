@@ -39,6 +39,7 @@ const Login = () => {
         }
       );
     } catch (err) {
+      setInputData({ email: "", password: "" });
       handleModal("Neuspešno prijavljivanje", error);
     }
     auth.login(
@@ -58,10 +59,11 @@ const Login = () => {
   return (
     <form
       onSubmit={loginUser}
-      className="px-10 py-20 mx-auto bg-white w-1/3 bg-opacity-80 mt-[150px] rounded-3xl"
+      className="px-10 py-20 mx-auto bg-white w-1/3 bg-opacity-80 mt-[100px] rounded-3xl"
     >
       <Input
         inputId="email"
+        inputValue={inputData.email}
         inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
         divStyle="flex justify-between items-center"
         labelStyle="text-2xl text-[#C75D2C]"
@@ -71,6 +73,7 @@ const Login = () => {
       />
       <Input
         inputId="password"
+        inputValue={inputData.password}
         inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
         divStyle="flex justify-between items-center"
         labelStyle="text-2xl text-[#C75D2C]"

@@ -115,7 +115,7 @@ const SearchResults = () => {
     <>
       {isLoading && <LoadingSpinner asOverlay />}
       {
-        <div className="absolute top-[4.35rem] left-0 bg-white w-[250px] bg-opacity-80 h-[90.5%] px-4">
+        <div className="fixed top-[4.95rem] left-0 bg-white w-[250px] bg-opacity-90 h-[89.5%] px-4">
           <h1 className="text-2xl text-[#C75D2C] text-center mt-2">Filteri</h1>
           <Select
             selectStyle="my-4 block border-b-2 border-[#B8572A] w-[100px]"
@@ -147,6 +147,15 @@ const SearchResults = () => {
             labelStyle="text-lg text-[#C75D2C]"
             options={[
               { id: "", name: "" },
+              { id: "2022", name: "2022" },
+              { id: "2021", name: "2021" },
+              { id: "2020", name: "2020" },
+              { id: "2019", name: "2019" },
+              { id: "2018", name: "2018" },
+              { id: "2017", name: "2017" },
+              { id: "2016", name: "2016" },
+              { id: "2015", name: "2015" },
+              { id: "2014", name: "2014" },
               { id: "2013", name: "2013" },
               { id: "2012", name: "2012" },
               { id: "2011", name: "2011" },
@@ -156,6 +165,36 @@ const SearchResults = () => {
               { id: "2007", name: "2007" },
               { id: "2006", name: "2006" },
               { id: "2005", name: "2005" },
+              { id: "2004", name: "2004" },
+              { id: "2003", name: "2003" },
+              { id: "2002", name: "2002" },
+              { id: "2001", name: "2001" },
+              { id: "2000", name: "2000" },
+              { id: "1999", name: "1999" },
+              { id: "1998", name: "1998" },
+              { id: "1997", name: "1997" },
+              { id: "1996", name: "1996" },
+              { id: "1995", name: "1995" },
+              { id: "1994", name: "1994" },
+              { id: "1993", name: "1993" },
+              { id: "1992", name: "1992" },
+              { id: "1991", name: "1991" },
+              { id: "1990", name: "1990" },
+              { id: "1989", name: "1989" },
+              { id: "1988", name: "1988" },
+              { id: "1987", name: "1987" },
+              { id: "1986", name: "1986" },
+              { id: "1985", name: "1985" },
+              { id: "1984", name: "1984" },
+              { id: "1983", name: "1983" },
+              { id: "1982", name: "1982" },
+              { id: "1981", name: "1981" },
+              { id: "1980", name: "1980" },
+              { id: "1979", name: "1979" },
+              { id: "1978", name: "1978" },
+              { id: "1977", name: "1977" },
+              { id: "1976", name: "1976" },
+              { id: "1975", name: "1975" },
             ]}
             onChange={yearHandler}
           />
@@ -167,9 +206,9 @@ const SearchResults = () => {
             labelStyle="text-lg text-[#C75D2C]"
             options={[
               { id: "", name: "" },
-              { id: "free", name: "free" },
-              { id: "taken", name: "taken" },
-              { id: "reserved", name: "reserved" },
+              { id: "slobodno", name: "slobodno" },
+              { id: "zauzeto", name: "zauzeto" },
+              { id: "rezervisano", name: "rezervisano" },
             ]}
             onChange={statusHandler}
           />
@@ -209,7 +248,7 @@ const SearchResults = () => {
           btnStyle="mx-auto mt-2 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md max-w-fit"
         />
       </div>
-      <div className="text-center text-white">
+      <div className="mt-4 text-center text-white h-[400px] overflow-y-scroll">
         {books &&
           books.map((book) => (
             <AvailabilityCard

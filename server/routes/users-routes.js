@@ -2,6 +2,7 @@ const express = require("express");
 const { check } = require("express-validator");
 
 const usersController = require("../controllers/users-controllers");
+const fileUpload = require("../middleware/file-upload");
 
 const router = express.Router();
 
@@ -22,6 +23,7 @@ router.get(
 
 router.post(
   "/signup",
+  fileUpload.single("image"),
   [
     check("name").not().isEmpty(),
     check("surname").not().isEmpty(),
@@ -54,5 +56,7 @@ router.patch(
 );
 
 router.patch("/:uid/branch_update", usersController.addUserBranch);
+
+router.patch("/:uid/data_update", usersController.updateUserData);
 
 module.exports = router;

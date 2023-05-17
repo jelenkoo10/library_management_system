@@ -42,8 +42,11 @@ const AddBranch = (props) => {
         `http://localhost:5000/api/users/${uid}/branch_update`,
         "PATCH",
         JSON.stringify({
-          branchId: myBranches[0]._id,
-        })
+          branchId: myBranches[0].id,
+        }),
+        {
+          "Content-Type": "application/json",
+        }
       );
     } catch (err) {}
   };

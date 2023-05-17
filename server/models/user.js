@@ -11,6 +11,7 @@ const userSchema = new Schema({
   password: { type: String, required: true, minlength: 8 },
   subscription_expiry: { type: String, required: true },
   is_admin: { type: Boolean, required: true },
+  image: { type: String },
   reservations: [
     {
       reservationDate: String,

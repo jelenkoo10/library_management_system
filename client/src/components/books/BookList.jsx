@@ -28,12 +28,12 @@ const BookList = (props) => {
   return (
     <>
       {isLoading && <LoadingSpinner asOverlay />}
-      <section className="p-12 bg-[#DDD] border border-[#C75D2C] bg-opacity-90">
+      <section className="p-12 bg-[#DDD] border border-[#C75D2C] bg-opacity-90 w-[900px]">
         <div className="grid grid-cols-2 gap-6 items-center">
           {myBooks &&
             myBooks.map((book) => (
               <BookCard
-                cardStyle="bg-[#C75D2C] rounded-md pr-8 pl-2 py-4 text-white"
+                cardStyle="bg-[#CCC] text-[#C75D2C] rounded-md pr-8 pl-4 py-4 text-white border border-[#C75D2C] bg-opacity-90"
                 book={book}
               />
             ))}

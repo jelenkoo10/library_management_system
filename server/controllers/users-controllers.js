@@ -99,6 +99,7 @@ const signup = async (req, res, next) => {
     reservations: [],
     books: [],
     branches: [branchId],
+    image: req.file ? "http://localhost:5000/" + req.file.path : null,
   });
 
   try {
@@ -304,6 +305,41 @@ const resetPassword = async (req, res, next) => {
   res.status(200).json({ user: user.toObject({ getters: true }) });
 };
 
+const updateUserData = async (req, res, next) => {
+  const { name, surname, phone } = req.body;
+  const userId = req.params.uid;
+
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't update user's data.", 500)
+    );
+  }
+
+  if (name) {
+    user.name = name;
+  }
+  if (surname) {
+    user.surname = surname;
+  }
+  if (phone) {
+    user.phone = phone;
+  }
+
+  try {
+    await user.save();
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't update user's data."),
+      500
+    );
+  }
+
+  res.status(200).json({ user: user.toObject({ getters: true }) });
+};
+
 const getUserReservations = async (req, res, next) => {
   const startDate = req.query.startdate;
   const endDate = req.query.enddate;
@@ -483,12 +519,10 @@ const addUserBranch = async (req, res, next) => {
   }
 
   try {
-    const sess = await mongoose.startSession();
-    sess.startTransaction();
     user.branches.push(branch);
-    await user.save({ session: sess });
-    await branch.save({ session: sess });
-    await sess.commitTransaction();
+    user.save();
+    branch.users.push(user);
+    branch.save();
   } catch (err) {
     return next(
       new HttpError("Something went wrong, couldn't add branch."),
@@ -509,6 +543,7 @@ exports.signup = signup;
 exports.login = login;
 exports.resetForgottenPassword = resetForgottenPassword;
 exports.resetPassword = resetPassword;
+exports.updateUserData = updateUserData;
 exports.getUserReservations = getUserReservations;
 exports.getCurrentReservations = getCurrentReservations;
 exports.getUserBranches = getUserBranches;

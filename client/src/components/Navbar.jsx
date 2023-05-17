@@ -6,8 +6,8 @@ import ProfileCard from "../assets/profile_card.png";
 
 const Navbar = () => {
   const auth = useContext(AuthContext);
-  const userName = auth.isLoggedIn
-    ? JSON.parse(localStorage.getItem("userData")).name
+  const userData = auth.isLoggedIn
+    ? JSON.parse(localStorage.getItem("userData"))
     : null;
   const userId = auth.isLoggedIn
     ? JSON.parse(localStorage.getItem("userData")).userId
@@ -47,7 +47,7 @@ const Navbar = () => {
                   src={ProfileCard}
                   alt="A profile card icon"
                 />
-                {userName}
+                {userData.name}
               </NavLink>
               <Button
                 btnStyle="p-2 mx-2 bg-white text-[#C75D2C] font-semibold opacity-100 rounded-md"

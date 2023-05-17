@@ -9,6 +9,7 @@ const Input = (props) => {
     inputType,
     inputLabel,
     onChange,
+    value,
     inputValue,
   } = props;
 
@@ -22,7 +23,7 @@ const Input = (props) => {
         className={inputStyle}
         type={inputType}
         onChange={onChange}
-        value={inputValue}
+        value={value || inputValue}
       ></input>
     </div>
   );

@@ -6,11 +6,8 @@ import ProfileCard from "../assets/profile_card.png";
 
 const Navbar = () => {
   const auth = useContext(AuthContext);
-  const userName = auth.isLoggedIn
-    ? JSON.parse(localStorage.getItem("userData")).name
-    : null;
-  const userId = auth.isLoggedIn
-    ? JSON.parse(localStorage.getItem("userData")).userId
+  const userData = auth.isLoggedIn
+    ? JSON.parse(localStorage.getItem("userData"))
     : null;
   const navigate = useNavigate();
 
@@ -38,17 +35,22 @@ const Navbar = () => {
               >
                 Pretraga knjiga
               </NavLink>
-              <NavLink
-                to={`/profile/${userId}`}
-                className="inline-block p-2 mx-2 text-white font-semibold opacity-100"
-              >
+              {userData.is_admin && (
+                <NavLink
+                  to="/admin"
+                  className="p-2 mx-2 text-white font-semibold opacity-100"
+                >
+                  Administracija
+                </NavLink>
+              )}
+              <div className="inline-block p-2 mx-2 text-white font-semibold opacity-100">
                 <img
                   className="inline-block mr-2"
                   src={ProfileCard}
                   alt="A profile card icon"
                 />
-                {userName}
-              </NavLink>
+                {userData.name}
+              </div>
               <Button
                 btnStyle="p-2 mx-2 bg-white text-[#C75D2C] font-semibold opacity-100 rounded-md"
                 btnText="Odjavi se"

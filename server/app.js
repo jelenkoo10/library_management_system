@@ -4,6 +4,7 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const booksRoutes = require("./routes/books-routes");
 const usersRoutes = require("./routes/users-routes");
@@ -14,6 +15,12 @@ const HttpError = require("./models/http-error");
 const app = express();
 
 app.use(bodyParser.json());
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 
 app.use("/uploads/images", express.static(path.join("uploads", "images")));
 
@@ -53,7 +60,7 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    "mongodb+srv://veljkojelenkovic00:<password>@cluster0.bcgyedy.mongodb.net/library?retryWrites=true&w=majority",
+    "mongodb+srv://veljkojelenkovic00:OGCDgjVWA2SOB1sB@cluster0.bcgyedy.mongodb.net/library?retryWrites=true&w=majority",
     { useNewUrlParser: true }
   )
   .then(() => {

@@ -9,6 +9,9 @@ const Select = (props) => {
     labelName,
     labelStyle,
     onChange,
+    isAuthor,
+    value,
+    isBranch,
   } = props;
 
   return (
@@ -26,8 +29,12 @@ const Select = (props) => {
           >
             {options.map((option) => {
               return (
-                <option value={option.id} key={option.id}>
-                  {option.name}
+                <option
+                  value={isBranch ? option._id : option.id}
+                  key={option.id}
+                  selected={option.id === value}
+                >
+                  {isAuthor ? `${option.name} ${option.surname}` : option.name}
                 </option>
               );
             })}

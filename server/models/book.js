@@ -10,6 +10,7 @@ const bookSchema = new Schema({
   year_published: { type: String, required: true },
   loan_expiry: { type: String },
   status: { type: String, required: true },
+  pdf: { type: String },
   author: { type: mongoose.Types.ObjectId, required: true, ref: "Author" },
   authorName: { type: String, required: true },
   branch: { type: mongoose.Types.ObjectId, required: true, ref: "Branch" },

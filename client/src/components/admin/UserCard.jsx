@@ -32,16 +32,18 @@ const UserCard = (props) => {
 
   return (
     <div className={cardStyle}>
-      <h1 className="text-xl font-bold">{user.name + "" + user.surname}</h1>
+      <h1 className="text-xl font-bold">{user.name + " " + user.surname}</h1>
       <p className="text-md font-semibold">{user.email}</p>
       <p className="text-sm">Telefon: {user.phone}</p>
 
       {branches && (
         <p className="text-sm">
           Ogranci:
-          {branches.map((branch) => {
-            const coma = branches.lenght > 1 ? ", " : "";
-            return branch.name + coma;
+          {branches.map((branch, i) => {
+            const coma = branches.length > 1 ? ", " : "";
+            return i < branches.length - 1
+              ? " " + branch.name + coma
+              : " " + branch.name;
           })}
         </p>
       )}

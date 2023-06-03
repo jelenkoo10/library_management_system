@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import Button from "../UIElements/Button";
 import Input from "../UIElements/Input";
 import Select from "../UIElements/Select";
+import ImageUpload from "../UIElements/ImageUpload";
 import { useHttpClient } from "../../hooks/http-hook";
 import { AuthContext } from "../../context/auth-context";
 
@@ -49,6 +50,7 @@ const AdminAddBookForm = ({ closeModal }) => {
   }, [branches, authors]);
 
   const [inputData, setInputData] = useState({});
+  console.log(inputData);
 
   const titleInputHandler = (e) => {
     setInputData((oldData) => {
@@ -92,6 +94,14 @@ const AdminAddBookForm = ({ closeModal }) => {
     });
   };
 
+  const pdfInputHandler = (value, isValid) => {
+    if (isValid) {
+      setInputData((oldData) => {
+        return { ...oldData, pdf: value };
+      });
+    }
+  };
+
   const addBook = async (e) => {
     try {
       e.preventDefault();
@@ -113,9 +123,9 @@ const AdminAddBookForm = ({ closeModal }) => {
   return (
     <form
       onSubmit={addBook}
-      className="px-10 py-16 mx-auto bg-white mt-[20px] rounded-3xl flex w-full h-full gap-5"
+      className="px-10 py-16 mx-auto bg-white mt-[20px] rounded-3xl flex justify-between w-full h-full gap-5"
     >
-      <div className="w-[50%]">
+      <div className="w-[45%]">
         <Input
           inputId="title"
           inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
@@ -152,12 +162,18 @@ const AdminAddBookForm = ({ closeModal }) => {
           inputLabel="Jezik "
           onChange={languageInputHandler}
         />
+        <ImageUpload
+          id="book-pdf"
+          label="PDF knjige"
+          extensions=".pdf"
+          onInput={pdfInputHandler}
+        />
         <Button
           btnStyle="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md hover:bg-[#D76D3C]"
-          btnText="Dodaj Knjigu"
+          btnText="Dodaj knjigu"
         />
       </div>
-      <div className="w-[50%] resize-none">
+      <div className="w-[45%] resize-none">
         <Select
           selectStyle="my-4 block border-b-2 border-[#B8572A] w-[200px]"
           selectId="author"

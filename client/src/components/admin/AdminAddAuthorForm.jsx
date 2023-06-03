@@ -66,9 +66,9 @@ const AdminAddAuthorForm = ({ closeModal }) => {
   return (
     <form
       onSubmit={addAuthor}
-      className="px-10 py-16 mx-auto bg-white mt-[20px] rounded-3xl flex w-full h-full gap-5"
+      className="px-10 py-16 mx-auto bg-white mt-[20px] rounded-3xl flex justify-between w-full h-full gap-5"
     >
-      <div className="w-[50%]">
+      <div className="w-[45%]">
         <Input
           inputId="name"
           inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
@@ -101,7 +101,7 @@ const AdminAddAuthorForm = ({ closeModal }) => {
           btnText="Izmeni Knjigu"
         />
       </div>{" "}
-      <div className="w-[50%]">
+      <div className="w-[45%]">
         <Input
           inputId="nationality"
           inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"

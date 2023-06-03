@@ -2,6 +2,7 @@ const express = require("express");
 const { check } = require("express-validator");
 
 const booksController = require("../controllers/books-controllers");
+const fileUpload = require("../middleware/file-upload");
 
 const router = express.Router();
 
@@ -19,6 +20,7 @@ router.get("/filters", booksController.getFilters);
 
 router.post(
   "/",
+  fileUpload.single("pdf"),
   [
     check("title").not().isEmpty(),
     check("genre").not().isEmpty(),

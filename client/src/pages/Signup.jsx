@@ -175,7 +175,12 @@ const Signup = () => {
         options={[{ name: "", id: "" }].concat(branches)}
         onChange={branchInputHandler}
       />
-      <ImageUpload id="image" onInput={imageInputHandler} />
+      <ImageUpload
+        id="image"
+        label="Profilna slika"
+        extensions=".png, .jpeg, .jpg"
+        onInput={imageInputHandler}
+      />
       <Button
         btnStyle="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md hover:bg-[#D76D3C]"
         btnText="Registruj se"

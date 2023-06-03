@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useHttpClient } from "../../hooks/http-hook";
 import AdminBookCard from "./AdminBookCard";
 import LoadingSpinner from "../UIElements/LoadingSpinner/LoadingSpinner";
-import AdminBookUpdateModal from "./AdmingBookUpdateModal";
+import AdminBookUpdateModal from "./AdminBookUpdateModal";
 
 const Books = () => {
   const [books, setBooks] = useState([]);

@@ -128,6 +128,7 @@ const createBook = async (req, res, next) => {
     year_published,
     loan_expiry: null,
     status: "slobodno",
+    pdf: req.file ? "http://localhost:5000/" + req.file.path : null,
     author: authorId,
     authorName: author.name + " " + author.surname,
     branch: branchId,
@@ -235,6 +236,7 @@ const updateBook = async (req, res, next) => {
   book.genre = genre;
   book.description = description;
   book.language = language;
+  book.pdf = req.file ? "http://localhost:5000/" + req.file.path : book.pdf;
 
   try {
     await book.save();

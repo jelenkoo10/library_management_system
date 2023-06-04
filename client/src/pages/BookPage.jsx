@@ -43,6 +43,7 @@ const BookPage = () => {
               description={book.description}
               genre={book.genre}
               language={book.language}
+              pdf={book.pdf}
             />
           </div>
           <AvailabilityTable

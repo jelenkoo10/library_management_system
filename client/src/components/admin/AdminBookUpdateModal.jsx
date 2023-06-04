@@ -38,6 +38,8 @@ const AdminBookUpdateModal = ({ book, branches, stopUpdating, reloadPage }) => {
     branch: book.branch,
   });
 
+  console.log(inputData);
+
   const titleInputHandler = (e) => {
     setInputData((oldData) => {
       return { ...oldData, title: e.target.value };

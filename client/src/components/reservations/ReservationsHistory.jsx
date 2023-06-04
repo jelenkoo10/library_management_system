@@ -65,11 +65,14 @@ const ReservationsHistory = () => {
   };
 
   return (
-    <section className="bg-white bg-opacity-80 p-12 border border-[#B8572A] h-[439px] w-[900px]">
+    <section className="bg-white bg-opacity-80 px-12 pb-12 pt-6 border border-[#B8572A] h-[439px] w-[900px]">
       {isLoading && <LoadingSpinner asOverlay />}
-      <h1 className="text-2xl font-semibold text-[#C75D2C] mb-5 text-center">
+      <h1 className="text-2xl font-semibold text-[#C75D2C] mb-2 text-center">
         Filteri
       </h1>
+      <p className="text-md text-[#C75D2C] mb-2 text-center">
+        Neophodno je uneti oba datuma, inače pretraga neće raditi.
+      </p>
       <form
         className="mx-auto"
         onSubmit={(e) => {

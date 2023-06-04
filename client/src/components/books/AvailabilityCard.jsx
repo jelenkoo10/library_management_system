@@ -24,13 +24,14 @@ const AvailabilityCard = (props) => {
         { "Content-Type": "application/json" }
       );
       console.log(responseData);
+      window.location.reload();
     } catch (err) {
       handleModal(
         "Neuspešna rezervacija",
-        error || "Došlo je do greške, molim vas pokušajte ponovo"
+        error ||
+          "Došlo je do greške, knjiga ne može biti rezervisana. Proverite da li već imate 3 rezervisane knjige."
       );
     }
-    window.location.reload();
   };
 
   return (

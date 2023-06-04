@@ -105,13 +105,19 @@ const AdminAddBookForm = ({ closeModal }) => {
   const addBook = async (e) => {
     try {
       e.preventDefault();
+      const formData = new FormData();
+      formData.append("title", inputData.title);
+      formData.append("genre", inputData.genre);
+      formData.append("language", inputData.language);
+      formData.append("description", inputData.description);
+      formData.append("year_published", inputData.year_published);
+      formData.append("authorId", inputData.authorId);
+      formData.append("branchId", inputData.branchId);
+      formData.append("pdf", inputData.pdf);
       const responseData = await sendRequest(
         `http://localhost:5000/api/books`,
         "POST",
-        JSON.stringify(inputData),
-        {
-          "Content-Type": "application/json",
-        }
+        formData
       );
       closeModal();
     } catch (err) {
@@ -163,7 +169,7 @@ const AdminAddBookForm = ({ closeModal }) => {
           onChange={languageInputHandler}
         />
         <ImageUpload
-          id="book-pdf"
+          id="pdf"
           label="PDF knjige"
           extensions=".pdf"
           onInput={pdfInputHandler}

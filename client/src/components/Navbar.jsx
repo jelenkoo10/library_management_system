@@ -43,7 +43,10 @@ const Navbar = () => {
                   Administracija
                 </NavLink>
               )}
-              <NavLink className="inline-block p-2 mx-2 text-white font-semibold opacity-100">
+              <NavLink
+                to={`/profile/${userData.userId}`}
+                className="inline-block p-2 mx-2 text-white font-semibold opacity-100"
+              >
                 <img
                   className="inline-block mr-2"
                   src={ProfileCard}

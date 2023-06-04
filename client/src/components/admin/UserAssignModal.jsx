@@ -1,12 +1,13 @@
 import { useState } from "react";
 import close from "../../assets/close.png";
 import Select from "../UIElements/Select";
+import LoadingSpinner from "../UIElements/LoadingSpinner/LoadingSpinner";
 import { useEffect } from "react";
 import { useHttpClient } from "../../hooks/http-hook";
 import Button from "../UIElements/Button";
 
 const UserAssignModal = ({ closeModal, user }) => {
-  const { sendRequest } = useHttpClient();
+  const { sendRequest, isLoading } = useHttpClient();
   const [inputData, setInputData] = useState({});
   const [books, setBooks] = useState();
 
@@ -53,23 +54,23 @@ const UserAssignModal = ({ closeModal, user }) => {
             "Content-Type": "application/json",
           }
         );
-        responseData.books.map((book) =>
-          booksArray.push({ name: book.title, id: book._id })
-        );
+        responseData.books
+          .filter((book) => {
+            return book.status === "slobodno";
+          })
+          .map((book) => booksArray.push({ name: book.title, id: book._id }));
       }
       setBooks(booksArray);
+      setInputData((oldData) => {
+        return { ...oldData, booksId: booksArray[0].id };
+      });
     }
     fetchBooks();
   }, []);
 
-  //   useEffect(() => {
-  //     if (books.length > 0) {
-  //       setInputData({ booksId: books[0].id });
-  //     }
-  //   }, [books]);
-
   return (
     <div className="z-5000 absolute w-[58vw] h-[60%] top-[20%] left-[21vw]">
+      {isLoading && <LoadingSpinner asOverlay />}
       <div
         className="w-[20px] h-[20px] absolute top-[50px] right-[40px] cursor-pointer"
         onClick={closeModal}
@@ -91,7 +92,7 @@ const UserAssignModal = ({ closeModal, user }) => {
         />
         <Button
           btnStyle="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md hover:bg-[#D76D3C]"
-          btnText="Upisi Knjigu"
+          btnText="Upiši knjigu"
         />
       </form>
     </div>

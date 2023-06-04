@@ -20,6 +20,7 @@ const userSchema = new Schema({
     },
   ],
   books: [{ type: mongoose.Types.ObjectId, required: true, ref: "Book" }],
+  favorites: [{ type: mongoose.Types.ObjectId, ref: "Book" }],
   branches: [{ type: mongoose.Types.ObjectId, required: true, ref: "Branch" }],
 });
 

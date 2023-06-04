@@ -16,6 +16,7 @@ const bookSchema = new Schema({
   branch: { type: mongoose.Types.ObjectId, required: true, ref: "Branch" },
   branchName: { type: String, required: true },
   user: { type: mongoose.Types.ObjectId, ref: "User" },
+  likedBy: [{ type: mongoose.Types.ObjectId, ref: "User" }],
 });
 
 module.exports = mongoose.model("Book", bookSchema);

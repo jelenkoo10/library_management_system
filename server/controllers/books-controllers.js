@@ -517,6 +517,110 @@ const getFilters = async (req, res, next) => {
   res.json({ languages: languageObjects, genres: genreObjects });
 };
 
+const setBookAsFavourite = async (req, res, next) => {
+  const bookId = req.params.bid;
+  const { userId } = req.body;
+
+  let book;
+  try {
+    book = await Book.findById(bookId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't find book."),
+      500
+    );
+  }
+
+  if (!book) {
+    return next(
+      new HttpError("Couldn't find a book for the provided ID."),
+      404
+    );
+  }
+
+  let foundUser;
+  try {
+    foundUser = await User.findById(userId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't assign book."),
+      500
+    );
+  }
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    foundUser.favorites.push(book);
+    book.likedBy.push(foundUser);
+    await foundUser.save({ session: sess });
+    await book.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't assign book."),
+      500
+    );
+  }
+
+  res.status(200).json({
+    book: book.toObject({ getters: true }),
+    user: foundUser.toObject({ getters: true }),
+  });
+};
+
+const removeBookFromFavourites = async (req, res, next) => {
+  const foundBookId = req.params.bid;
+  const { userId } = req.body;
+
+  let book;
+  try {
+    book = await Book.findById(foundBookId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't return book."),
+      500
+    );
+  }
+
+  if (!book) {
+    return next(
+      new HttpError("Couldn't find a book for the provided ID."),
+      404
+    );
+  }
+
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't return book."),
+      500
+    );
+  }
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    book.likedBy.pull(user);
+    await book.save({ session: sess });
+    user.favorites.pull(book);
+    await user.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't return book."),
+      500
+    );
+  }
+
+  res.status(200).json({
+    book: book.toObject({ getters: true }),
+    user: user.toObject({ getters: true }),
+  });
+};
+
 exports.getBooksByBranch = getBooksByBranch;
 exports.createBook = createBook;
 exports.getBookById = getBookById;
@@ -529,3 +633,5 @@ exports.reserveBook = reserveBook;
 exports.returnBook = returnBook;
 exports.deleteBook = deleteBook;
 exports.getFilters = getFilters;
+exports.setBookAsFavourite = setBookAsFavourite;
+exports.removeBookFromFavourites = removeBookFromFavourites;

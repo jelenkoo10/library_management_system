@@ -14,7 +14,7 @@ const BookDetailed = (props) => {
       <p className="text-[#C75D2C]">
         Jezik: <span className="font-bold">{language}</span>
       </p>
-      {user ? !user.is_admin && <PdfDownload pdf={pdf} /> : null}
+      {user && pdf ? !user.is_admin && <PdfDownload pdf={pdf} /> : null}
     </div>
   );
 };

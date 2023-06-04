@@ -16,6 +16,8 @@ router.get("/reservations/:uid", usersController.getUserReservations);
 
 router.get("/branches/:uid", usersController.getUserBranches);
 
+router.get("/favorites/:uid", usersController.getUserFavorites);
+
 router.get(
   "/reservations/current/:uid",
   usersController.getCurrentReservations

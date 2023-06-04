@@ -14,16 +14,18 @@ const ProfilePage = () => {
       setCurrentPage("libraries");
     } else if (window.location.href.includes("update")) {
       setCurrentPage("update");
+    } else if (window.location.href.includes("favorites")) {
+      setCurrentPage("favorites");
     } else {
       setCurrentPage("books");
     }
   }, [isChanged]);
 
   return (
-    <div className="flex mt-20 ml-20">
+    <div className="flex mt-10 ml-20">
       <nav className="flex flex-col text-[#C75D2C] text-xl font-bold">
         <NavLink
-          className={`border border-[#C75D2C] p-10 bg-[#DDD] ${
+          className={`border border-[#C75D2C] p-8 bg-[#DDD] ${
             currentPage == "books" ? "underline" : ""
           }`}
           onClick={() => setIsChanged((prev) => !prev)}
@@ -32,7 +34,7 @@ const ProfilePage = () => {
           Moje knjige
         </NavLink>
         <NavLink
-          className={`border border-[#C75D2C] p-10 bg-[#DDD] ${
+          className={`border border-[#C75D2C] p-8 bg-[#DDD] ${
             currentPage == "reservations" ? "underline" : ""
           }`}
           onClick={() => setIsChanged((prev) => !prev)}
@@ -41,7 +43,7 @@ const ProfilePage = () => {
           Moje rezervacije
         </NavLink>
         <NavLink
-          className={`border border-[#C75D2C] p-10 bg-[#DDD] ${
+          className={`border border-[#C75D2C] p-8 bg-[#DDD] ${
             currentPage == "libraries" ? "underline" : ""
           }`}
           onClick={() => setIsChanged((prev) => !prev)}
@@ -50,7 +52,16 @@ const ProfilePage = () => {
           Moje biblioteke
         </NavLink>
         <NavLink
-          className={`border border-[#C75D2C] p-10 bg-[#DDD] ${
+          className={`border border-[#C75D2C] p-8 bg-[#DDD] ${
+            currentPage == "favorites" ? "underline" : ""
+          }`}
+          onClick={() => setIsChanged((prev) => !prev)}
+          to="favorites"
+        >
+          Moje omiljene knjige
+        </NavLink>
+        <NavLink
+          className={`border border-[#C75D2C] p-8 bg-[#DDD] ${
             currentPage == "update" ? "underline" : ""
           }`}
           onClick={() => setIsChanged((prev) => !prev)}

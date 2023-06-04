@@ -20,6 +20,7 @@ import CurrentReservations from "./components/reservations/CurrentReservations";
 import ReservationsHistory from "./components/reservations/ReservationsHistory";
 import SearchPage from "./pages/SearchPage";
 import LibraryPage from "./pages/LibraryPage";
+import FavoritesPage from "./pages/FavoritesPage";
 import SearchResults from "./components/books/SearchResults";
 import BookPage from "./pages/BookPage";
 import Admin from "./pages/Admin";
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
           <Route path="history" element={<ReservationsHistory />} />
         </Route>
         <Route path="libraries" element={<LibraryPage />} />
+        <Route path="favorites" element={<FavoritesPage />} />
       </Route>
       <Route path="admin" element={<Admin />} />
       <Route path="search/" element={<SearchPage />} />

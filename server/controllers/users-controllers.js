@@ -536,6 +536,34 @@ const addUserBranch = async (req, res, next) => {
   });
 };
 
+const getUserFavorites = async (req, res, next) => {
+  const userId = req.params.uid;
+
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(new HttpError("Couldn't find user with the provided ID", 404));
+  }
+
+  let favorites = [];
+  try {
+    for (let i = 0; i < user.favorites.length; i++) {
+      let book = await Book.findById(user.favorites[i]);
+      favorites.push(book);
+    }
+  } catch (err) {
+    return next(
+      new HttpError(
+        "Couldn't fetch favorites correctly, please try again later",
+        404
+      )
+    );
+  }
+
+  res.json({ favorites });
+};
+
 exports.getUsers = getUsers;
 exports.getUserById = getUserById;
 exports.getUsersByBranch = getUsersByBranch;
@@ -548,3 +576,4 @@ exports.getUserReservations = getUserReservations;
 exports.getCurrentReservations = getCurrentReservations;
 exports.getUserBranches = getUserBranches;
 exports.addUserBranch = addUserBranch;
+exports.getUserFavorites = getUserFavorites;

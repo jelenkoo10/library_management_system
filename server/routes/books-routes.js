@@ -47,6 +47,10 @@ router.patch("/reserve/:bid", booksController.reserveBook);
 
 router.patch("/return/:bid", booksController.returnBook);
 
+router.patch("/set_favorite/:bid", booksController.setBookAsFavourite);
+
+router.patch("/remove_favorite/:bid", booksController.removeBookFromFavourites);
+
 router.delete("/:bid", booksController.deleteBook);
 
 module.exports = router;

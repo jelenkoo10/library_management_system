@@ -564,6 +564,67 @@ const getUserFavorites = async (req, res, next) => {
   res.json({ favorites });
 };
 
+const getUserRecommendations = async (req, res, next) => {
+  const uid = req.params.uid;
+
+  let user;
+  try {
+    user = await User.findById(uid);
+  } catch (err) {
+    return next(
+      new HttpError("Fetching user failed, please try again later.", 500)
+    );
+  }
+
+  const favorites = user.favorites;
+  const genres = [];
+
+  if (favorites.length >= 1) {
+    for (let i = 0; i < favorites.length; i++) {
+      let book;
+      try {
+        book = await Book.findById(favorites[i]);
+      } catch (err) {
+        return next(
+          new HttpError("Fetching book failed, please try again later.", 500)
+        );
+      }
+      let bookGenres = book.genre.split(", ");
+      for (let j = 0; j < bookGenres.length; j++) {
+        if (!genres.includes(bookGenres[j])) {
+          genres.push(bookGenres[j]);
+        }
+      }
+    }
+  }
+
+  let books = [];
+  try {
+    books = await Book.find({});
+  } catch (err) {
+    return next(
+      new HttpError("Fetching books failed, please try again later.", 500)
+    );
+  }
+
+  books = books.filter((book) => {
+    let hasGenre = false;
+    for (let i = 0; i < genres.length; i++) {
+      if (book.genre.includes(genres[i])) {
+        hasGenre = true;
+      }
+    }
+    for (let j = 0; j < favorites.length; j++) {
+      if (book.id == favorites[j]) {
+        hasGenre = false;
+      }
+    }
+    return hasGenre;
+  });
+
+  res.json({ genres, books });
+};
+
 exports.getUsers = getUsers;
 exports.getUserById = getUserById;
 exports.getUsersByBranch = getUsersByBranch;
@@ -577,3 +638,4 @@ exports.getCurrentReservations = getCurrentReservations;
 exports.getUserBranches = getUserBranches;
 exports.addUserBranch = addUserBranch;
 exports.getUserFavorites = getUserFavorites;
+exports.getUserRecommendations = getUserRecommendations;

@@ -16,13 +16,15 @@ const ProfilePage = () => {
       setCurrentPage("update");
     } else if (window.location.href.includes("favorites")) {
       setCurrentPage("favorites");
+    } else if (window.location.href.includes("recommendations")) {
+      setCurrentPage("recommendations");
     } else {
       setCurrentPage("books");
     }
   }, [isChanged]);
 
   return (
-    <div className="flex mt-10 ml-20">
+    <div className="flex mt-6 ml-20">
       <nav className="flex flex-col text-[#C75D2C] text-xl font-bold">
         <NavLink
           className={`border border-[#C75D2C] p-8 bg-[#DDD] ${
@@ -59,6 +61,15 @@ const ProfilePage = () => {
           to="favorites"
         >
           Moje omiljene knjige
+        </NavLink>
+        <NavLink
+          className={`border border-[#C75D2C] p-8 bg-[#DDD] ${
+            currentPage == "recommendations" ? "underline" : ""
+          }`}
+          onClick={() => setIsChanged((prev) => !prev)}
+          to="recommendations"
+        >
+          Preporuke
         </NavLink>
         <NavLink
           className={`border border-[#C75D2C] p-8 bg-[#DDD] ${

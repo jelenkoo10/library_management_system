@@ -25,13 +25,14 @@ const createBranch = async (req, res, next) => {
     );
   }
 
-  const { name, city, address, worktime } = req.body;
+  const { name, city, address, worktime, phone } = req.body;
 
   const newBranch = new Branch({
     name,
     city,
     address,
     worktime,
+    phone,
     books: [],
     users: [],
   });
@@ -55,7 +56,7 @@ const updateBranch = async (req, res, next) => {
     );
   }
 
-  const { name, city, address, worktime } = req.body;
+  const { name, city, address, worktime, phone } = req.body;
   const branchId = req.params.brid;
 
   let branch;
@@ -72,6 +73,7 @@ const updateBranch = async (req, res, next) => {
   branch.city = city;
   branch.address = address;
   branch.worktime = worktime;
+  branch.phone = phone;
 
   try {
     await branch.save();

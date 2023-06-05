@@ -7,6 +7,7 @@ const branchSchema = new Schema({
   city: { type: String, required: true },
   address: { type: String, required: true },
   worktime: { type: String, required: true },
+  phone: { type: String, required: true },
   books: [{ type: mongoose.Types.ObjectId, required: true, ref: "Book" }],
   users: [{ type: mongoose.Types.ObjectId, ref: "User" }],
 });

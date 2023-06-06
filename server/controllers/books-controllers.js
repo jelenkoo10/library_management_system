@@ -1,5 +1,7 @@
 const { validationResult } = require("express-validator");
 const mongoose = require("mongoose");
+const download = require("download");
+const fs = require("fs");
 
 const HttpError = require("../models/http-error");
 const Book = require("../models/book");
@@ -252,7 +254,6 @@ const updateBook = async (req, res, next) => {
 
 const assignBook = async (req, res, next) => {
   const bookId = req.params.bid;
-  const { userId } = req.body;
 
   let book;
   try {
@@ -271,41 +272,9 @@ const assignBook = async (req, res, next) => {
     );
   }
 
-  let foundUser;
   try {
-    foundUser = await User.findById(userId);
-  } catch (err) {
-    return next(
-      new HttpError("Something went wrong, couldn't assign book."),
-      500
-    );
-  }
-
-  if (foundUser.books.length >= 3) {
-    return next(
-      new HttpError("Couldn't assign book, user already has 3 books."),
-      422
-    );
-  }
-
-  try {
-    const sess = await mongoose.startSession();
-    sess.startTransaction();
     book.status = "zauzeto";
-    book.loan_expiry = new Date(
-      new Date().setMonth(new Date().getMonth() + 1)
-    ).toISOString();
-    foundUser.reservations.push({
-      reservationDate: new Date().toISOString(),
-      returnDate: new Date(
-        new Date().setMonth(new Date().getMonth() + 1)
-      ).toISOString(),
-      bookId: bookId,
-    });
-    foundUser.books.push(book);
-    await foundUser.save({ session: sess });
-    await book.save({ session: sess });
-    await sess.commitTransaction();
+    book.save();
   } catch (err) {
     return next(
       new HttpError("Something went wrong, couldn't assign book."),
@@ -315,7 +284,7 @@ const assignBook = async (req, res, next) => {
 
   res.status(200).json({
     book: book.toObject({ getters: true }),
-    user: foundUser.toObject({ getters: true }),
+    message: "Confirmed reservation.",
   });
 };
 
@@ -563,7 +532,7 @@ const setBookAsFavourite = async (req, res, next) => {
     );
   }
 
-  res.status(200).json({
+  res.json({
     book: book.toObject({ getters: true }),
     user: foundUser.toObject({ getters: true }),
   });
@@ -615,10 +584,40 @@ const removeBookFromFavourites = async (req, res, next) => {
     );
   }
 
-  res.status(200).json({
+  res.json({
     book: book.toObject({ getters: true }),
     user: user.toObject({ getters: true }),
   });
+};
+
+const downloadBook = async (req, res, next) => {
+  const bookId = req.params.bid;
+
+  let book;
+  try {
+    book = await Book.findById(bookId);
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, couldn't return book."),
+      500
+    );
+  }
+
+  // Path of the PDF file to be downloaded
+  const filePath =
+    "C:/Users/Administrator/Documents/GitHub/library_management_system/server/" +
+    book.pdf.slice(22);
+
+  // Set the file name for the downloaded file
+  const fileName = `book_${bookId}.pdf`;
+
+  res.setHeader("Content-Type", "application/pdf");
+
+  // Set the headers to specify the file as an attachment
+  res.setHeader("Content-Disposition", `attachment; filename=${fileName}`);
+
+  const fileStream = fs.createReadStream(filePath);
+  fileStream.pipe(res);
 };
 
 exports.getBooksByBranch = getBooksByBranch;
@@ -635,3 +634,4 @@ exports.deleteBook = deleteBook;
 exports.getFilters = getFilters;
 exports.setBookAsFavourite = setBookAsFavourite;
 exports.removeBookFromFavourites = removeBookFromFavourites;
+exports.downloadBook = downloadBook;

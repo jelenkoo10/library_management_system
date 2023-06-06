@@ -29,21 +29,21 @@ const ToggleFavorite = (props) => {
   }, []);
 
   const toggleStar = async () => {
-    const responseData = null;
+    let responseData = null;
     if (isFavorite) {
       responseData = await sendRequest(
-        `http://localhost:5000/api/books/remove_favorite/${bookId}`,
+        `http://localhost:5000/api/books/removefavorite/${bookId}`,
         "PATCH",
-        JSON.stringify(userId),
+        JSON.stringify({ userId: userId }),
         {
           "Content-Type": "application/json",
         }
       );
     } else {
       responseData = await sendRequest(
-        `http://localhost:5000/api/books/set_favorite/${bookId}`,
+        `http://localhost:5000/api/books/setfavorite/${bookId}`,
         "PATCH",
-        JSON.stringify(userId),
+        JSON.stringify({ userId: userId }),
         {
           "Content-Type": "application/json",
         }

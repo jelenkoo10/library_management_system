@@ -3,11 +3,16 @@ import { AuthContext } from "../../context/auth-context";
 import Button from "../UIElements/Button";
 
 const AdminBookCard = (props) => {
-  const { book, cardStyle, deleteBook, updateBook } = props;
+  const { book, cardStyle, deleteBook, updateBook, confirmBookReservation } =
+    props;
   const auth = useContext(AuthContext);
   const userData = auth.isLoggedIn
     ? JSON.parse(localStorage.getItem("userData")).is_admin
     : null;
+
+  const handleConfirm = async () => {
+    confirmBookReservation(book.id);
+  };
 
   const handleDelete = async () => {
     deleteBook(book.id);
@@ -24,9 +29,18 @@ const AdminBookCard = (props) => {
           <h1 className="text-xl font-bold">{book.title}</h1>
           <p className="text-md font-semibold">{book.authorName}</p>
           {book.loan_expiry && (
-            <p className="text-sm">
-              Rok isteka pozajmice: {book.loan_expiry.slice(0, 10)}
-            </p>
+            <>
+              <p className="text-sm">
+                Rok isteka pozajmice: {book.loan_expiry.slice(0, 10)}
+              </p>
+              {book.status == "rezervisano" && (
+                <Button
+                  btnStyle="text-white font-bold opacity-100 underline"
+                  btnText="Potvrdi rezervaciju"
+                  onClick={handleConfirm}
+                />
+              )}
+            </>
           )}
           {book.branchName && (
             <p className="text-sm">Ogranak: {book.branchName}</p>

@@ -32,6 +32,21 @@ const Books = () => {
     }
   };
 
+  const confirmBookReservation = async (id) => {
+    const response = await sendRequest(
+      `http://localhost:5000/api/books/assign/${id}`,
+      "PATCH",
+      null,
+      {
+        "Content-Type": "application/json",
+      }
+    );
+
+    if (response.message === "Confirmed reservation.") {
+      reloadPage();
+    }
+  };
+
   const updateBook = (book) => {
     setUpdating(book);
   };
@@ -80,10 +95,11 @@ const Books = () => {
           {books &&
             books.map((book) => (
               <AdminBookCard
-                cardStyle="bg-[#C75D2C] rounded-md pr-8 pl-2 py-4 text-white w-[250px] h-[175px]"
+                cardStyle="bg-[#C75D2C] rounded-md pr-8 pl-2 py-4 text-white w-[250px] h-[210px]"
                 book={book}
                 deleteBook={deleteBook}
                 updateBook={updateBook}
+                confirmBookReservation={confirmBookReservation}
               />
             ))}
         </div>

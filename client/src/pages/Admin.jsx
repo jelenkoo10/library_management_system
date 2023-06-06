@@ -33,7 +33,7 @@ const Admin = () => {
           Korisnici
         </NavLink>
         <div
-          className={`border border-[#C75D2C] p-10 bg-[#DDD] flex flex-col`}
+          className={`border border-[#C75D2C] py-20 px-10 bg-[#DDD] flex flex-col`}
           onClick={() => setCurrentPage("authors")}
         >
           <Button

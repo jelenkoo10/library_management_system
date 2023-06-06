@@ -18,6 +18,8 @@ router.get("/search", booksController.searchBooks);
 
 router.get("/filters", booksController.getFilters);
 
+router.get("/download/:bid", booksController.downloadBook);
+
 router.post(
   "/",
   fileUpload.single("pdf"),
@@ -47,9 +49,9 @@ router.patch("/reserve/:bid", booksController.reserveBook);
 
 router.patch("/return/:bid", booksController.returnBook);
 
-router.patch("/set_favorite/:bid", booksController.setBookAsFavourite);
+router.patch("/setfavorite/:bid", booksController.setBookAsFavourite);
 
-router.patch("/remove_favorite/:bid", booksController.removeBookFromFavourites);
+router.patch("/removefavorite/:bid", booksController.removeBookFromFavourites);
 
 router.delete("/:bid", booksController.deleteBook);
 

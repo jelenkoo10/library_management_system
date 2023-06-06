@@ -98,7 +98,7 @@ const AdminAddAuthorForm = ({ closeModal }) => {
         />
         <Button
           btnStyle="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md hover:bg-[#D76D3C]"
-          btnText="Izmeni Knjigu"
+          btnText="Dodaj pisca"
         />
       </div>{" "}
       <div className="w-[45%]">

@@ -27,7 +27,7 @@ const FavoritesPage = () => {
   return (
     <section className="bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 grid grid-cols-2 gap-6 items-center w-[900px]">
       {isLoading && <LoadingSpinner asOverlay />}
-      {myFavorites ? (
+      {myFavorites[0] ? (
         myFavorites.map((book) => {
           return (
             <FavouriteBookCard
@@ -37,7 +37,7 @@ const FavoritesPage = () => {
           );
         })
       ) : (
-        <p className="text-[#C75D2C] text-lg font-bold w-3/5">
+        <p className="text-[#C75D2C] text-lg font-bold">
           Trenutno nema omiljenih knjiga. Kada označite knjigu kao omiljenu,
           klikom na zvezdicu koja se nalazi pored njenog imena, ona će biti
           prikazana ovde.

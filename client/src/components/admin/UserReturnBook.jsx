@@ -10,15 +10,17 @@ const UserReturnBook = ({ user, closeModal }) => {
   const [inputData, setInputData] = useState({});
   const [books, setBooks] = useState();
 
+  console.log(books);
+
   const returnBook = async (e) => {
     e.preventDefault();
     console.log(inputData);
     const response = await sendRequest(
       `http://localhost:5000/api/books/return/${inputData.booksId}`,
       "PATCH",
-      {
+      JSON.stringify({
         userId: user.id,
-      },
+      }),
       {
         "Content-Type": "application/json",
       }
@@ -36,7 +38,7 @@ const UserReturnBook = ({ user, closeModal }) => {
   useEffect(() => {
     async function fetchBooks() {
       const responseData = await sendRequest(
-        `http://localhost:5000/api/books/id/${user._id}`,
+        `http://localhost:5000/api/books/${user._id}/books`,
         "GET",
         null,
         {
@@ -72,7 +74,7 @@ const UserReturnBook = ({ user, closeModal }) => {
         />
         <Button
           btnStyle="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md hover:bg-[#D76D3C]"
-          btnText="Upisi Knjigu"
+          btnText="Upiši knjigu"
         />
       </form>
     </div>

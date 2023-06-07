@@ -25,9 +25,9 @@ const RecommendationsPage = () => {
   }, []);
 
   return (
-    <section className="bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 grid grid-cols-2 gap-6 items-center w-[900px]">
+    <section className="bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 grid grid-cols-2 gap-6 items-center w-[900px] h-[562px] overflow-y-scroll">
       {isLoading && <LoadingSpinner asOverlay />}
-      {myRecommendations ? (
+      {myRecommendations[0] ? (
         myRecommendations.map((book) => {
           return (
             <BookCard
@@ -37,7 +37,7 @@ const RecommendationsPage = () => {
           );
         })
       ) : (
-        <p className="text-[#C75D2C] text-lg font-bold w-3/5">
+        <p className="text-[#C75D2C] text-lg font-bold">
           Trenutno nema preporučenih knjiga. Kada označite neku knjigu kao
           omiljenu, preporučene knjige koje su istog žanra će biti prikazane
           ovde.

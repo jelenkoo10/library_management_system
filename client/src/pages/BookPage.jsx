@@ -28,11 +28,11 @@ const BookPage = () => {
   }, []);
 
   return (
-    <div className="flex bg-white bg-opacity-80 w-3/4 mx-auto mt-10 p-8 rounded-lg">
+    <div className="flex bg-white bg-opacity-80 w-3/4 mx-auto mt-10 p-8 rounded-lg sm:flex-col sm:w-11/12 sm:rounded-md">
       {isLoading && <LoadingSpinner asOverlay />}
       {!error && (
         <>
-          <div className="w-2/5">
+          <div className="w-2/5 sm:w-full">
             <BookInfo
               title={book.title}
               authorName={book.authorName}

@@ -35,7 +35,7 @@ const AvailabilityCard = (props) => {
   };
 
   return (
-    <div className="w-[600px] bg-[#DDD] mx-auto my-4 text-[#C75D2C] p-4 border-2 border-[#C75D2C] rounded-md flex justify-between text-left">
+    <div className="w-[600px] bg-[#DDD] mx-auto my-4 text-[#C75D2C] p-4 border-2 border-[#C75D2C] rounded-md flex justify-between text-left sm:w-full">
       <div>
         <Link to={`/book/${id}`}>
           <p className="font-bold">{title}</p>

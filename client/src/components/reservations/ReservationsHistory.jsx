@@ -65,7 +65,7 @@ const ReservationsHistory = () => {
   };
 
   return (
-    <section className="bg-white bg-opacity-80 px-12 pb-12 pt-6 border border-[#B8572A] h-[439px] w-[900px]">
+    <section className="bg-white bg-opacity-80 px-12 pb-12 pt-6 border border-[#B8572A] h-[439px] w-[900px]  sm:w-full">
       {isLoading && <LoadingSpinner asOverlay />}
       <h1 className="text-2xl font-semibold text-[#C75D2C] mb-2 text-center">
         Filteri
@@ -80,30 +80,30 @@ const ReservationsHistory = () => {
           setIsSubmitted((prev) => !prev);
         }}
       >
-        <div className="flex w-4/5 justify-around mx-auto">
+        <div className="flex w-4/5 justify-around mx-auto sm:flex-col sm:items-start">
           <Input
             inputId="bookName"
-            inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[140px]"
-            divStyle="flex items-center"
-            labelStyle="text-lg text-[#C75D2C] mr-2"
+            inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[140px] sm:w-full"
+            divStyle="flex items-center sm:flex-col sm:mx-auto"
+            labelStyle="text-lg text-[#C75D2C] mr-2 sm:m-0 sm:text-center"
             inputType="text"
             inputLabel="Ime knjige "
             onChange={filterBookNameHandler}
           />
           <Input
             inputId="startDate"
-            inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[100px]"
-            divStyle="flex items-center"
-            labelStyle="text-lg text-[#C75D2C] ml-8 mr-2"
+            inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[100px] sm:w-full"
+            divStyle="flex items-center sm:flex-col sm:mx-auto"
+            labelStyle="text-lg text-[#C75D2C] ml-8 mr-2 sm:m-0 sm:text-center"
             inputType="text"
             inputLabel="Početni datum "
             onChange={filterStartDateHandler}
           />
           <Input
             inputId="endDate"
-            inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[100px]"
-            divStyle="flex items-center"
-            labelStyle="text-lg text-[#C75D2C] ml-8 mr-2"
+            inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[100px] sm:w-full"
+            divStyle="flex items-center sm:flex-col sm:mx-auto"
+            labelStyle="text-lg text-[#C75D2C] ml-8 mr-2 sm:m-0 sm:text-center"
             inputType="text"
             inputLabel="Krajnji datum "
             onChange={filterEndDateHandler}

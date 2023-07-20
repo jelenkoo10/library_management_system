@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Homepage = () => {
   return (
-    <div className="mt-[200px] height-[300px] flex flex-col justify-between items-center">
+    <div className="mt-[200px] height-[300px] flex flex-col justify-between items-center sm:px-6">
       <h1 className="mb-5 text-[#EEE] text-center font-bold text-4xl">
         Pravo mesto za sve ljubitelje dobre knjige!
       </h1>

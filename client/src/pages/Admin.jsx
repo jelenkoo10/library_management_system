@@ -14,10 +14,10 @@ const Admin = () => {
   }
 
   return (
-    <div className="flex mt-20 ml-20">
-      <nav className="flex flex-col text-[#C75D2C] text-xl font-bold">
+    <div className="flex mt-20 ml-20 sm:m-4 sm:flex-col">
+      <nav className="flex flex-col text-[#C75D2C] text-xl font-bold sm:flex-row">
         <NavLink
-          className={`border border-[#C75D2C] p-10 bg-[#DDD] ${
+          className={`border border-[#C75D2C] p-10 bg-[#DDD] sm:p-2 sm:my-auto sm:py-16 ${
             currentPage == "books" ? "underline" : ""
           }`}
           onClick={() => setCurrentPage("books")}
@@ -25,7 +25,7 @@ const Admin = () => {
           Knjige
         </NavLink>
         <NavLink
-          className={`border border-[#C75D2C] p-10 bg-[#DDD] ${
+          className={`border border-[#C75D2C] p-10 bg-[#DDD] sm:p-2 sm:my-auto sm:py-16 ${
             currentPage === "users" ? "underline" : ""
           }`}
           onClick={() => setCurrentPage("users")}
@@ -33,7 +33,7 @@ const Admin = () => {
           Korisnici
         </NavLink>
         <div
-          className={`border border-[#C75D2C] py-20 px-10 bg-[#DDD] flex flex-col`}
+          className={`border border-[#C75D2C] py-20 px-10 bg-[#DDD] sm:p-2 sm:my-auto flex flex-col`}
           onClick={() => setCurrentPage("authors")}
         >
           <Button

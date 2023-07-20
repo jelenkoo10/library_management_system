@@ -22,7 +22,7 @@ const Navbar = () => {
             >
               BIBLIOTEKA
             </NavLink>
-            <div>
+            <div className="sm:hidden md:block">
               <NavLink
                 to="/"
                 className="p-2 text-white font-semibold opacity-100"
@@ -74,7 +74,7 @@ const Navbar = () => {
             >
               BIBLIOTEKA
             </NavLink>
-            <div>
+            <div className="sm:hidden md:block">
               <NavLink
                 to="/"
                 className="p-2 text-white font-semibold opacity-100"

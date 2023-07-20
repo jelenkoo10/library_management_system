@@ -28,12 +28,12 @@ const LibraryPage = () => {
   }, []);
 
   return (
-    <section className="flex bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 flex flex-col w-[900px]">
+    <section className="flex bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 flex-col w-[900px] sm:w-full sm:p-4">
       {isLoading && <LoadingSpinner asOverlay />}
       <h1 className="font-bold text-xl text-center text-[#C75D2C] mb-6">
         Ogranci u kojima ste učlanjeni
       </h1>
-      <div className="overflow-y-scroll h-[200px] grid grid-cols-2 gap-2 items-center">
+      <div className="overflow-y-scroll h-[200px] grid grid-cols-2 gap-2 items-center sm:flex sm:flex-col">
         {myBranches &&
           myBranches.map((branch) => (
             <BranchCard branch={branch} key={branch.id} />

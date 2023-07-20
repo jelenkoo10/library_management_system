@@ -141,13 +141,13 @@ const AdminAddBookForm = ({ closeModal }) => {
   return (
     <form
       onSubmit={addBook}
-      className="px-16 py-5 mx-auto bg-white mt-[20px] rounded-3xl flex justify-between w-full h-full gap-5"
+      className="px-16 py-5 mx-auto bg-white mt-[20px] rounded-3xl flex justify-between w-full h-full gap-5 sm:p-2 sm:w-screen sm:rounded-lg sm:mx-0 sm:flex-col"
     >
-      <div className="w-[45%]">
+      <div className="w-[45%] sm:w-full sm:flex sm:flex-col">
         <Input
           inputId="title"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
-          divStyle="flex justify-between items-center"
+          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
+          divStyle="flex justify-between items-center sm:flex-col sm:items-start"
           labelStyle="text-2xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Naslov "
@@ -155,8 +155,8 @@ const AdminAddBookForm = ({ closeModal }) => {
         />
         <Input
           inputId="genre"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
-          divStyle="flex justify-between items-center"
+          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
+          divStyle="flex justify-between items-center sm:flex-col sm:items-start"
           labelStyle="text-2xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Zanr "
@@ -164,8 +164,8 @@ const AdminAddBookForm = ({ closeModal }) => {
         />
         <Input
           inputId="year_published"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
-          divStyle="flex justify-between items-center"
+          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
+          divStyle="flex justify-between items-center sm:flex-col sm:items-start"
           labelStyle="text-2xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Godina "
@@ -173,8 +173,8 @@ const AdminAddBookForm = ({ closeModal }) => {
         />
         <Input
           inputId="language"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
-          divStyle="flex justify-between items-center"
+          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
+          divStyle="flex justify-between items-center sm:flex-col sm:items-start"
           labelStyle="text-2xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Jezik "
@@ -191,9 +191,9 @@ const AdminAddBookForm = ({ closeModal }) => {
           btnText="Dodaj knjigu"
         />
       </div>
-      <div className="w-[45%] resize-none">
+      <div className="w-[45%] resize-none sm:w-full sm:flex sm:flex-col">
         <Select
-          selectStyle="my-4 block border-b-2 border-[#B8572A] w-[200px]"
+          selectStyle="my-4 block border-b-2 border-[#B8572A] w-[200px] sm:w-1/2"
           selectId="author"
           selectName="author"
           labelName="Autor"
@@ -203,7 +203,7 @@ const AdminAddBookForm = ({ closeModal }) => {
           isAuthor
         />
         <Select
-          selectStyle="my-4 block border-b-2 border-[#B8572A] w-[200px]"
+          selectStyle="my-4 block border-b-2 border-[#B8572A] w-[200px] sm:w-1/2"
           selectId="branch"
           selectName="branch"
           labelName="Ogranak"
@@ -213,7 +213,7 @@ const AdminAddBookForm = ({ closeModal }) => {
           isBranch
         />
 
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center sm:flex-col sm:items-start">
           <label
             htmlFor="description"
             className="text-2xl text-[#C75D2C] pt-[-80px]"
@@ -222,7 +222,7 @@ const AdminAddBookForm = ({ closeModal }) => {
           </label>
           <textarea
             id="description"
-            className="my-4 p-2 border-2 border-[#B8572A] focus:border w-[200px] h-[150px] resize-none"
+            className="my-4 p-2 border-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2 h-[150px] resize-none"
             type="text"
             onChange={descriptionInputHandler}
           ></textarea>

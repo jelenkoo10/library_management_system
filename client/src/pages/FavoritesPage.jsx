@@ -25,14 +25,14 @@ const FavoritesPage = () => {
   }, []);
 
   return (
-    <section className="bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 grid grid-cols-2 gap-6 items-center w-[900px]">
+    <section className="bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 grid grid-cols-2 gap-6 items-center w-[900px] sm:w-fit">
       {isLoading && <LoadingSpinner asOverlay />}
       {myFavorites[0] ? (
         myFavorites.map((book) => {
           return (
             <FavouriteBookCard
               book={book}
-              cardStyle="bg-[#CCC] w-4/5 text-[#C75D2C] rounded-md pr-8 pl-4 py-4 text-white border border-[#C75D2C] bg-opacity-90 flex justify-between items-center"
+              cardStyle="bg-[#CCC] w-4/5 text-[#C75D2C] rounded-md pr-8 pl-4 py-4 text-white border border-[#C75D2C] bg-opacity-90 flex justify-between items-center sm:w-max sm:p-4"
             />
           );
         })

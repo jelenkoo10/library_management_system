@@ -119,12 +119,12 @@ const Signup = () => {
     <form
       encType="multipart/form-data"
       onSubmit={signupUser}
-      className="px-10 py-12 mx-auto bg-white w-1/3 bg-opacity-80 mt-[15px] rounded-3xl"
+      className="px-10 py-12 mx-auto bg-white w-1/3 bg-opacity-80 mt-[15px] rounded-3xl sm:rounded-lg sm:w-11/12"
     >
       <Input
         inputId="name"
-        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
-        divStyle="flex justify-between items-center"
+        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-full"
+        divStyle="flex justify-between items-center sm:flex-col sm:items-start"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="text"
         inputLabel="Ime "
@@ -132,8 +132,8 @@ const Signup = () => {
       />
       <Input
         inputId="surname"
-        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
-        divStyle="flex justify-between items-center"
+        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-full"
+        divStyle="flex justify-between items-center sm:flex-col sm:items-start"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="text"
         inputLabel="Prezime "
@@ -141,8 +141,8 @@ const Signup = () => {
       />
       <Input
         inputId="phone"
-        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
-        divStyle="flex justify-between items-center"
+        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-full"
+        divStyle="flex justify-between items-center sm:flex-col sm:items-start"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="text"
         inputLabel="Broj telefona "
@@ -150,8 +150,8 @@ const Signup = () => {
       />
       <Input
         inputId="email"
-        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
-        divStyle="flex justify-between items-center"
+        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-full"
+        divStyle="flex justify-between items-center sm:flex-col sm:items-start"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="email"
         inputLabel="Email adresa "
@@ -159,15 +159,15 @@ const Signup = () => {
       />
       <Input
         inputId="password"
-        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
-        divStyle="flex justify-between items-center"
+        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-full"
+        divStyle="flex justify-between items-center sm:flex-col sm:items-start"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="password"
         inputLabel="Šifra "
         onChange={passwordInputHandler}
       />
       <Select
-        selectStyle="my-4 block border-b-2 border-[#B8572A] w-[200px]"
+        selectStyle="my-4 block border-b-2 border-[#B8572A] w-[200px] sm:w-full"
         selectId="branch"
         selectName="branch"
         labelName="Ogranak"

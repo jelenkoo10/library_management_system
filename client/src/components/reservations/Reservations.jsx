@@ -15,7 +15,7 @@ const Reservations = () => {
 
   return (
     <div>
-      <nav className="flex text-[#C75D2C] text-lg font-semibold mt-[-45px]">
+      <nav className="flex text-[#C75D2C] text-lg font-semibold mt-[-45px] sm:mt-0">
         <NavLink
           className={`border border-[#C75D2C] px-5 py-2 bg-[#DDD] ${
             currentPage == "reservations" ? "font-bold" : ""

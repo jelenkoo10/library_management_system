@@ -4,17 +4,16 @@ import Select from "../UIElements/Select";
 import { useEffect } from "react";
 import { useHttpClient } from "../../hooks/http-hook";
 import Button from "../UIElements/Button";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UserReturnBook = ({ user, closeModal }) => {
   const { sendRequest } = useHttpClient();
   const [inputData, setInputData] = useState({});
   const [books, setBooks] = useState();
 
-  console.log(books);
-
   const returnBook = async (e) => {
     e.preventDefault();
-    console.log(inputData);
     const response = await sendRequest(
       `http://localhost:5000/api/books/return/${inputData.booksId}`,
       "PATCH",
@@ -25,8 +24,17 @@ const UserReturnBook = ({ user, closeModal }) => {
         "Content-Type": "application/json",
       }
     );
-    console.log(response);
     closeModal();
+    toast.success("Uspešno je vraćena knjiga!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      bodyClassName: "toast",
+    });
   };
 
   const booksInputHandler = (e) => {

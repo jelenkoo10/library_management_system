@@ -5,6 +5,8 @@ import Select from "../UIElements/Select";
 import ImageUpload from "../UIElements/ImageUpload";
 import { useHttpClient } from "../../hooks/http-hook";
 import { AuthContext } from "../../context/auth-context";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminAddBookForm = ({ closeModal }) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -120,9 +122,19 @@ const AdminAddBookForm = ({ closeModal }) => {
         formData
       );
       closeModal();
+      toast.success("Uspešno ste dodali knjigu!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        bodyClassName: "toast",
+      });
     } catch (err) {
       console.log(err);
-      alert("Neuspešna izmena", error);
+      alert("Neuspešno dodavanje!", error);
     }
   };
 

@@ -2,6 +2,8 @@ import { useState } from "react";
 import Button from "../UIElements/Button";
 import Input from "../UIElements/Input";
 import { useHttpClient } from "../../hooks/http-hook";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminAddAuthorForm = ({ closeModal }) => {
   const { error, sendRequest } = useHttpClient();
@@ -57,9 +59,19 @@ const AdminAddAuthorForm = ({ closeModal }) => {
       );
 
       closeModal();
+      toast.success("Uspešno ste dodali autora!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        bodyClassName: "toast",
+      });
     } catch (err) {
       console.log(err);
-      alert("Neuspešna izmena", error);
+      alert("Neuspešno dodavanje!", error);
     }
   };
 

@@ -1,5 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PdfDownload = (props) => {
   const { pdf } = props;
@@ -28,6 +30,16 @@ const PdfDownload = (props) => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        toast.success("Uspešno ste preuzeli PDF knjigu!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          bodyClassName: "toast",
+        });
       } else {
         throw new Error("Failed to download the file");
       }

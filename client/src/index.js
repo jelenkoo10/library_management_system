@@ -25,6 +25,8 @@ import RecommendationsPage from "./pages/RecommendationsPage";
 import SearchResults from "./components/books/SearchResults";
 import BookPage from "./pages/BookPage";
 import Admin from "./pages/Admin";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { ModalProvider } from "./context/modal-context";
 import { AuthContext } from "./context/auth-context";
 import { useAuth } from "./hooks/auth-hook";
@@ -69,6 +71,7 @@ function App() {
     >
       <ModalProvider>
         <RouterProvider router={router} />
+        <ToastContainer />
       </ModalProvider>
     </AuthContext.Provider>
   );

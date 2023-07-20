@@ -4,6 +4,8 @@ import Input from "../UIElements/Input";
 import Select from "../UIElements/Select";
 import { useHttpClient } from "../../hooks/http-hook";
 import ImageUpload from "../UIElements/ImageUpload";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import close from "../../assets/close.png";
 
@@ -103,6 +105,16 @@ const AdminBookUpdateModal = ({ book, branches, stopUpdating, reloadPage }) => {
       );
       stopUpdating();
       reloadPage();
+      toast.success("Uspešno ste izmenili knjigu!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        bodyClassName: "toast"
+      });
     } catch (err) {
       console.log(err);
       alert("Neuspešna izmena", error);

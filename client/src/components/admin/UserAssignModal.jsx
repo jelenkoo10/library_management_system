@@ -5,6 +5,8 @@ import LoadingSpinner from "../UIElements/LoadingSpinner/LoadingSpinner";
 import { useEffect } from "react";
 import { useHttpClient } from "../../hooks/http-hook";
 import Button from "../UIElements/Button";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UserAssignModal = ({ closeModal, user }) => {
   const { sendRequest, isLoading } = useHttpClient();
@@ -25,6 +27,16 @@ const UserAssignModal = ({ closeModal, user }) => {
       }
     );
     closeModal();
+    toast.success("Uspešno ste dodelili knjigu!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      bodyClassName: "toast",
+    });
     console.log(response);
   };
 

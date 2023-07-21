@@ -119,7 +119,7 @@ const Signup = () => {
     <form
       encType="multipart/form-data"
       onSubmit={signupUser}
-      className="px-10 py-12 mx-auto bg-white w-1/3 bg-opacity-80 mt-[15px] rounded-3xl sm:rounded-lg sm:w-11/12"
+      className="px-10 py-12 mx-auto bg-white w-1/3 bg-opacity-80 mt-[15px] rounded-3xl sm:rounded-lg sm:w-11/12 md:w-2/3"
     >
       <Input
         inputId="name"

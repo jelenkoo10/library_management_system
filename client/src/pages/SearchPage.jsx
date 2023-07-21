@@ -11,7 +11,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="px-10 py-20 mx-auto bg-white w-1/3 bg-opacity-80 mt-[130px] rounded-3xl sm:w-11/12 sm:p-6 sm:rounded-lg">
+    <div className="px-10 py-20 mx-auto bg-white w-1/3 bg-opacity-80 mt-[130px] rounded-3xl sm:w-11/12 sm:p-6 sm:rounded-lg md:w-2/3 md:p-8">
       <h1 className="text-4xl text-[#C75D2C] mb-5 text-center">
         Pretraga knjiga
       </h1>

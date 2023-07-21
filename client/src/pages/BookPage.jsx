@@ -28,7 +28,7 @@ const BookPage = () => {
   }, []);
 
   return (
-    <div className="flex bg-white bg-opacity-80 w-3/4 mx-auto mt-10 p-8 rounded-lg sm:flex-col sm:w-11/12 sm:rounded-md">
+    <div className="flex bg-white bg-opacity-80 w-3/4 mx-auto mt-10 p-8 rounded-lg sm:flex-col sm:w-11/12 sm:rounded-md md:w-10/12">
       {isLoading && <LoadingSpinner asOverlay />}
       {!error && (
         <>

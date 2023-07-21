@@ -115,7 +115,7 @@ const SearchResults = () => {
     <>
       {isLoading && <LoadingSpinner asOverlay />}
       {
-        <div className="fixed top-[4.95rem] left-0 bg-white w-[250px] bg-opacity-90 h-[89.5%] px-4">
+        <div className="fixed top-[4.95rem] left-0 bg-white w-[250px] bg-opacity-90 h-[89.5%] px-4 sm:hidden">
           <h1 className="text-2xl text-[#C75D2C] text-center mt-2">Filteri</h1>
           <Select
             selectStyle="my-4 block border-b-2 border-[#B8572A] w-[100px]"
@@ -221,14 +221,14 @@ const SearchResults = () => {
           />
         </div>
       }
-      <div className="py-5 px-14 mx-auto bg-white w-1/3 bg-opacity-80 mt-[30px] rounded-2xl">
+      <div className="py-5 px-14 mx-auto bg-white w-1/3 bg-opacity-80 mt-[30px] rounded-2xl sm:w-4/5 sm:rounded-lg sm:p-6 md:w-3/5">
         <h1 className="text-2xl text-[#C75D2C] mb-5 text-center">
           Pretraga knjiga
         </h1>
         <div className="flex justify-between">
           <Input
             inputId="title"
-            inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[150px]"
+            inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[150px] sm:w-2/3"
             divStyle="flex items-center mx-auto"
             labelStyle="text-xl text-[#C75D2C] mr-5"
             inputType="text"
@@ -248,7 +248,7 @@ const SearchResults = () => {
           btnStyle="mx-auto mt-2 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md max-w-fit"
         />
       </div>
-      <div className="mt-4 text-center text-white h-[400px] overflow-y-scroll">
+      <div className="mt-4 text-center text-white h-[400px] overflow-y-scroll sm:h-[500px]">
         {books &&
           books.map((book) => (
             <AvailabilityCard

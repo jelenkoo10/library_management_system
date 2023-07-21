@@ -40,7 +40,7 @@ const Users = (props) => {
 
   return (
     <section className="p-5 bg-[#DDD] border border-[#C75D2C] bg-opacity-90 max-h-[65vh] ">
-      <div className="grid grid-cols-4 gap-6 items-center h-[100%] overflow-y-scroll overflow-x-hidden sm:flex sm:flex-col">
+      <div className="grid grid-cols-4 gap-6 items-center h-[100%] overflow-y-scroll overflow-x-hidden sm:flex sm:flex-col md:grid md:grid-cols-2 md:gap-4 md:mx-auto md:overflow-y-scroll md:h-[60vh]">
         {users &&
           users.map((user) => (
             <UserCard

@@ -141,7 +141,7 @@ const AdminAddBookForm = ({ closeModal }) => {
   return (
     <form
       onSubmit={addBook}
-      className="px-16 py-5 mx-auto bg-white mt-[20px] rounded-3xl flex justify-between w-full h-full gap-5 sm:p-2 sm:w-screen sm:rounded-lg sm:mx-0 sm:flex-col"
+      className="px-16 py-5 mx-auto bg-white mt-[20px] rounded-3xl flex justify-between w-full h-full gap-5 sm:p-2 sm:w-screen sm:rounded-lg sm:mx-0 sm:flex-col md:flex-row"
     >
       <div className="w-[45%] sm:w-full sm:flex sm:flex-col">
         <Input

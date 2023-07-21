@@ -65,7 +65,7 @@ const ReservationsHistory = () => {
   };
 
   return (
-    <section className="bg-white bg-opacity-80 px-12 pb-12 pt-6 border border-[#B8572A] h-[439px] w-[900px]  sm:w-full">
+    <section className="bg-white bg-opacity-80 px-12 pb-12 pt-6 border border-[#B8572A] h-[439px] w-[900px] sm:w-full md:h-[600px]">
       {isLoading && <LoadingSpinner asOverlay />}
       <h1 className="text-2xl font-semibold text-[#C75D2C] mb-2 text-center">
         Filteri
@@ -80,10 +80,10 @@ const ReservationsHistory = () => {
           setIsSubmitted((prev) => !prev);
         }}
       >
-        <div className="flex w-4/5 justify-around mx-auto sm:flex-col sm:items-start">
+        <div className="flex w-4/5 justify-around mx-auto sm:flex-col sm:items-start md:flex-row md:justify-between">
           <Input
             inputId="bookName"
-            inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[140px] sm:w-full"
+            inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[140px] sm:w-full md:w-10/12"
             divStyle="flex items-center sm:flex-col sm:mx-auto"
             labelStyle="text-lg text-[#C75D2C] mr-2 sm:m-0 sm:text-center"
             inputType="text"
@@ -92,7 +92,7 @@ const ReservationsHistory = () => {
           />
           <Input
             inputId="startDate"
-            inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[100px] sm:w-full"
+            inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[100px] sm:w-full md:w-10/12"
             divStyle="flex items-center sm:flex-col sm:mx-auto"
             labelStyle="text-lg text-[#C75D2C] ml-8 mr-2 sm:m-0 sm:text-center"
             inputType="text"
@@ -101,7 +101,7 @@ const ReservationsHistory = () => {
           />
           <Input
             inputId="endDate"
-            inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[100px] sm:w-full"
+            inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[100px] sm:w-full md:w-10/12"
             divStyle="flex items-center sm:flex-col sm:mx-auto"
             labelStyle="text-lg text-[#C75D2C] ml-8 mr-2 sm:m-0 sm:text-center"
             inputType="text"
@@ -115,7 +115,7 @@ const ReservationsHistory = () => {
           type="submit"
         />
       </form>
-      <div className="mt-6 mx-auto flex flex-col items-center overflow-y-scroll h-[200px]">
+      <div className="mt-6 mx-auto flex flex-col items-center overflow-y-scroll h-[200px] md:h-[250px]">
         {allReservations &&
           allReservations.map((reservation, i) => (
             <ReservationCard reservation={reservation} book={allBooks[i]} />

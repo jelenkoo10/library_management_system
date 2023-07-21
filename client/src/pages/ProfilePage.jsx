@@ -24,10 +24,10 @@ const ProfilePage = () => {
   }, [isChanged]);
 
   return (
-    <div className="flex mt-6 ml-20 sm:m-4 sm:flex-col">
-      <nav className="flex flex-col text-[#C75D2C] text-xl font-bold sm:grid sm:grid-cols-3 sm:justify-center sm:text-md">
+    <div className="flex mt-6 ml-20 sm:m-4 sm:flex-col lg:w-10/12 lg:mx-auto lg:flex-row">
+      <nav className="flex flex-col text-[#C75D2C] text-xl font-bold sm:grid sm:grid-cols-3 sm:justify-center sm:text-md xl:flex xl:flex-col">
         <NavLink
-          className={`border border-[#C75D2C] p-8 sm:p-2 bg-[#DDD] ${
+          className={`border border-[#C75D2C] xl:p-8 sm:p-2 bg-[#DDD] ${
             currentPage == "books" ? "underline" : ""
           }`}
           onClick={() => setIsChanged((prev) => !prev)}
@@ -36,7 +36,7 @@ const ProfilePage = () => {
           Moje knjige
         </NavLink>
         <NavLink
-          className={`border border-[#C75D2C] p-8 sm:p-2 bg-[#DDD] ${
+          className={`border border-[#C75D2C] xl:p-8 sm:p-2 bg-[#DDD] ${
             currentPage == "reservations" ? "underline" : ""
           }`}
           onClick={() => setIsChanged((prev) => !prev)}
@@ -45,7 +45,7 @@ const ProfilePage = () => {
           Moje rezervacije
         </NavLink>
         <NavLink
-          className={`border border-[#C75D2C] p-8 sm:p-2 bg-[#DDD] ${
+          className={`border border-[#C75D2C] xl:p-8 sm:p-2 bg-[#DDD] ${
             currentPage == "libraries" ? "underline" : ""
           }`}
           onClick={() => setIsChanged((prev) => !prev)}
@@ -54,7 +54,7 @@ const ProfilePage = () => {
           Moje biblioteke
         </NavLink>
         <NavLink
-          className={`border border-[#C75D2C] p-8 sm:p-2 bg-[#DDD] ${
+          className={`border border-[#C75D2C] xl:p-8 sm:p-2 bg-[#DDD] ${
             currentPage == "favorites" ? "underline" : ""
           }`}
           onClick={() => setIsChanged((prev) => !prev)}
@@ -63,7 +63,7 @@ const ProfilePage = () => {
           Moje omiljene knjige
         </NavLink>
         <NavLink
-          className={`border border-[#C75D2C] p-8 sm:p-2 bg-[#DDD] ${
+          className={`border border-[#C75D2C] xl:p-8 sm:p-2 bg-[#DDD] ${
             currentPage == "recommendations" ? "underline" : ""
           }`}
           onClick={() => setIsChanged((prev) => !prev)}
@@ -72,7 +72,7 @@ const ProfilePage = () => {
           Preporuke
         </NavLink>
         <NavLink
-          className={`border border-[#C75D2C] p-8 sm:p-2 bg-[#DDD] ${
+          className={`border border-[#C75D2C] xl:p-8 sm:p-2 bg-[#DDD] ${
             currentPage == "update" ? "underline" : ""
           }`}
           onClick={() => setIsChanged((prev) => !prev)}

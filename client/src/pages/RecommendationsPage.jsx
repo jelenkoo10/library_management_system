@@ -25,14 +25,14 @@ const RecommendationsPage = () => {
   }, []);
 
   return (
-    <section className="bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 grid grid-cols-2 gap-6 items-center w-[900px] h-[562px] overflow-y-scroll sm:p-4 sm:flex sm:flex-col sm:w-full md:py-8">
+    <section className="bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 grid grid-cols-2 gap-6 items-center w-[900px] h-[562px] overflow-y-scroll sm:p-4 sm:flex sm:flex-col sm:w-full md:py-8 lg:grid lg:grid-cols-3 lg:gap-6 lg:h-fit lg:p-14">
       {isLoading && <LoadingSpinner asOverlay />}
       {myRecommendations[0] ? (
         myRecommendations.map((book) => {
           return (
             <BookCard
               book={book}
-              cardStyle="bg-[#CCC] w-4/5 text-[#C75D2C] rounded-md pr-8 pl-4 py-4 text-white border border-[#C75D2C] bg-opacity-90 sm:w-full sm:px-4 sm:py-2 md:min-w-[300px]"
+              cardStyle="bg-[#CCC] w-4/5 text-[#C75D2C] rounded-md pr-8 pl-4 py-4 text-white border border-[#C75D2C] bg-opacity-90 sm:w-full sm:px-4 sm:py-2 md:min-w-[300px] lg:min-h-[120px]"
             />
           );
         })

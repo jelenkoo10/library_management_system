@@ -113,7 +113,7 @@ const AdminBookUpdateModal = ({ book, branches, stopUpdating, reloadPage }) => {
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        bodyClassName: "toast"
+        bodyClassName: "toast",
       });
     } catch (err) {
       console.log(err);
@@ -122,7 +122,7 @@ const AdminBookUpdateModal = ({ book, branches, stopUpdating, reloadPage }) => {
   };
 
   return (
-    <div className="z-5000 absolute w-[58vw] h-[60%] top-[20%] left-[21vw]">
+    <div className="z-5000 absolute w-[58vw] h-[60%] top-[20%] left-[21vw] md:w-11/12 md:left-6">
       <div
         className="w-[20px] h-[20px] absolute top-[50px] right-[40px] cursor-pointer"
         onClick={stopUpdating}

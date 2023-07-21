@@ -10,7 +10,7 @@ const Footer = () => {
       <p className="text-center text-white font-bold text-lg">
         &copy; FIN 2023. Sva prava zadržana.
       </p>
-      <div className="text-center text-white ml-2 mt-1 sm:flex sm:flex-col">
+      <div className="text-center text-white ml-2 mt-1 sm:flex sm:flex-col lg:flex-row lg:ml-0 lg:mx-auto lg:block">
         <span
           className="px-4 cursor-pointer"
           onClick={() => {
@@ -37,11 +37,11 @@ const Footer = () => {
         >
           Kako se učlaniti?
         </span>
-        <span className="px-4 cursor-pointer border-l-2 sm:border-0">
+        <span className="px-4 cursor-pointer lg:border-l-2 sm:border-0">
           <Link to="search">Pretraga knjiga</Link>
         </span>
         <span
-          className="px-4 cursor-pointer border-l-2 sm:border-0"
+          className="px-4 cursor-pointer lg:border-l-2 sm:border-0"
           onClick={() => {
             handleModal(
               "O kreatorima",

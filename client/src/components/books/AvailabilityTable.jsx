@@ -29,7 +29,7 @@ const AvailabilityTable = (props) => {
   }, [bookTitle, authorName]);
 
   return (
-    <div className="w-3/5 sm:w-full">
+    <div className="w-3/5 sm:w-full lg:grid lg:grid-cols-2 lg:gap-4 lg:mt-8 xl:block">
       {isLoading && <LoadingSpinner asOverlay />}
       {allBooks &&
         allBooks.map((book) => (

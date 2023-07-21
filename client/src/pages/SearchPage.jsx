@@ -11,13 +11,13 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="px-10 py-20 mx-auto bg-white w-1/3 bg-opacity-80 mt-[130px] rounded-3xl sm:w-11/12 sm:p-6 sm:rounded-lg md:w-2/3 md:p-8">
+    <div className="px-10 py-20 mx-auto bg-white w-1/3 bg-opacity-80 mt-[130px] rounded-3xl sm:w-11/12 sm:p-6 sm:rounded-lg md:w-2/3 md:p-8 lg:w-1/2 lg:p-14 xl:p-10 xl:w-2/5">
       <h1 className="text-4xl text-[#C75D2C] mb-5 text-center">
         Pretraga knjiga
       </h1>
       <Input
         inputId="title"
-        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
+        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[250px]"
         divStyle="flex justify-between items-center"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="text"

@@ -59,13 +59,13 @@ const Login = () => {
   return (
     <form
       onSubmit={loginUser}
-      className="px-10 py-20 mx-auto bg-white w-1/3 bg-opacity-80 mt-[100px] rounded-3xl sm:p-4 sm:w-4/5 md:w-7/12 md:py-8 md:px-12"
+      className="px-10 py-20 mx-auto bg-white w-1/3 bg-opacity-80 mt-[100px] rounded-3xl sm:p-4 sm:w-4/5 md:w-7/12 md:py-8 md:px-12 lg:w-2/5 lg:p-14 xl:w-1/3"
     >
       <Input
         inputId="email"
         inputValue={inputData.email}
-        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-11/12"
-        divStyle="flex justify-between items-center sm:flex sm:flex-col sm:items-start"
+        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-11/12 xl:w-full"
+        divStyle="flex justify-between items-center sm:flex sm:flex-col sm:items-start xl:mb-4"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="email"
         inputLabel="Email adresa "
@@ -74,8 +74,8 @@ const Login = () => {
       <Input
         inputId="password"
         inputValue={inputData.password}
-        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-11/12"
-        divStyle="flex justify-between items-center sm:flex sm:flex-col sm:items-start"
+        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-11/12 xl:w-full"
+        divStyle="flex justify-between items-center sm:flex sm:flex-col sm:items-start xl:mb-4"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="password"
         inputLabel="Šifra "

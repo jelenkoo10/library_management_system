@@ -11,7 +11,7 @@ const BookInfo = (props) => {
   const user = JSON.parse(localStorage.getItem("userData"));
 
   return (
-    <div className="flex justify-between items-start mb-8 text-[#C75D2C] bg-[#DDD] p-4 border-2 border-[#C75D2C] rounded-md w-4/5">
+    <div className="flex justify-between items-start mb-8 text-[#C75D2C] bg-[#DDD] p-4 border-2 border-[#C75D2C] rounded-md w-4/5 lg:w-1/2">
       <div>
         <h1 className="text-3xl font-bold">{title}</h1>
         <p

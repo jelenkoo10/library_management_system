@@ -15,9 +15,9 @@ const Admin = () => {
 
   return (
     <div className="flex mt-20 ml-20 sm:m-4 sm:flex-col">
-      <nav className="flex flex-col text-[#C75D2C] text-xl font-bold sm:flex-row">
+      <nav className="flex flex-col text-[#C75D2C] text-xl font-bold sm:flex-row md:w-full">
         <NavLink
-          className={`border border-[#C75D2C] p-10 bg-[#DDD] sm:p-2 sm:my-auto sm:py-16 ${
+          className={`border border-[#C75D2C] p-10 bg-[#DDD] sm:p-2 sm:my-auto sm:py-16 md:w-1/3 md:text-center md:p-12 ${
             currentPage == "books" ? "underline" : ""
           }`}
           onClick={() => setCurrentPage("books")}
@@ -25,7 +25,7 @@ const Admin = () => {
           Knjige
         </NavLink>
         <NavLink
-          className={`border border-[#C75D2C] p-10 bg-[#DDD] sm:p-2 sm:my-auto sm:py-16 ${
+          className={`border border-[#C75D2C] p-10 bg-[#DDD] sm:p-2 sm:my-auto sm:py-16 md:w-1/3 md:text-center md:p-12 ${
             currentPage === "users" ? "underline" : ""
           }`}
           onClick={() => setCurrentPage("users")}
@@ -33,16 +33,16 @@ const Admin = () => {
           Korisnici
         </NavLink>
         <div
-          className={`border border-[#C75D2C] py-20 px-10 bg-[#DDD] sm:p-2 sm:my-auto flex flex-col`}
+          className={`border border-[#C75D2C] py-20 px-10 bg-[#DDD] sm:p-2 sm:my-auto flex flex-col md:p-[0.42rem] md:w-full`}
           onClick={() => setCurrentPage("authors")}
         >
           <Button
-            btnStyle="py-2 px-5 mx-2 mt-3 bg-[#C75D2C] text-white font-semibold opacity-100 rounded-md"
+            btnStyle="py-2 px-5 mx-2 mt-3 bg-[#C75D2C] text-white font-semibold opacity-100 rounded-md md:w-1/2 md:mx-auto"
             btnText="Dodaj knjigu"
             onClick={() => setModal("book")}
           />
           <Button
-            btnStyle="py-2 px-5 mx-2 mt-3 bg-[#C75D2C] text-white font-semibold opacity-100 rounded-md"
+            btnStyle="py-2 px-5 mx-2 mt-3 bg-[#C75D2C] text-white font-semibold opacity-100 rounded-md md:w-1/2 md:mx-auto"
             btnText="Dodaj pisca"
             onClick={() => setModal("author")}
           />

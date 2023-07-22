@@ -25,7 +25,7 @@ const FavoritesPage = () => {
   }, []);
 
   return (
-    <section className="bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 grid grid-cols-2 gap-6 items-center w-[900px] sm:w-full">
+    <section className="bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 grid grid-cols-2 gap-6 items-center w-[900px] sm:w-full xl:w-[800px]">
       {isLoading && <LoadingSpinner asOverlay />}
       {myFavorites[0] ? (
         myFavorites.map((book) => {

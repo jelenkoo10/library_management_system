@@ -30,12 +30,12 @@ const ProfileUpdate = (props) => {
   }, []);
 
   return (
-    <section className="p-12 bg-[#DDD] border border-[#C75D2C] text-[#C75D2C] bg-opacity-90 w-[900px] sm:w-full sm:p-6 md:p-12">
+    <section className="p-12 bg-[#DDD] border border-[#C75D2C] text-[#C75D2C] bg-opacity-90 w-[900px] sm:w-full sm:p-6 md:p-12 xl:w-[1000px] xl:p-8">
       {isLoading && <LoadingSpinner asOverlay />}
       <h1 className="font-bold text-xl lg:text-center">
         Informacije o Vašem profilu
       </h1>
-      <div className="mb-4 mt-6 flex justify-between items-center w-2/5 sm:w-11/12 md:w-2/3 lg:w-1/3 lg:mx-auto">
+      <div className="mb-4 mt-6 flex justify-between items-center w-2/5 sm:w-11/12 md:w-2/3 lg:w-1/3 lg:mx-auto xl:w-[450px]">
         <p className="text-lg font-bold">
           {userData.name} {userData.surname}
         </p>
@@ -56,10 +56,10 @@ const ProfileUpdate = (props) => {
           }
         />
       </div>
-      <p className="text-md mb-4 w-2/5 sm:w-11/12 md:w-2/3 lg:w-1/3 lg:mx-auto">
+      <p className="text-md mb-4 w-2/5 sm:w-11/12 md:w-2/3 lg:w-1/3 lg:mx-auto xl:w-[450px]">
         Email adresa: {userData.email}
       </p>
-      <div className="my-4 flex justify-between items-center w-2/5 sm:w-11/12 md:w-2/3 lg:w-1/3 lg:mx-auto">
+      <div className="my-4 flex justify-between items-center w-2/5 sm:w-11/12 md:w-2/3 lg:w-1/3 lg:mx-auto xl:w-[450px]">
         <p className="text-md">Broj telefona: {userData.phone}</p>
         <img
           src={PenIcon}
@@ -76,7 +76,7 @@ const ProfileUpdate = (props) => {
         />
       </div>
       <div
-        className="bg-[#C75D2C] rounded-md cursor-pointer px-4 py-2 mt-4 text-white block w-2/5 sm:w-11/12 md:w-2/3 lg:w-1/3 lg:mx-auto"
+        className="bg-[#C75D2C] rounded-md cursor-pointer px-4 py-2 mt-4 text-white block w-2/5 sm:w-11/12 md:w-2/3 lg:w-1/3 lg:mx-auto xl:w-[450px]"
         onClick={() =>
           handleModal("Promena lozinke", <PasswordChange mode="change" />)
         }

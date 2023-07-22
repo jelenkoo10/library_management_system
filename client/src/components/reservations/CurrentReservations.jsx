@@ -25,10 +25,8 @@ const CurrentReservations = () => {
     getReservations();
   }, []);
 
-  console.log(myReservedBooks);
-
   return (
-    <section className="p-12 bg-[#DDD] border border-[#C75D2C] h-[439px] w-[900px] opacity-90 overflow-y-scroll sm:w-full">
+    <section className="p-12 bg-[#DDD] border border-[#C75D2C] h-[439px] w-[900px] opacity-90 overflow-y-scroll sm:w-full xl:h-[519px] xl:w-[800px]">
       {isLoading && <LoadingSpinner asOverlay />}
       <>
         {myReservations &&

@@ -20,8 +20,6 @@ const ReservationsHistory = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const { uid } = useParams();
 
-  console.log(allReservations);
-
   useEffect(() => {
     async function getAllReservations() {
       const responseData = await sendRequest(
@@ -65,7 +63,7 @@ const ReservationsHistory = () => {
   };
 
   return (
-    <section className="bg-white bg-opacity-80 px-12 pb-12 pt-6 border border-[#B8572A] h-[439px] w-[900px] sm:w-full md:h-[600px]">
+    <section className="bg-white bg-opacity-80 px-12 pb-12 pt-6 border border-[#B8572A] h-[439px] w-[900px] sm:w-full md:h-[600px] xl:h-[519px] xl:w-[800px]">
       {isLoading && <LoadingSpinner asOverlay />}
       <h1 className="text-2xl font-semibold text-[#C75D2C] mb-2 text-center">
         Filteri

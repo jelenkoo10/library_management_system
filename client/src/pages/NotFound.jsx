@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const NotFound = () => {
   return (
-    <div className="mt-[250px] h-[300px] flex flex-col justify-between items-center sm:w-max sm:h-fit">
+    <div className="mt-[250px] h-[300px] flex flex-col justify-between items-center sm:w-max sm:h-fit md:mx-auto">
       <h1 className="mb-10 text-white text-center text-4xl w-1/3 sm:w-2/3 sm:mb-4">
         Ups! Ova stranica ne postoji.
       </h1>

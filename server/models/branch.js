@@ -8,6 +8,16 @@ const branchSchema = new Schema({
   address: { type: String, required: true },
   worktime: { type: String, required: true },
   phone: { type: String, required: true },
+  coords: {
+    longitude: {
+      type: Number,
+      required: true,
+    },
+    latitude: {
+      type: Number,
+      required: true,
+    },
+  },
   books: [{ type: mongoose.Types.ObjectId, required: true, ref: "Book" }],
   users: [{ type: mongoose.Types.ObjectId, ref: "User" }],
 });

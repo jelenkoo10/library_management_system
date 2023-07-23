@@ -15,6 +15,7 @@ router.post(
     check("address").not().isEmpty(),
     check("worktime").not().isEmpty(),
     check("phone").not().isEmpty(),
+    check("coords").not().isEmpty(),
   ],
   branchesController.createBranch
 );
@@ -27,6 +28,7 @@ router.patch(
     check("address").not().isEmpty(),
     check("worktime").not().isEmpty(),
     check("phone").not().isEmpty(),
+    check("coords").not().isEmpty(),
   ],
   branchesController.updateBranch
 );

@@ -20,3 +20,19 @@ code {
 .toast {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.map {
+  height: 400px;
+}
+
+@media screen and (min-width: 400px) {
+  .map {
+    width: 360px;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .map {
+    width: 560px;
+  }
+}

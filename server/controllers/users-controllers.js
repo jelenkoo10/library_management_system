@@ -1,11 +1,16 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { google } = require("googleapis");
+const nodemailer = require("nodemailer");
+const dotenv = require("dotenv");
 
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
 const Book = require("../models/book");
 const Branch = require("../models/branch");
+
+dotenv.config();
 
 const getUsers = async (req, res, next) => {
   let users;
@@ -193,53 +198,114 @@ const login = async (req, res, next) => {
   });
 };
 
-const resetForgottenPassword = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return next(
-      new HttpError(
-        "Invalid password passed, password should have at least 8 characters.",
-        422
-      )
-    );
-  }
+const oAuth2Client = new google.auth.OAuth2(
+  process.env.CLIENT_ID,
+  process.env.CLIENT_SECRET,
+  process.env.REDIRECT_URI
+);
+oAuth2Client.setCredentials({
+  refresh_token: process.env.REFRESH_TOKEN,
+});
 
-  const { password } = req.body;
-  const userId = req.params.uid;
+const resetForgottenPassword = async (req, res, next) => {
+  const accessToken = await oAuth2Client.getAccessToken();
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: process.env.EMAIL_USER,
+      clientId: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      refreshToken: process.env.REFRESH_TOKEN,
+      accessToken: accessToken,
+    },
+  });
+
+  // Generisanje nove lozinke
+  const generatedPassword = Math.random().toString(36).slice(-10);
+  const { email } = req.body;
 
   let user;
   try {
-    user = await User.findById(userId);
+    user = await User.findOne({ email: email });
   } catch (err) {
     return next(
-      new HttpError(
-        "Something went wrong, couldn't update user's password.",
-        500
-      )
+      new HttpError("Something went wrong, couldn't find user.", 500)
     );
   }
 
-  let hashedPassword;
-  try {
-    hashedPassword = await bcrypt.hash(password, 12);
-  } catch (err) {
-    return next(new HttpError("Could not create user, please try again.", 500));
+  const userEmail = user.email;
+
+  if (!userEmail) {
+    return next(new HttpError("Invalid email address.", 400));
   }
 
-  user.password = hashedPassword;
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: userEmail,
+    subject: "Nova lozinka za pristup nalogu",
+    html: `<html>
+      <head>
+        <style>
+          body {
+            background-color: #f0f0f0; /* Siva pozadina da bude vidljivo u dark modu */
+            text-align: center; /* Centriranje teksta */
+          }
+          .card {
+            border: 1px solid #c75d2c; /* Border oko card-a */
+            padding: 20px; /* Razmak unutar card-a */
+            background-color: #ffffff; /* Bela pozadina card-a */
+            display: inline-block; /* Card će biti prikazan u liniji */
+          }
+          h1 {
+            color: #c75d2c; /* Boja teksta za h1 */
+          }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <p>Vaša nova lozinka je: </p>
+          <h1>${generatedPassword}</h1>
+          <p>Koristeći ovu lozinku, sada se možete ulogovati, i zatim, ako želite, ponovo promeniti lozinku prema Vašim potrebama.</p>
+        </div>
+      </body>
+    </html>`,
+  };
 
-  try {
-    await user.save();
-  } catch (err) {
-    return next(
-      new HttpError(
-        "Something went wrong, couldn't update user's password.",
-        500
-      )
-    );
-  }
+  transporter.sendMail(mailOptions, async (error, info) => {
+    if (error) {
+      console.log("Greška pri slanju mejla:", error);
+      return next(new HttpError("Nije bilo moguće poslati mejl.", 500));
+    } else {
+      console.log("Mejl je uspešno poslat:", info.response);
 
-  res.status(200).json({ user: user.toObject({ getters: true }) });
+      // Ažuriranje korisnikove lozinke u bazi podataka
+      let hashedPassword;
+      try {
+        hashedPassword = await bcrypt.hash(generatedPassword, 12);
+      } catch (err) {
+        return next(
+          new HttpError("Could not create user, please try again.", 500)
+        );
+      }
+
+      user.password = hashedPassword;
+
+      try {
+        await user.save();
+      } catch (err) {
+        return next(
+          new HttpError(
+            "Something went wrong, couldn't update user's password.",
+            500
+          )
+        );
+      }
+
+      res.status(200).json({ user: user.toObject({ getters: true }) });
+    }
+  });
 };
 
 const resetPassword = async (req, res, next) => {

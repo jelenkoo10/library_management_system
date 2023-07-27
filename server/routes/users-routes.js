@@ -53,14 +53,13 @@ router.patch(
   usersController.resetPassword
 );
 
-router.patch(
-  "/:uid/reset_forgotten_password",
-  [check("password").isLength({ min: 8 })],
-  usersController.resetForgottenPassword
-);
-
 router.patch("/:uid/branch_update", usersController.addUserBranch);
 
 router.patch("/:uid/data_update", usersController.updateUserData);
+
+router.patch(
+  "/reset_forgotten_password",
+  usersController.resetForgottenPassword
+);
 
 module.exports = router;

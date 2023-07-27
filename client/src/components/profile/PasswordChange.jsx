@@ -2,29 +2,25 @@ import React, { useState, useContext } from "react";
 import Input from "../../components/UIElements/Input";
 import Button from "../../components/UIElements/Button";
 import { ModalContext } from "../../context/modal-context";
-import { useNavigate } from "react-router-dom";
 import { useHttpClient } from "../../hooks/http-hook";
 
 const PasswordChange = (props) => {
   const { mode } = props;
   let { handleModal } = React.useContext(ModalContext);
-  // const navigate = useNavigate();
-  const [forgottenPassword, setForgottenPassword] = useState({
-    password: "",
-  });
+  const [email, setEmail] = useState(null);
   const [password, setPassword] = useState({
     oldPassword: "",
     repeatedOldPassword: "",
     newPassword: "",
   });
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
-  const uid = JSON.parse(localStorage.getItem("userData")).userId;
+  const uid = JSON.parse(localStorage.getItem("userData"))
+    ? JSON.parse(localStorage.getItem("userData")).userId
+    : null;
 
   const newPasswordHandler = (e) => {
     if (mode == "forgotten") {
-      setForgottenPassword((prevData) => {
-        return { ...prevData, password: e.target.value };
-      });
+      setEmail(e.target.value);
     } else {
       setPassword((prevData) => {
         return { ...prevData, newPassword: e.target.value };
@@ -49,9 +45,9 @@ const PasswordChange = (props) => {
     try {
       if (mode == "forgotten") {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/users/${uid}/reset_forgotten_password`,
+          `http://localhost:5000/api/users/reset_forgotten_password`,
           "PATCH",
-          forgottenPassword,
+          JSON.stringify({ email: email }),
           {
             "Content-Type": "application/json",
           }
@@ -93,20 +89,31 @@ const PasswordChange = (props) => {
             inputLabel="Stara šifra, ponovljena "
             onChange={repeatedOldPasswordHandler}
           />
+          <Input
+            inputId="newPassword"
+            inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
+            divStyle="flex justify-between items-center"
+            labelStyle="text-2xl text-[#C75D2C] mr-6"
+            inputType="password"
+            inputLabel="Nova šifra "
+            onChange={newPasswordHandler}
+          />
         </>
       )}
-      <Input
-        inputId="newPassword"
-        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
-        divStyle="flex justify-between items-center"
-        labelStyle="text-2xl text-[#C75D2C] mr-6"
-        inputType="password"
-        inputLabel="Nova šifra "
-        onChange={newPasswordHandler}
-      />
+      {mode == "forgotten" && (
+        <Input
+          inputId="email"
+          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
+          divStyle="flex justify-between items-center"
+          labelStyle="text-2xl text-[#C75D2C] mr-6"
+          inputType="email"
+          inputLabel="Vaša email adresa "
+          onChange={newPasswordHandler}
+        />
+      )}
       <Button
         btnStyle="mt-5 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md"
-        btnText="Izmeni"
+        btnText={mode == "forgotten" ? "Pošalji mejl" : "Ažuriraj lozinku"}
         type="submit"
       />
     </form>

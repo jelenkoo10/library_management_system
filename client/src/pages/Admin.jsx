@@ -46,6 +46,11 @@ const Admin = () => {
             btnText="Dodaj pisca"
             onClick={() => setModal("author")}
           />
+          <Button
+            btnStyle="py-2 px-5 mx-2 mt-3 bg-[#C75D2C] text-white font-semibold opacity-100 rounded-md md:w-1/2 md:mx-auto xl:w-full xl:py-4"
+            btnText="Dodaj listu knjiga"
+            onClick={() => setModal("excel")}
+          />
         </div>
       </nav>
       {currentPage === "books" && <Books />}

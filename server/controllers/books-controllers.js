@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const download = require("download");
 const fs = require("fs");
+const xlsx = require("xlsx");
 
 const HttpError = require("../models/http-error");
 const Book = require("../models/book");
@@ -145,6 +146,64 @@ const createBook = async (req, res, next) => {
   }
 
   res.status(201).json({ book: newBook.toObject({ getters: true }) });
+};
+
+const importBooksFromExcel = async (req, res, next) => {
+  const workbook = xlsx.readFile(req.file.path);
+  const sheetName = workbook.SheetNames[0];
+  const worksheet = workbook.Sheets[sheetName];
+
+  // Parsiranje podataka
+  const data = xlsx.utils.sheet_to_json(worksheet);
+
+  // Iteracija kroz podatke i ubacivanje u bazu
+  for (const bookData of data) {
+    const {
+      title,
+      genre,
+      description,
+      language,
+      year_published,
+      loan_expiry,
+      status,
+      author,
+      authorName,
+      branch,
+      branchName,
+    } = bookData;
+
+    // Provera da li knjiga sa istim naslovom već postoji u bazi
+    const existingBook = await Book.findOne({ title });
+
+    if (existingBook) {
+      console.log(`Knjiga sa naslovom "${title}" već postoji u bazi.`);
+    } else {
+      // Ubacivanje novog zapisa u bazu
+      const book = new Book({
+        title,
+        genre,
+        description,
+        language,
+        year_published,
+        loan_expiry,
+        status,
+        author,
+        authorName,
+        branch,
+        branchName,
+      });
+
+      try {
+        await book.save();
+        console.log(`Knjiga "${title}" je uspešno ubačena u bazu.`);
+      } catch (err) {
+        console.error(
+          `Greška pri ubacivanju knjige "${title}" u bazu:`,
+          err.message
+        );
+      }
+    }
+  }
 };
 
 const getBookById = async (req, res, next) => {
@@ -622,6 +681,7 @@ const downloadBook = async (req, res, next) => {
 
 exports.getBooksByBranch = getBooksByBranch;
 exports.createBook = createBook;
+exports.importBooksFromExcel = importBooksFromExcel;
 exports.getBookById = getBookById;
 exports.getBooksByUser = getBooksByUser;
 exports.getBookAvailability = getBookAvailability;

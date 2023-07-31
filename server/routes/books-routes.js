@@ -32,6 +32,12 @@ router.post(
   booksController.createBook
 );
 
+router.post(
+  "/import",
+  fileUpload.single("excelFile"),
+  booksController.importBooksFromExcel
+);
+
 router.patch(
   "/:bid",
   [

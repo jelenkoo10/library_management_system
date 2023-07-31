@@ -1,6 +1,7 @@
 import close from "../../assets/close.png";
 import AdminAddBookForm from "./AdminAddBookForm";
 import AdminAddAuthorForm from "./AdminAddAuthorForm";
+import AdminImportExcelForm from "./AdminImportExcelForm";
 
 const AdminAddModal = (props) => {
   const { closeModal, modal } = props;
@@ -15,6 +16,7 @@ const AdminAddModal = (props) => {
       </div>
       {modal === "book" && <AdminAddBookForm closeModal={closeModal} />}
       {modal === "author" && <AdminAddAuthorForm closeModal={closeModal} />}
+      {modal === "excel" && <AdminImportExcelForm closeModal={closeModal} />}
     </div>
   );
 };

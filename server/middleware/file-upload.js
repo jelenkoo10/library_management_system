@@ -6,6 +6,8 @@ const MIME_TYPE_MAP = {
   "image/jpeg": "jpeg",
   "image/jpg": "jpg",
   "application/pdf": "pdf",
+  "application/vnd.ms-excel": "xls",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
 };
 
 const fileUpload = multer({

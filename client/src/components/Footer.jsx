@@ -6,7 +6,7 @@ const Footer = () => {
   let { handleModal } = React.useContext(ModalContext);
 
   return (
-    <footer className="p-3 bg-[#C75D23] opacity-80 absolute bottom-0 left-0 right-0">
+    <footer className="p-3 bg-[#C75D23] opacity-80 w-full">
       <p className="text-center text-white font-bold text-lg">
         &copy; FIN 2023. Sva prava zadržana.
       </p>

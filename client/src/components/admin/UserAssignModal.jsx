@@ -13,6 +13,8 @@ const UserAssignModal = ({ closeModal, user }) => {
   const [inputData, setInputData] = useState({});
   const [books, setBooks] = useState();
 
+  console.log(user);
+
   const assignBook = async (e) => {
     e.preventDefault();
     console.log(inputData);
@@ -50,7 +52,7 @@ const UserAssignModal = ({ closeModal, user }) => {
     async function fetchBooks() {
       let booksArray = [];
       const response = await sendRequest(
-        `http://localhost:5000/api/users/branches/${user.id}`,
+        `http://localhost:5000/api/users/branches/${user._id}`,
         "GET",
         null,
         {
@@ -74,31 +76,25 @@ const UserAssignModal = ({ closeModal, user }) => {
       }
       setBooks(booksArray);
       setInputData((oldData) => {
-        return { ...oldData, booksId: booksArray[0].id };
+        return { ...oldData, booksId: booksArray[0] && booksArray[0].id };
       });
     }
     fetchBooks();
   }, []);
 
   return (
-    <div className="z-5000 absolute w-[58vw] h-[60%] top-[20%] left-[21vw]">
+    <>
       {isLoading && <LoadingSpinner asOverlay />}
-      <div
-        className="w-[20px] h-[20px] absolute top-[50px] right-[40px] cursor-pointer"
-        onClick={closeModal}
-      >
-        <img src={close} alt="close" className="w-full h-full" />
-      </div>
       <form
         onSubmit={assignBook}
-        className="px-10 py-16 mx-auto bg-white mt-[20px] rounded-3xl"
+        className="p-4 mx-auto bg-white flex justify-between sm:w-3/4 sm:p-4 sm:rounded-lg sm:mx-0 sm:flex-col"
       >
         <Select
-          selectStyle="my-4 block border-b-2 border-[#B8572A] w-[200px]"
+          selectStyle="my-4 block border-b-2 border-[#B8572A] w-[300px]"
           selectId="books"
           selectName="books"
           labelName="Knjiga"
-          labelStyle="text-2xl text-[#C75D2C]"
+          labelStyle="text-2xl text-[#C75D2C] mr-6 mt-2"
           options={books}
           onChange={booksInputHandler}
         />
@@ -107,7 +103,7 @@ const UserAssignModal = ({ closeModal, user }) => {
           btnText="Upiši knjigu"
         />
       </form>
-    </div>
+    </>
   );
 };
 

@@ -60,32 +60,24 @@ const UserReturnBook = ({ user, closeModal }) => {
   }, []);
 
   return (
-    <div className="z-5000 absolute w-[58vw] h-[60%] top-[20%] left-[21vw]">
-      <div
-        className="w-[20px] h-[20px] absolute top-[50px] right-[40px] cursor-pointer"
-        onClick={closeModal}
-      >
-        <img src={close} alt="close" className="w-full h-full" />
-      </div>
-      <form
-        onSubmit={returnBook}
-        className="px-10 py-16 mx-auto bg-white mt-[20px] rounded-3xl"
-      >
-        <Select
-          selectStyle="my-4 block border-b-2 border-[#B8572A] w-[200px]"
-          selectId="books"
-          selectName="books"
-          labelName="Knjiga"
-          labelStyle="text-2xl text-[#C75D2C]"
-          options={books}
-          onChange={booksInputHandler}
-        />
-        <Button
-          btnStyle="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md hover:bg-[#D76D3C]"
-          btnText="Upiši knjigu"
-        />
-      </form>
-    </div>
+    <form
+      onSubmit={returnBook}
+      className="p-4 mx-auto bg-white flex justify-between sm:w-3/4 sm:p-4 sm:rounded-lg sm:mx-0 sm:flex-col"
+    >
+      <Select
+        selectStyle="my-4 block border-b-2 border-[#B8572A] w-[300px]"
+        selectId="books"
+        selectName="books"
+        labelName="Knjiga"
+        labelStyle="text-2xl text-[#C75D2C] mr-6 mt-2"
+        options={books && books.map((book) => book.title)}
+        onChange={booksInputHandler}
+      />
+      <Button
+        btnStyle="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md hover:bg-[#D76D3C]"
+        btnText="Vrati knjigu"
+      />
+    </form>
   );
 };
 

@@ -1,8 +1,11 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "../../context/auth-context";
 import Button from "../UIElements/Button";
+import { ModalContext } from "../../context/modal-context";
+import AdminBookUpdateModal from "./AdminBookUpdateModal";
 
 const AdminBookCard = (props) => {
+  let { handleModal } = React.useContext(ModalContext);
   const { book, cardStyle, deleteBook, updateBook, confirmBookReservation } =
     props;
   const auth = useContext(AuthContext);
@@ -50,7 +53,12 @@ const AdminBookCard = (props) => {
               <Button
                 btnStyle="p-2 mx-2 bg-white text-[#C75D2C] font-semibold opacity-100 rounded-md"
                 btnText="Izmeni"
-                onClick={handleUpdate}
+                onClick={() =>
+                  handleModal(
+                    "Izmena podataka o knjizi",
+                    <AdminBookUpdateModal book={book} />
+                  )
+                }
               />
               <Button
                 btnStyle="p-2 mx-2 mt-3 bg-[#C75D2C] text-white font-semibold opacity-100 rounded-md"

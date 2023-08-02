@@ -1,8 +1,12 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../UIElements/Button";
 import { useHttpClient } from "../../hooks/http-hook";
+import { ModalContext } from "../../context/modal-context";
+import UserReturnBook from "./UserReturnBook";
+import UserAssignModal from "./UserAssignModal";
 
 const UserCard = (props) => {
+  let { handleModal } = React.useContext(ModalContext);
   const { user, cardStyle, assignBook, returnBook } = props;
   const [branches, setBranches] = useState([]);
   const { sendRequest } = useHttpClient();
@@ -50,13 +54,21 @@ const UserCard = (props) => {
       <div>
         <Button
           btnStyle="p-2 mx-2 bg-white text-[#C75D2C] font-semibold opacity-100 rounded-md"
-          btnText="Upisi"
-          onClick={handleAssign}
+          btnText="Upiši"
+          onClick={() => {
+            handleModal(
+              "Upis knjige korisniku",
+              <UserAssignModal user={user} />
+            );
+            handleAssign();
+          }}
         />
         <Button
           btnStyle="p-2 mx-2 mt-3 bg-[#C75D2C] text-white font-semibold opacity-100 rounded-md"
           btnText="Vrati"
-          onClick={handleReturn}
+          onClick={() =>
+            handleModal("Vraćanje knjige", <UserReturnBook user={user} />)
+          }
         />
       </div>
     </div>

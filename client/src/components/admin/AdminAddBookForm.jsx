@@ -141,13 +141,13 @@ const AdminAddBookForm = ({ closeModal }) => {
   return (
     <form
       onSubmit={addBook}
-      className="px-16 py-5 mx-auto bg-white mt-[20px] rounded-3xl flex justify-between w-full h-full gap-5 sm:p-2 sm:w-screen sm:rounded-lg sm:mx-0 sm:flex-col md:flex-row"
+      className="p-4 mx-auto bg-white flex justify-between sm:w-3/4 sm:p-4 sm:rounded-lg sm:mx-0 sm:flex-col"
     >
-      <div className="w-[45%] sm:w-full sm:flex sm:flex-col">
+      <div className="w-[45%] sm:w-full sm:flex sm:flex-col lg:w-[500px]">
         <Input
           inputId="title"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
-          divStyle="flex justify-between items-center sm:flex-col sm:items-start"
+          inputStyle="my-2 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
+          divStyle="flex justify-between items-center"
           labelStyle="text-2xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Naslov "
@@ -155,8 +155,8 @@ const AdminAddBookForm = ({ closeModal }) => {
         />
         <Input
           inputId="genre"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
-          divStyle="flex justify-between items-center sm:flex-col sm:items-start"
+          inputStyle="my-2 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
+          divStyle="flex justify-between items-center"
           labelStyle="text-2xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Zanr "
@@ -164,8 +164,8 @@ const AdminAddBookForm = ({ closeModal }) => {
         />
         <Input
           inputId="year_published"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
-          divStyle="flex justify-between items-center sm:flex-col sm:items-start"
+          inputStyle="my-2 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
+          divStyle="flex justify-between items-center"
           labelStyle="text-2xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Godina "
@@ -173,8 +173,8 @@ const AdminAddBookForm = ({ closeModal }) => {
         />
         <Input
           inputId="language"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
-          divStyle="flex justify-between items-center sm:flex-col sm:items-start"
+          inputStyle="my-2 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
+          divStyle="flex justify-between items-center"
           labelStyle="text-2xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Jezik "
@@ -186,14 +186,10 @@ const AdminAddBookForm = ({ closeModal }) => {
           extensions=".pdf"
           onInput={pdfInputHandler}
         />
-        <Button
-          btnStyle="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md hover:bg-[#D76D3C]"
-          btnText="Dodaj knjigu"
-        />
       </div>
-      <div className="w-[45%] resize-none sm:w-full sm:flex sm:flex-col">
+      <div className="w-[45%] resize-none sm:w-full sm:flex sm:flex-col lg:w-[500px]">
         <Select
-          selectStyle="my-4 block border-b-2 border-[#B8572A] w-[200px] sm:w-1/2"
+          selectStyle="my-2 block border-b-2 border-[#B8572A] w-[200px] sm:w-1/2"
           selectId="author"
           selectName="author"
           labelName="Autor"
@@ -203,7 +199,7 @@ const AdminAddBookForm = ({ closeModal }) => {
           isAuthor
         />
         <Select
-          selectStyle="my-4 block border-b-2 border-[#B8572A] w-[200px] sm:w-1/2"
+          selectStyle="my-2 block border-b-2 border-[#B8572A] w-[200px] sm:w-1/2"
           selectId="branch"
           selectName="branch"
           labelName="Ogranak"
@@ -213,7 +209,7 @@ const AdminAddBookForm = ({ closeModal }) => {
           isBranch
         />
 
-        <div className="flex justify-between items-center sm:flex-col sm:items-start">
+        <div className="flex justify-between items-center sm:w-full">
           <label
             htmlFor="description"
             className="text-2xl text-[#C75D2C] pt-[-80px]"
@@ -222,11 +218,15 @@ const AdminAddBookForm = ({ closeModal }) => {
           </label>
           <textarea
             id="description"
-            className="my-4 p-2 border-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2 h-[150px] resize-none"
+            className="my-2 p-2 border-2 border-[#B8572A] focus:border w-[200px] sm:w-3/4 h-[150px] resize-none"
             type="text"
             onChange={descriptionInputHandler}
           ></textarea>
         </div>
+        <Button
+          btnStyle="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md hover:bg-[#D76D3C]"
+          btnText="Dodaj knjigu"
+        />
       </div>
     </form>
   );

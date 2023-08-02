@@ -42,13 +42,18 @@ const AdminImportExcelForm = ({ closeModal }) => {
   return (
     <>
       {isLoading && <LoadingSpinner asOverlay />}
-      <form
-        onSubmit={handleSubmit}
-        className="px-8 py-16 mx-auto bg-white rounded-lg"
-      >
+      <form onSubmit={handleSubmit} className="p-4 mx-auto bg-white">
+        <p className="mb-6 text-md">
+          Umesto svake knjige pojedinačno, sada možete dodavati koliko god
+          želite knjiga odjednom; uslov je da ih unesete u Excel datoteku, i da
+          tu datoteku zatim prosledite na server putem dugmeta "Dodaj knjige".
+          Klikni <span className="text-[#C75D2C] font-bold">ovde</span> da
+          preuzmeš template datoteku, koju možete izmeniti radi unosa svojih
+          knjiga.
+        </p>
         <input type="file" onChange={handleFileChange} />
         <Button
-          btnStyle="mx-auto bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md hover:bg-[#D76D3C]"
+          btnStyle="mx-auto bg-[#C75D2C] mt-6 px-6 py-2 text-white text-lg font-bold rounded-md hover:bg-[#D76D3C]"
           btnText="Dodaj knjige"
         />
       </form>

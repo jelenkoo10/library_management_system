@@ -78,13 +78,13 @@ const AdminAddAuthorForm = ({ closeModal }) => {
   return (
     <form
       onSubmit={addAuthor}
-      className="px-10 py-16 mx-auto bg-white mt-[20px] rounded-3xl flex justify-between w-full h-full gap-5"
+      className="p-4 mx-auto bg-white flex sm:flex-col justify-between lg:w-full"
     >
-      <div className="w-[45%]">
+      <div className="sm:w-full lg:w-[500px]">
         <Input
           inputId="name"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
-          divStyle="flex justify-between items-center"
+          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[180px] sm:ml-auto"
+          divStyle="flex justify-between items-center sm:w-full"
           labelStyle="text-2xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Ime "
@@ -92,8 +92,8 @@ const AdminAddAuthorForm = ({ closeModal }) => {
         />
         <Input
           inputId="surname"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
-          divStyle="flex justify-between items-center"
+          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[180px] sm:ml-auto"
+          divStyle="flex justify-between items-center sm:w-full"
           labelStyle="text-2xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Prezime "
@@ -101,23 +101,19 @@ const AdminAddAuthorForm = ({ closeModal }) => {
         />
         <Input
           inputId="date_of_birth"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
-          divStyle="flex justify-between items-center"
+          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[180px] sm:ml-auto"
+          divStyle="flex justify-between items-center sm:w-full"
           labelStyle="text-2xl text-[#C75D2C]"
           inputType="date"
           inputLabel="Godina rodjenja "
           onChange={date_of_birthInputHandler}
         />
-        <Button
-          btnStyle="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md hover:bg-[#D76D3C]"
-          btnText="Dodaj pisca"
-        />
       </div>{" "}
-      <div className="w-[45%]">
+      <div className="sm:w-full lg:w-[500px]">
         <Input
           inputId="nationality"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
-          divStyle="flex justify-between items-center"
+          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[180px] sm:ml-auto"
+          divStyle="flex justify-between items-center sm:w-full"
           labelStyle="text-2xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Nacionalnost "
@@ -125,14 +121,14 @@ const AdminAddAuthorForm = ({ closeModal }) => {
         />
         <Input
           inputId="age"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px]"
-          divStyle="flex justify-between items-center"
+          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[180px] sm:ml-auto"
+          divStyle="flex justify-between items-center sm:w-full"
           labelStyle="text-2xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Godine "
           onChange={ageInputHandler}
         />
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center sm:w-full">
           <label
             htmlFor="biography"
             className="text-2xl text-[#C75D2C] pt-[-80px]"
@@ -141,11 +137,15 @@ const AdminAddAuthorForm = ({ closeModal }) => {
           </label>
           <textarea
             id="biography"
-            className="my-4 p-2 border-2 border-[#B8572A] focus:border w-[200px] h-[150px] resize-none"
+            className="my-4 p-2 border-2 border-[#B8572A] focus:border w-[180px] h-[150px] resize-none"
             type="text"
             onChange={biographyInputHandler}
           ></textarea>
         </div>
+        <Button
+          btnStyle="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md hover:bg-[#D76D3C]"
+          btnText="Dodaj pisca"
+        />
       </div>
     </form>
   );

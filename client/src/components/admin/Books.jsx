@@ -90,12 +90,12 @@ const Books = () => {
   return (
     <>
       {isLoading && <LoadingSpinner asOverlay />}
-      <section className="p-5 bg-[#DDD] border border-[#C75D2C] bg-opacity-90 max-h-[65vh] xl:w-2/3">
-        <div className="grid grid-cols-4 gap-6 items-center h-[100%] overflow-y-scroll overflow-x-hidden sm:flex sm:flex-col md:grid md:grid-cols-2 md:gap-4 md:mx-auto md:overflow-y-scroll md:h-[60vh] lg:grid-cols-3 lg:gap-2">
+      <section className="p-5 bg-[#DDD] border border-[#C75D2C] bg-opacity-90 sm:h-fit sm:max-h-fit xl:w-2/3 lg:min-h-[70vh]">
+        <div className="grid grid-cols-4 gap-4 place-items-center items-center h-[100%] sm:flex sm:flex-col md:grid md:grid-cols-2 md:gap-4 md:mx-auto md:h-[60vh] lg:grid-cols-3 lg:gap-2">
           {books &&
             books.map((book) => (
               <AdminBookCard
-                cardStyle="bg-[#C75D2C] rounded-md pr-8 pl-2 py-4 text-white w-[250px] h-[210px]"
+                cardStyle="bg-[#C75D2C] rounded-md pr-8 pl-2 py-4 text-white w-[250px] min-h-[180px]"
                 book={book}
                 deleteBook={deleteBook}
                 updateBook={updateBook}

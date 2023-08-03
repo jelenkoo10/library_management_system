@@ -118,7 +118,7 @@ const SearchResults = () => {
         <div className="fixed top-[4.95rem] left-0 bg-white w-[250px] bg-opacity-90 h-[89.5%] px-4 sm:hidden xl:block">
           <h1 className="text-2xl text-[#C75D2C] text-center mt-2">Filteri</h1>
           <Select
-            selectStyle="my-4 block border-b-2 border-[#B8572A] xl:w-full"
+            selectStyle="my-4 block border-b-2 border-[#B8572A] xl:w-[100px]"
             selectId="genre"
             selectName="genre"
             labelName="Žanr"
@@ -129,7 +129,7 @@ const SearchResults = () => {
             onChange={genreHandler}
           />
           <Select
-            selectStyle="my-4 block border-b-2 border-[#B8572A] xl:w-full"
+            selectStyle="my-4 block border-b-2 border-[#B8572A] xl:w-[100px]"
             selectId="language"
             selectName="language"
             labelName="Jezik"
@@ -140,7 +140,7 @@ const SearchResults = () => {
             onChange={languageHandler}
           />
           <Select
-            selectStyle="my-4 block border-b-2 border-[#B8572A] xl:w-full"
+            selectStyle="my-4 block border-b-2 border-[#B8572A] xl:w-[100px]"
             selectId="year_published"
             selectName="year_published"
             labelName="Godina izdanja"
@@ -199,7 +199,7 @@ const SearchResults = () => {
             onChange={yearHandler}
           />
           <Select
-            selectStyle="my-4 block border-b-2 border-[#B8572A] xl:w-full"
+            selectStyle="my-4 block border-b-2 border-[#B8572A] xl:w-[100px]"
             selectId="status"
             selectName="status"
             labelName="Dostupnost"
@@ -248,7 +248,7 @@ const SearchResults = () => {
           btnStyle="mx-auto mt-2 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md max-w-fit"
         />
       </div>
-      <div className="mt-4 text-center text-white h-[400px] overflow-y-scroll sm:h-[500px] lg:grid lg:grid-cols-2 lg:w-2/3 lg:mx-auto xl:w-1/2 xl:flex xl:flex-col">
+      <div className="mt-4 text-center text-white lg:grid lg:grid-cols-2 lg:w-2/3 lg:mx-auto xl:w-1/2 xl:flex xl:flex-col">
         {books &&
           books.map((book) => (
             <AvailabilityCard

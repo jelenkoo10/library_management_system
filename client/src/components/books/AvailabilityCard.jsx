@@ -14,6 +14,9 @@ const AvailabilityCard = (props) => {
   const uid = auth.isLoggedIn
     ? JSON.parse(localStorage.getItem("userData")).userId
     : null;
+  const isUserAdmin = auth.isLoggedIn
+    ? JSON.parse(localStorage.getItem("userData")).is_admin
+    : null;
 
   const reservationHandler = async () => {
     try {
@@ -45,7 +48,7 @@ const AvailabilityCard = (props) => {
       </div>
       <div className="flex flex-col items-center">
         <p>{status}</p>
-        {auth.isLoggedIn && status == "slobodno" && (
+        {auth.isLoggedIn && status == "slobodno" && !isUserAdmin && (
           <>
             {isLoading && <LoadingSpinner asOverlay />}
             <Button

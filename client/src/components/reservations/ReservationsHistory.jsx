@@ -63,7 +63,7 @@ const ReservationsHistory = () => {
   };
 
   return (
-    <section className="bg-white bg-opacity-80 px-12 pb-12 pt-6 border border-[#B8572A] h-[439px] w-[900px] sm:w-full md:h-[600px] xl:h-[519px] xl:w-[800px]">
+    <section className="bg-white bg-opacity-80 px-12 pb-12 pt-6 border border-[#B8572A] w-[900px] sm:w-full xl:w-[800px]">
       {isLoading && <LoadingSpinner asOverlay />}
       <h1 className="text-2xl font-semibold text-[#C75D2C] mb-2 text-center">
         Filteri
@@ -113,7 +113,7 @@ const ReservationsHistory = () => {
           type="submit"
         />
       </form>
-      <div className="mt-6 mx-auto flex flex-col items-center overflow-y-scroll h-[200px] md:h-[250px]">
+      <div className="mt-6 mx-auto flex flex-col items-center">
         {allReservations &&
           allReservations.map((reservation, i) => (
             <ReservationCard reservation={reservation} book={allBooks[i]} />

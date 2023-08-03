@@ -5,6 +5,8 @@ import BookCard from "./BookCard";
 import { useHttpClient } from "../../hooks/http-hook";
 import LoadingSpinner from "../UIElements/LoadingSpinner/LoadingSpinner";
 import { useParams } from "react-router-dom";
+import WarningIcon from "../../assets/warning.png";
+import DueIcon from "../../assets/past-due.png";
 
 const BookList = (props) => {
   const [myBooks, setMyBooks] = useState([]);
@@ -29,7 +31,7 @@ const BookList = (props) => {
     <>
       {isLoading && <LoadingSpinner asOverlay />}
       <section className="p-12 bg-[#DDD] border border-[#C75D2C] bg-opacity-90 w-[900px] sm:w-full">
-        <div className="grid grid-cols-2 gap-6 items-center">
+        <div className="grid grid-cols-4 gap-4 place-items-center items-center sm:flex sm:flex-col md:grid md:grid-cols-2 md:gap-4 md:mx-auto lg:grid-cols-3 lg:gap-2">
           {myBooks &&
             myBooks
               .filter((book) => {
@@ -48,6 +50,22 @@ const BookList = (props) => {
             prikazana ovde.
           </p>
         )}
+        <div className="mt-8 flex items-center">
+          <img
+            src={WarningIcon}
+            alt="Warning icon"
+            width="30px"
+            height="20px"
+          />{" "}
+          <p className="text-[#C75D2C] font-bold">
+            {" "}
+            - manje od 10 dana do isteka pozajmice
+          </p>
+        </div>
+        <div className="mt-2 flex items-center">
+          <img src={DueIcon} alt="Error icon" width="30px" height="20px" />{" "}
+          <p className="text-[#C75D2C] font-bold">- istekla pozajmica</p>
+        </div>
       </section>
     </>
   );

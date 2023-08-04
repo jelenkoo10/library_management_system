@@ -63,7 +63,10 @@ const signup = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
-      new HttpError("Invalid inputs passed, please check your data.", 422)
+      new HttpError(
+        "Uneti su nevalidni podaci, proverite Vaše podatke i pokušajte ponovo.",
+        422
+      )
     );
   }
   const { name, surname, phone, email, password, branchId } = req.body;
@@ -73,13 +76,16 @@ const signup = async (req, res, next) => {
     existingUser = await User.findOne({ email: email });
   } catch (err) {
     return next(
-      new HttpError("Signing up failed, please try again later."),
+      new HttpError("Registracija nije uspela, pokušajte ponovo kasnije."),
       500
     );
   }
 
   if (existingUser) {
-    return next(new HttpError("User with this email already exists."), 422);
+    return next(
+      new HttpError("Korisnik sa ovom email adresom već postoji."),
+      422
+    );
   }
 
   const subscription_expiry = new Date(
@@ -90,7 +96,9 @@ const signup = async (req, res, next) => {
   try {
     hashedPassword = await bcrypt.hash(password, 12);
   } catch (err) {
-    return next(new HttpError("Could not create user, please try again.", 500));
+    return next(
+      new HttpError("Registracija nije uspela, pokušajte ponovo kasnije.", 500)
+    );
   }
 
   const newUser = new User({
@@ -110,7 +118,7 @@ const signup = async (req, res, next) => {
   try {
     await newUser.save();
   } catch (err) {
-    return next("Signing up failed, please try again.", 500);
+    return next("Registracija nije uspela, pokušajte ponovo kasnije.", 500);
   }
 
   let token;
@@ -122,7 +130,7 @@ const signup = async (req, res, next) => {
     );
   } catch (err) {
     return next(
-      new HttpError("Signing up failed, please try again later.", 500)
+      new HttpError("Registracija nije uspela, pokušajte ponovo kasnije.", 500)
     );
   }
 
@@ -139,7 +147,10 @@ const login = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
-      new HttpError("Invalid inputs passed, please check your data.", 422)
+      new HttpError(
+        "Uneti email i lozinka nisu ispravni. Pokušajte ponovo!",
+        422
+      )
     );
   }
   const { email, password } = req.body;
@@ -148,12 +159,15 @@ const login = async (req, res, next) => {
   try {
     existingUser = await User.findOne({ email: email });
   } catch (err) {
-    return next(new HttpError("Logging in failed, please try again"), 500);
+    return next(
+      new HttpError("Prijavljivanje nije uspelo. Pokušajte ponovo!"),
+      500
+    );
   }
 
   if (!existingUser) {
     return next(
-      new HttpError("Invalid credentials, couldn't log you in."),
+      new HttpError("Netačan email i/ili lozinka. Pokušajte ponovo!"),
       401
     );
   }
@@ -163,16 +177,13 @@ const login = async (req, res, next) => {
     isValidPassword = await bcrypt.compare(password, existingUser.password);
   } catch (err) {
     return next(
-      new HttpError(
-        "Could not log you in, please check your credentials and try again.",
-        500
-      )
+      new HttpError("Netačan email i/ili lozinka. Pokušajte ponovo!", 500)
     );
   }
 
   if (!isValidPassword) {
     return next(
-      new HttpError("Invalid credentials, could not log you in.", 403)
+      new HttpError("Netačan email i/ili lozinka. Pokušajte ponovo!", 403)
     );
   }
 
@@ -185,7 +196,7 @@ const login = async (req, res, next) => {
     );
   } catch (err) {
     return next(
-      new HttpError("Logging in failed, please try again later.", 500)
+      new HttpError("Prijavljivanje nije uspelo. Pokušajte ponovo!", 500)
     );
   }
 
@@ -195,6 +206,7 @@ const login = async (req, res, next) => {
     is_admin: existingUser.is_admin,
     name: existingUser.name + " " + existingUser.surname,
     token: token,
+    image: existingUser.image,
   });
 };
 
@@ -222,7 +234,6 @@ const resetForgottenPassword = async (req, res, next) => {
     },
   });
 
-  // Generisanje nove lozinke
   const generatedPassword = Math.random().toString(36).slice(-10);
   const { email } = req.body;
 

@@ -67,11 +67,21 @@ const Navbar = () => {
                   to={`/profile/${userData.userId}`}
                   className="inline-block p-2 mx-2 text-white font-semibold opacity-100 sm:my-[8px] md:my-0"
                 >
-                  <img
-                    className="inline-block mr-2"
-                    src={ProfileCard}
-                    alt="A profile card icon"
-                  />
+                  {userData.image ? (
+                    <img
+                      className="inline-block mr-2 rounded-xl"
+                      src={userData.image}
+                      alt={`Profile picture of ` + userData.name}
+                      width="30px"
+                      height="30px"
+                    />
+                  ) : (
+                    <img
+                      className="inline-block mr-2"
+                      src={ProfileCard}
+                      alt="A profile card icon"
+                    />
+                  )}
                   {userData.name}
                 </NavLink>
                 <Button

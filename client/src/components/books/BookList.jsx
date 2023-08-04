@@ -30,7 +30,7 @@ const BookList = (props) => {
   return (
     <>
       {isLoading && <LoadingSpinner asOverlay />}
-      <section className="p-12 bg-[#DDD] border border-[#C75D2C] bg-opacity-90 w-[900px] sm:w-full">
+      <section className="p-12 bg-[#DDD] border border-[#C75D2C] bg-opacity-90 lg:w-[900px] sm:w-full">
         <div className="grid grid-cols-4 gap-4 place-items-center items-center sm:flex sm:flex-col md:grid md:grid-cols-2 md:gap-4 md:mx-auto lg:grid-cols-3 lg:gap-2">
           {myBooks &&
             myBooks

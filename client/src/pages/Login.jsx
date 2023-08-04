@@ -47,7 +47,8 @@ const Login = () => {
       responseData.token,
       null,
       responseData.is_admin,
-      responseData.name
+      responseData.name,
+      responseData.image
     );
     if (responseData.is_admin) {
       navigate("/admin");

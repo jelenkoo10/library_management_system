@@ -26,7 +26,7 @@ const CurrentReservations = () => {
   }, []);
 
   return (
-    <section className="p-12 bg-[#DDD] border border-[#C75D2C] h-[439px] w-[900px] opacity-90 sm:w-full xl:h-[519px] xl:w-[800px]">
+    <section className="p-12 bg-[#DDD] border border-[#C75D2C] lg:w-[900px] xl:w-[1000px] opacity-90 sm:w-full xl:p-8">
       {isLoading && <LoadingSpinner asOverlay />}
       <>
         {myReservations &&

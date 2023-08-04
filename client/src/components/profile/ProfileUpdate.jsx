@@ -30,7 +30,7 @@ const ProfileUpdate = (props) => {
   }, []);
 
   return (
-    <section className="p-12 bg-[#DDD] border border-[#C75D2C] text-[#C75D2C] bg-opacity-90 w-[900px] sm:w-full sm:p-6 md:p-12 xl:w-[1000px] xl:p-8">
+    <section className="p-12 bg-[#DDD] border border-[#C75D2C] text-[#C75D2C] bg-opacity-90 lg:w-[900px] xl:w-[1050px] sm:w-full sm:p-6 md:p-12 xl:p-8">
       {isLoading && <LoadingSpinner asOverlay />}
       <h1 className="font-bold text-xl lg:text-center">
         Informacije o Vašem profilu

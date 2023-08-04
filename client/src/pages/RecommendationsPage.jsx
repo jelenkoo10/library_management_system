@@ -25,7 +25,7 @@ const RecommendationsPage = () => {
   }, []);
 
   return (
-    <section className="bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 grid grid-cols-4 gap-4 items-center place-items-center w-[900px] sm:w-full sm:flex sm:flex-col md:grid md:grid-cols-2 md:gap-4 md:mx-auto lg:grid-cols-3 lg:gap-2">
+    <section className="bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 grid grid-cols-4 gap-4 items-center place-items-center lg:w-[900px] xl:w-[1056px] sm:w-full sm:flex sm:flex-col md:grid md:grid-cols-2 md:gap-4 md:mx-auto lg:grid-cols-3 lg:gap-2">
       {isLoading && <LoadingSpinner asOverlay />}
       {myRecommendations[0] ? (
         myRecommendations.map((book) => {

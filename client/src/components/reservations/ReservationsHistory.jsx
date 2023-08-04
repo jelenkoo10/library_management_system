@@ -63,7 +63,7 @@ const ReservationsHistory = () => {
   };
 
   return (
-    <section className="bg-white bg-opacity-80 px-12 pb-12 pt-6 border border-[#B8572A] w-[900px] sm:w-full xl:w-[800px]">
+    <section className="bg-white bg-opacity-80 px-12 pb-12 pt-6 border border-[#B8572A] lg:w-[900px] sm:w-full xl:w-[1000px] xl:p-8">
       {isLoading && <LoadingSpinner asOverlay />}
       <h1 className="text-2xl font-semibold text-[#C75D2C] mb-2 text-center">
         Filteri

@@ -6,7 +6,7 @@ const ReservationCard = (props) => {
   return (
     <>
       {book && (
-        <div className="bg-[#DDD] w-[450px] text-white my-4 p-2 flex items-center justify-between rounded-lg border border-[#C75D2C]">
+        <div className="bg-[#DDD] sm:w-[280px] md:w-[450px] text-white my-4 p-2 sm:flex sm:flex-col md:flex-row items-center justify-between rounded-lg border border-[#C75D2C]">
           <Link to={`/book/${book._id}`}>
             <h1 className="text-[#C75D2C] font-bold text-md">{book.title}</h1>
             <p className="text-[#C75D2C] font-bold text-sm">

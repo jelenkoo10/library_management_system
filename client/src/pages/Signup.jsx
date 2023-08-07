@@ -39,8 +39,6 @@ const Signup = () => {
     getBranches();
   }, []);
 
-  console.log(inputData);
-
   const nameInputHandler = (e) => {
     setInputData((oldData) => {
       return { ...oldData, name: e.target.value };
@@ -119,12 +117,12 @@ const Signup = () => {
     <form
       encType="multipart/form-data"
       onSubmit={signupUser}
-      className="px-10 py-12 mx-auto bg-white w-1/3 bg-opacity-80 mt-[15px] rounded-3xl sm:rounded-lg sm:w-11/12 md:w-2/3 xl:w-1/3"
+      className="px-10 py-12 mx-auto mt-[100px] bg-white w-1/3 bg-opacity-80 rounded-3xl sm:rounded-lg sm:w-11/12 md:w-2/3 lg:w-1/2 xl:w-1/3"
     >
       <Input
         inputId="name"
-        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-full xl:my-2"
-        divStyle="flex justify-between items-center sm:flex-col sm:items-start xl:my-2"
+        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border lg:w-[200px] sm:w-full xl:my-2"
+        divStyle="flex justify-between items-center sm:flex-col lg:flex-row sm:items-start xl:my-2"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="text"
         inputLabel="Ime "
@@ -132,8 +130,8 @@ const Signup = () => {
       />
       <Input
         inputId="surname"
-        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-full xl:my-2"
-        divStyle="flex justify-between items-center sm:flex-col sm:items-start xl:my-2"
+        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border lg:w-[200px] sm:w-full xl:my-2"
+        divStyle="flex justify-between items-center sm:flex-col lg:flex-row sm:items-start xl:my-2"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="text"
         inputLabel="Prezime "
@@ -141,8 +139,8 @@ const Signup = () => {
       />
       <Input
         inputId="phone"
-        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-full xl:my-2"
-        divStyle="flex justify-between items-center sm:flex-col sm:items-start xl:my-2"
+        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border lg:w-[200px] sm:w-full xl:my-2"
+        divStyle="flex justify-between items-center sm:flex-col lg:flex-row sm:items-start xl:my-2"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="text"
         inputLabel="Broj telefona "
@@ -150,8 +148,8 @@ const Signup = () => {
       />
       <Input
         inputId="email"
-        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-full xl:my-2"
-        divStyle="flex justify-between items-center sm:flex-col sm:items-start xl:my-2"
+        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border lg:w-[200px] sm:w-full xl:my-2"
+        divStyle="flex justify-between items-center sm:flex-col lg:flex-row sm:items-start xl:my-2"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="email"
         inputLabel="Email adresa "
@@ -159,19 +157,19 @@ const Signup = () => {
       />
       <Input
         inputId="password"
-        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-full xl:my-2"
-        divStyle="flex justify-between items-center sm:flex-col sm:items-start xl:my-2"
+        inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border lg:w-[200px] sm:w-full xl:my-2"
+        divStyle="flex justify-between items-center sm:flex-col lg:flex-row sm:items-start xl:my-2"
         labelStyle="text-2xl text-[#C75D2C]"
         inputType="password"
         inputLabel="Šifra "
         onChange={passwordInputHandler}
       />
       <Select
-        selectStyle="my-4 block border-b-2 border-[#B8572A] w-[200px] sm:w-full xl:my-2"
+        selectStyle="my-4 block border-b-2 border-[#B8572A] lg:w-[200px] sm:w-full xl:my-2"
         selectId="branch"
         selectName="branch"
         labelName="Ogranak"
-        labelStyle="text-2xl text-[#C75D2C]"
+        labelStyle="text-2xl text-[#C75D2C] sm:mr-2 md:mr-6"
         options={[{ name: "", id: "" }].concat(branches)}
         onChange={branchInputHandler}
       />

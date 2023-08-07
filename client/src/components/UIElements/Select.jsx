@@ -17,7 +17,7 @@ const Select = (props) => {
   return (
     <>
       {options && (
-        <div className="flex justify-between sm:items-start md:items-center">
+        <div className="flex justify-between items-center">
           <label className={labelStyle} htmlFor={selectId}>
             {labelName}
           </label>

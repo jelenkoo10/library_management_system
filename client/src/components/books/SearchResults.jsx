@@ -115,36 +115,36 @@ const SearchResults = () => {
     <>
       {isLoading && <LoadingSpinner asOverlay />}
       {
-        <div className="fixed top-[4.95rem] left-0 bg-white w-[250px] bg-opacity-90 h-[89.5%] px-4 sm:hidden xl:block">
+        <div className="sm:relative lg:fixed lg:top-[4.95rem] left-0 bg-white sm:w-4/5 md:w-3/5 sm:rounded-lg sm:py-8 sm:px-12 sm:mt-6 sm:mx-auto lg:w-1/5 xl:w-[250px] bg-opacity-90 sm:h-fit lg:h-[89.5%] lg:px-2 xl:px-4 lg:block">
           <h1 className="text-2xl text-[#C75D2C] text-center mt-2">Filteri</h1>
           <Select
-            selectStyle="my-4 block border-b-2 border-[#B8572A] xl:w-[100px]"
+            selectStyle="my-4 block border-b-2 border-[#B8572A] sm:w-2/5 lg:w-2/5 xl:w-[100px]"
             selectId="genre"
             selectName="genre"
             labelName="Žanr"
-            labelStyle="text-lg text-[#C75D2C]"
+            labelStyle="text-lg text-[#C75D2C] lg:text-md"
             options={
               filterObject ? filterObject.genres : [{ id: "", name: "" }]
             }
             onChange={genreHandler}
           />
           <Select
-            selectStyle="my-4 block border-b-2 border-[#B8572A] xl:w-[100px]"
+            selectStyle="my-4 block border-b-2 border-[#B8572A] sm:w-2/5 lg:w-2/5 xl:w-[100px]"
             selectId="language"
             selectName="language"
             labelName="Jezik"
-            labelStyle="text-lg text-[#C75D2C]"
+            labelStyle="text-lg text-[#C75D2C] lg:text-md"
             options={
               filterObject ? filterObject.languages : [{ id: "", name: "" }]
             }
             onChange={languageHandler}
           />
           <Select
-            selectStyle="my-4 block border-b-2 border-[#B8572A] xl:w-[100px]"
+            selectStyle="my-4 block border-b-2 border-[#B8572A] sm:w-2/5 lg:w-2/5 xl:w-[100px]"
             selectId="year_published"
             selectName="year_published"
             labelName="Godina izdanja"
-            labelStyle="text-lg text-[#C75D2C]"
+            labelStyle="text-lg text-[#C75D2C] lg:text-md"
             options={[
               { id: "", name: "" },
               { id: "2022", name: "2022" },
@@ -199,11 +199,11 @@ const SearchResults = () => {
             onChange={yearHandler}
           />
           <Select
-            selectStyle="my-4 block border-b-2 border-[#B8572A] xl:w-[100px]"
+            selectStyle="my-4 block border-b-2 border-[#B8572A] sm:w-2/5 lg:w-2/5 xl:w-[100px]"
             selectId="status"
             selectName="status"
             labelName="Dostupnost"
-            labelStyle="text-lg text-[#C75D2C]"
+            labelStyle="text-lg text-[#C75D2C] lg:text-md"
             options={[
               { id: "", name: "" },
               { id: "slobodno", name: "slobodno" },
@@ -248,7 +248,7 @@ const SearchResults = () => {
           btnStyle="mx-auto mt-2 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md max-w-fit"
         />
       </div>
-      <div className="mt-4 text-center text-white lg:grid lg:grid-cols-2 lg:w-2/3 lg:mx-auto xl:w-1/2 xl:flex xl:flex-col">
+      <div className="mt-4 text-center text-white lg:grid lg:grid-cols-2 lg:w-3/5 lg:mx-auto xl:w-1/2 xl:flex xl:flex-col">
         {books &&
           books.map((book) => (
             <AvailabilityCard

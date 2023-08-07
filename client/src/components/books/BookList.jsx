@@ -41,6 +41,7 @@ const BookList = (props) => {
                 <BookCard
                   cardStyle="bg-[#CCC] text-[#C75D2C] rounded-md pr-8 pl-4 py-4 text-white border border-[#C75D2C] bg-opacity-90"
                   book={book}
+                  withStatus={true}
                 />
               ))}
         </div>

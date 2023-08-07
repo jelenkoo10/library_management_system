@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -23,6 +27,12 @@ code {
 
 .map {
   height: 400px;
+}
+
+@media screen and (min-width: 300px) {
+  .map {
+    width: 280px;
+  }
 }
 
 @media screen and (min-width: 400px) {

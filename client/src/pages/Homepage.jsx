@@ -5,8 +5,8 @@ import PhoneIcon from "../assets/icons8-phone-100.png";
 
 const Homepage = () => {
   return (
-    <>
-      <div className="py-[100px] flex flex-col justify-between items-center sm:px-6">
+    <div className="h-[80vh]">
+      <div className="py-[100px] flex flex-col items-center sm:px-6 h-1/2">
         <h1 className="mb-5 text-[#EEE] text-center font-bold text-4xl">
           Pravo mesto za sve ljubitelje dobre knjige!
         </h1>
@@ -21,7 +21,7 @@ const Homepage = () => {
           Pronađi knjigu
         </Link>
       </div>
-      <div className="bg-[#EEE] w-full opacity-70 sm:px-2 sm:py-6 lg:p-10 xl:p-16">
+      <div className="bg-[#EEE] w-full opacity-70 sm:px-2 sm:py-6 lg:p-10 xl:p-16 h-1/2">
         <div className="md:w-[70%] lg:w-[59%] xl:w-[55%] flex items-center sm:mb-[60px] md:mb-[120px] text-xl">
           <p className="lg:w-[65%] xl:w-[77%] mx-4 font-semibold">
             Otkrijte svet knjiga uz našu raznovrsnu kolekciju naslova. Ispunite
@@ -50,7 +50,7 @@ const Homepage = () => {
           </p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

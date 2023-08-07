@@ -34,7 +34,6 @@ const AdminImportExcelForm = ({ closeModal }) => {
       // Resetujte stanje forme
       setSelectedFile(null);
     } catch (err) {
-      console.log(err);
       alert("Neuspešno dodavanje!", error);
     }
   };

@@ -53,7 +53,6 @@ const AdminAddBookForm = ({ closeModal }) => {
   }, [branches, authors]);
 
   const [inputData, setInputData] = useState({});
-  console.log(inputData);
 
   const titleInputHandler = (e) => {
     setInputData((oldData) => {

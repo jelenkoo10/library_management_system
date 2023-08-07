@@ -25,14 +25,15 @@ const RecommendationsPage = () => {
   }, []);
 
   return (
-    <section className="bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 grid grid-cols-4 gap-4 items-center place-items-center lg:w-[900px] xl:w-[1056px] sm:w-full sm:flex sm:flex-col md:grid md:grid-cols-2 md:gap-4 md:mx-auto lg:grid-cols-3 lg:gap-2">
+    <section className="bg-[#DDD] bg-opacity-90 border-[#C75D2C] border p-12 grid grid-cols-4 gap-4 items-center place-items-center lg:w-[900px] xl:w-[1056px] sm:w-full sm:flex sm:flex-col md:grid md:grid-cols-2 md:gap-4 md:mx-auto lg:grid-cols-3 lg:gap-6">
       {isLoading && <LoadingSpinner asOverlay />}
       {myRecommendations[0] ? (
         myRecommendations.map((book) => {
           return (
             <BookCard
               book={book}
-              cardStyle="bg-[#CCC] w-4/5 text-[#C75D2C] rounded-md pr-8 pl-4 py-4 text-white border border-[#C75D2C] bg-opacity-90 sm:w-full sm:px-4 sm:py-2 md:min-w-[300px] lg:min-h-[120px]"
+              cardStyle="bg-[#CCC] w-4/5 text-[#C75D2C] rounded-md pr-8 pl-4 py-4 text-white border border-[#C75D2C] bg-opacity-90 sm:w-full sm:px-4 sm:py-2 md:min-w-[300px] lg:min-h-[120px] lg:min-w-[250px]"
+              withStatus={false}
             />
           );
         })

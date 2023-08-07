@@ -48,7 +48,6 @@ const AdminAddAuthorForm = ({ closeModal }) => {
   const addAuthor = async (e) => {
     try {
       e.preventDefault();
-      console.log(inputData);
       const responseData = await sendRequest(
         `http://localhost:5000/api/authors`,
         "POST",

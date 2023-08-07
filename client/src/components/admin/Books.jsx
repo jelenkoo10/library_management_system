@@ -82,7 +82,6 @@ const Books = () => {
         }
       );
       setBooks(response.books);
-      console.log(response);
     }
     fetchBooks();
   }, [branches, currentBranch, reload]);

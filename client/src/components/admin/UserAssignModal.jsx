@@ -13,11 +13,8 @@ const UserAssignModal = ({ closeModal, user }) => {
   const [inputData, setInputData] = useState({});
   const [books, setBooks] = useState();
 
-  console.log(user);
-
   const assignBook = async (e) => {
     e.preventDefault();
-    console.log(inputData);
     const response = await sendRequest(
       `http://localhost:5000/api/books/assign/${inputData.booksId}`,
       "PATCH",
@@ -39,7 +36,6 @@ const UserAssignModal = ({ closeModal, user }) => {
       progress: undefined,
       bodyClassName: "toast",
     });
-    console.log(response);
   };
 
   const booksInputHandler = (e) => {

@@ -4,7 +4,7 @@ import WarningIcon from "../../assets/warning.png";
 import DueIcon from "../../assets/past-due.png";
 
 const BookCard = (props) => {
-  const { book, cardStyle } = props;
+  const { book, cardStyle, withStatus } = props;
   const [bookStatus, setBookStatus] = useState("success");
 
   function getDaysDifference(date1, date2) {
@@ -15,20 +15,20 @@ const BookCard = (props) => {
   }
 
   useEffect(() => {
-    const currentDate = new Date().toISOString().slice(0, 10);
-    const daysDifference = getDaysDifference(
-      book.loan_expiry.slice(0, 10),
-      currentDate
-    );
+    if (withStatus) {
+      const currentDate = new Date().toISOString().slice(0, 10);
+      const daysDifference = getDaysDifference(
+        book.loan_expiry.slice(0, 10),
+        currentDate
+      );
 
-    console.log(daysDifference);
-
-    if (daysDifference < 0) {
-      setBookStatus("error");
-    } else if (daysDifference < 10) {
-      setBookStatus("warning");
-    } else {
-      setBookStatus("success");
+      if (daysDifference < 0) {
+        setBookStatus("error");
+      } else if (daysDifference < 10) {
+        setBookStatus("warning");
+      } else {
+        setBookStatus("success");
+      }
     }
   }, []);
 

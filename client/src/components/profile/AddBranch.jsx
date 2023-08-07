@@ -2,8 +2,13 @@ import React, { useState, useEffect } from "react";
 import Select from "../UIElements/Select";
 import Button from "../UIElements/Button";
 import { useHttpClient } from "../../hooks/http-hook";
+import { ModalContext } from "../../context/modal-context";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import LoadingSpinner from "../UIElements/LoadingSpinner/LoadingSpinner";
 
 const AddBranch = (props) => {
+  let { handleModal } = React.useContext(ModalContext);
   const { withoutBranches } = props;
   const [myBranches, setMyBranches] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState(null);
@@ -48,7 +53,19 @@ const AddBranch = (props) => {
           "Content-Type": "application/json",
         }
       );
-    } catch (err) {}
+      toast.success("Uspešno ste se učlanili u novi ogranak!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        bodyClassName: "toast",
+      });
+    } catch (err) {
+      handleModal("Neuspešno učlanivanje", error);
+    }
   };
 
   const selectHandler = (e) => {
@@ -57,6 +74,7 @@ const AddBranch = (props) => {
 
   return (
     <form className="mx-auto" onSubmit={addBranchHandler}>
+      {isLoading && <LoadingSpinner asOverlay />}
       <Select
         selectStyle="my-4 mx-5 block border-b-2 border-[#B8572A] w-[200px]"
         selectId="branches"

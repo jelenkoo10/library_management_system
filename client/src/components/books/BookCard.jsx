@@ -15,7 +15,7 @@ const BookCard = (props) => {
   }
 
   useEffect(() => {
-    if (withStatus) {
+    if (withStatus && book.loan_expiry) {
       const currentDate = new Date().toISOString().slice(0, 10);
       const daysDifference = getDaysDifference(
         book.loan_expiry.slice(0, 10),

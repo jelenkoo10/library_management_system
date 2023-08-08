@@ -21,27 +21,31 @@ const PhoneChange = (props) => {
   const updateName = async (e) => {
     e.preventDefault();
     async function changeName() {
-      try {
-        const responseData = await sendRequest(
-          `http://localhost:5000/api/users/${uid}/data_update`,
-          "PATCH",
-          JSON.stringify(phoneNumber),
-          {
-            "Content-Type": "application/json",
-          }
-        );
-        toast.success("Uspešno ste izmenili svoj broj telefona!", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          bodyClassName: "toast",
-        });
-      } catch (err) {
-        handleModal("Neuspešna promena podataka", error);
+      if (phoneNumber.phone !== "") {
+        try {
+          const responseData = await sendRequest(
+            `http://localhost:5000/api/users/${uid}/data_update`,
+            "PATCH",
+            JSON.stringify(phoneNumber),
+            {
+              "Content-Type": "application/json",
+            }
+          );
+          toast.success("Uspešno ste izmenili svoj broj telefona!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            bodyClassName: "toast",
+          });
+        } catch (err) {
+          handleModal("Neuspešna promena podataka", error);
+        }
+      } else {
+        alert("Polje za broj telefona je prazno!");
       }
     }
 

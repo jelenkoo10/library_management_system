@@ -12,6 +12,7 @@ const BookList = (props) => {
   const [myBooks, setMyBooks] = useState([]);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const { uid } = useParams();
+  console.log(myBooks);
 
   useEffect(() => {
     async function fetchBooks() {
@@ -33,17 +34,13 @@ const BookList = (props) => {
       <section className="p-12 bg-[#DDD] border border-[#C75D2C] bg-opacity-90 lg:w-[900px] sm:w-full">
         <div className="grid grid-cols-4 gap-4 place-items-center items-center sm:flex sm:flex-col md:grid md:grid-cols-2 md:gap-4 md:mx-auto lg:grid-cols-3 lg:gap-2">
           {myBooks &&
-            myBooks
-              .filter((book) => {
-                return book.status == "zauzeto";
-              })
-              .map((book) => (
-                <BookCard
-                  cardStyle="bg-[#CCC] text-[#C75D2C] rounded-md pr-8 pl-4 py-4 text-white border border-[#C75D2C] bg-opacity-90"
-                  book={book}
-                  withStatus={true}
-                />
-              ))}
+            myBooks.map((book) => (
+              <BookCard
+                cardStyle="bg-[#CCC] text-[#C75D2C] rounded-md pr-8 pl-4 py-4 text-white border border-[#C75D2C] bg-opacity-90"
+                book={book}
+                withStatus={true}
+              />
+            ))}
         </div>
         {!myBooks[0] && (
           <p className="text-[#C75D2C] text-lg font-bold w-3/5">
@@ -51,6 +48,12 @@ const BookList = (props) => {
             prikazana ovde.
           </p>
         )}
+        {/* {myBooks[0] && myBooks[0].status == "rezervisano" && (
+          <p className="text-[#C75D2C] text-lg font-bold w-3/5">
+            Trenutno nema vaših knjiga. Kada rezervišete knjigu, ona će biti
+            prikazana ovde.
+          </p>
+        )} */}
         <div className="mt-8 flex items-center">
           <img
             src={WarningIcon}

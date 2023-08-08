@@ -76,7 +76,16 @@ const PasswordChange = (props) => {
         bodyClassName: "toast",
       });
     } catch (err) {
-      handleModal("Neuspešna promena lozinke", error);
+      toast.error(error, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        bodyClassName: "toast",
+      });
     }
   };
 

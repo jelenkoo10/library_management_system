@@ -9,7 +9,10 @@ const getBranches = async (req, res, next) => {
     branches = await Branch.find();
   } catch (err) {
     return next(
-      new HttpError("Fetching branches failed, please try again later.", 500)
+      new HttpError(
+        "Nalaženje podataka o ograncima nije uspelo, pokušajte ponovo kasnije.",
+        500
+      )
     );
   }
   res.json({
@@ -21,7 +24,7 @@ const createBranch = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
-      new HttpError("Invalid inputs passed, please check your data.", 422)
+      new HttpError("Nevalidni unosi, proverite svoje podatke.", 422)
     );
   }
 
@@ -42,7 +45,7 @@ const createBranch = async (req, res, next) => {
     await newBranch.save();
   } catch (err) {
     return next(
-      new HttpError("Creating branch failed, please try again.", 500)
+      new HttpError("Kreiranje ogranka nije uspelo, pokušajte ponovo.", 500)
     );
   }
 
@@ -53,7 +56,7 @@ const updateBranch = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
-      new HttpError("Invalid inputs passed, please check your data.", 422)
+      new HttpError("Nevalidni unosi, proverite svoje podatke.", 422)
     );
   }
 
@@ -65,8 +68,7 @@ const updateBranch = async (req, res, next) => {
     branch = await Branch.findById(branchId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't update branch."),
-      500
+      new HttpError("Došlo je do greške, ažuriranje ogranka nije moguće.", 500)
     );
   }
 
@@ -81,8 +83,7 @@ const updateBranch = async (req, res, next) => {
     await branch.save();
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't update branch."),
-      500
+      new HttpError("Došlo je do greške, ažuriranje ogranka nije moguće.", 500)
     );
   }
 
@@ -97,14 +98,13 @@ const deleteBranch = async (req, res, next) => {
     branch = await Branch.findById(branchId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't delete branch."),
-      500
+      new HttpError("Došlo je do greške, brisanje ogranka nije moguće.", 500)
     );
   }
 
   if (!branch) {
     return next(
-      new HttpError("Couldn't find a branch for the provided ID."),
+      new HttpError("Nije moguće pronaći ogranak sa datim ID-om."),
       404
     );
   }
@@ -113,12 +113,11 @@ const deleteBranch = async (req, res, next) => {
     await branch.remove();
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't delete branch."),
-      500
+      new HttpError("Došlo je do greške, brisanje ogranka nije moguće.", 500)
     );
   }
 
-  res.status(200).json({ message: "Deleted branch." });
+  res.status(200).json({ message: "Ogranak je obrisan." });
 };
 
 exports.getBranches = getBranches;

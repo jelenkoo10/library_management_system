@@ -30,25 +30,35 @@ import "react-toastify/dist/ReactToastify.css";
 import { ModalProvider } from "./context/modal-context";
 import { AuthContext } from "./context/auth-context";
 import { useAuth } from "./hooks/auth-hook";
+import PrivateRoute from "./components/auth-guard/PrivateRoute";
+import PublicRoute from "./components/auth-guard/PublicRoute";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Homepage />} />
-      <Route path="login/" element={<Login />} />
-      <Route path="signup/" element={<Signup />} />
-      <Route path="profile/:uid/" element={<ProfilePage />}>
-        <Route index element={<BookList />} />
-        <Route path="update" element={<ProfileUpdate />} />
-        <Route path="reservations" element={<Reservations />}>
-          <Route index element={<CurrentReservations />} />
-          <Route path="history" element={<ReservationsHistory />} />
-        </Route>
-        <Route path="libraries" element={<LibraryPage />} />
-        <Route path="favorites" element={<FavoritesPage />} />
-        <Route path="recommendations" element={<RecommendationsPage />} />
+      <Route path="login" element={<PublicRoute />}>
+        <Route path="" element={<Login />} />
       </Route>
-      <Route path="admin" element={<Admin />} />
+      <Route path="signup" element={<PublicRoute />}>
+        <Route path="" element={<Signup />} />
+      </Route>
+      <Route path="profile/:uid/" element={<PrivateRoute />}>
+        <Route path="" element={<ProfilePage />}>
+          <Route index element={<BookList />} />
+          <Route path="update" element={<ProfileUpdate />} />
+          <Route path="reservations" element={<Reservations />}>
+            <Route index element={<CurrentReservations />} />
+            <Route path="history" element={<ReservationsHistory />} />
+          </Route>
+          <Route path="libraries" element={<LibraryPage />} />
+          <Route path="favorites" element={<FavoritesPage />} />
+          <Route path="recommendations" element={<RecommendationsPage />} />
+        </Route>
+      </Route>
+      <Route exact path="admin" element={<PrivateRoute />}>
+        <Route path="" element={<Admin />} />
+      </Route>
       <Route path="search/" element={<SearchPage />} />
       <Route path="results/" element={<SearchResults />} />
       <Route path="book/:bid/" element={<BookPage />} />

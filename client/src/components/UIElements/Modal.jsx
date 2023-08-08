@@ -5,7 +5,6 @@ import { ModalContext } from "../../context/modal-context";
 const Modal = () => {
   let { modalTitle, modalContent, handleModal, modal } =
     React.useContext(ModalContext);
-
   if (modal) {
     return ReactDOM.createPortal(
       <div
@@ -15,7 +14,9 @@ const Modal = () => {
         <div className="bg-white relative p-5 shadow-lg rounded flex flex-col items-start text-lg text-gray-800 sm:w-[400px] md:w-[600px]">
           <button
             className="absolute top-0 right-0 -mt-12 font-bold self-end rounded-full bg-[#C75D2C] mb-3 text-white w-8 h-8"
-            onClick={() => handleModal()}
+            onClick={() => {
+              handleModal();
+            }}
           >
             &times;
           </button>

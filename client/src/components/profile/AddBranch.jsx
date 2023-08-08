@@ -40,6 +40,7 @@ const AddBranch = (props) => {
     getBranches();
   }, []);
 
+  console.log(selectedBranch);
   const addBranchHandler = async (e) => {
     e.preventDefault();
     try {
@@ -47,7 +48,7 @@ const AddBranch = (props) => {
         `http://localhost:5000/api/users/${uid}/branch_update`,
         "PATCH",
         JSON.stringify({
-          branchId: myBranches[0].id,
+          branchId: selectedBranch.id,
         }),
         {
           "Content-Type": "application/json",

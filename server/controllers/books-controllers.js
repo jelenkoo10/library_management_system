@@ -18,12 +18,15 @@ const getBooksByBranch = async (req, res, next) => {
     books = await Book.find({ branch: branchId });
   } catch (err) {
     return next(
-      new HttpError("Fetching books failed, please try again later.", 500)
+      new HttpError(
+        "Nalaženje knjiga nije uspelo, pokušajte ponovo kasnije.",
+        500
+      )
     );
   }
 
   if (!books) {
-    return next(new HttpError("There are no books in this branch.", 500));
+    return next(new HttpError("Nema knjiga u ovom ogranku.", 500));
   }
 
   res.json({
@@ -39,7 +42,10 @@ const getBooksByUser = async (req, res, next) => {
     user = await User.findById(userId);
   } catch (err) {
     return next(
-      new HttpError("Fetching user failed, please try again later.", 500)
+      new HttpError(
+        "Nalaženje korisnika nije uspelo, pokušajte ponovo kasnije.",
+        500
+      )
     );
   }
 
@@ -50,7 +56,10 @@ const getBooksByUser = async (req, res, next) => {
       book = await Book.findById(user.books[i]);
     } catch (err) {
       return next(
-        new HttpError("Fetching books failed, please try again later.", 500)
+        new HttpError(
+          "Nalaženje knjiga nije uspelo, pokušajte ponovo kasnije.",
+          500
+        )
       );
     }
     books.push(book);
@@ -68,12 +77,15 @@ const getBookAvailability = async (req, res, next) => {
     books = await Book.find({});
   } catch (err) {
     return next(
-      new HttpError("Fetching books failed, please try again later.", 500)
+      new HttpError(
+        "Nalaženje knjiga nije uspelo, pokušajte ponovo kasnije.",
+        500
+      )
     );
   }
 
   if (!books) {
-    return next(new HttpError("There are no books found, sorry.", 404));
+    return next(new HttpError("Nema pronađenih knjiga, žao nam je.", 404));
   } else {
     books = books.filter(
       (book) =>
@@ -83,7 +95,7 @@ const getBookAvailability = async (req, res, next) => {
   }
 
   if (!books) {
-    return next(new HttpError("There are no books found, sorry.", 404));
+    return next(new HttpError("Nema pronađenih knjiga, žao nam je.", 404));
   }
 
   res.json({
@@ -94,9 +106,7 @@ const getBookAvailability = async (req, res, next) => {
 const createBook = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return next(
-      new HttpError("Invalid inputs passed, please check your data.", 422)
-    );
+    return next(new HttpError("Pogrešni unosi, proverite vaše podatke.", 422));
   }
   const {
     title,
@@ -114,13 +124,13 @@ const createBook = async (req, res, next) => {
   try {
     author = await Author.findById(authorId);
   } catch (err) {
-    return next(new HttpError("Something went wrong, please try again.", 500));
+    return next(new HttpError("Nešto nije u redu, pokušajte ponovo.", 500));
   }
 
   try {
     branch = await Branch.findById(branchId);
   } catch (err) {
-    return next(new HttpError("Something went wrong, please try again.", 500));
+    return next(new HttpError("Nešto nije u redu, pokušajte ponovo.", 500));
   }
 
   const newBook = new Book({
@@ -142,7 +152,7 @@ const createBook = async (req, res, next) => {
   try {
     await newBook.save();
   } catch (err) {
-    return next("Creating a book failed, please try again.", 500);
+    return next("Kreiranje knjige nije uspelo, pokušajte ponovo.", 500);
   }
 
   res.status(201).json({ book: newBook.toObject({ getters: true }) });
@@ -153,10 +163,8 @@ const importBooksFromExcel = async (req, res, next) => {
   const sheetName = workbook.SheetNames[0];
   const worksheet = workbook.Sheets[sheetName];
 
-  // Parsiranje podataka
   const data = xlsx.utils.sheet_to_json(worksheet);
 
-  // Iteracija kroz podatke i ubacivanje u bazu
   for (const bookData of data) {
     const {
       title,
@@ -172,13 +180,11 @@ const importBooksFromExcel = async (req, res, next) => {
       branchName,
     } = bookData;
 
-    // Provera da li knjiga sa istim naslovom već postoji u bazi
     const existingBook = await Book.findOne({ title });
 
     if (existingBook) {
       console.log(`Knjiga sa naslovom "${title}" već postoji u bazi.`);
     } else {
-      // Ubacivanje novog zapisa u bazu
       const book = new Book({
         title,
         genre,
@@ -214,13 +220,13 @@ const getBookById = async (req, res, next) => {
     book = await Book.findById(bookId);
   } catch (err) {
     return next(
-      new HttpError("Couldn't find a book for the provided ID.", 404)
+      new HttpError("Nije moguće pronaći knjigu sa pruženim ID.", 404)
     );
   }
 
   if (!book) {
     return next(
-      new HttpError("Couldn't find a book for the provided ID.", 404)
+      new HttpError("Nije moguće pronaći knjigu sa pruženim ID.", 404)
     );
   }
 
@@ -241,12 +247,15 @@ const searchBooks = async (req, res, next) => {
     books = await Book.find({});
   } catch (err) {
     return next(
-      new HttpError("Fetching books failed, please try again later.", 500)
+      new HttpError(
+        "Nalaženje knjiga nije uspelo, pokušajte ponovo kasnije.",
+        500
+      )
     );
   }
 
   if (!books) {
-    return next(new HttpError("There are no books found, sorry.", 404));
+    return next(new HttpError("Nema pronađenih knjiga, žao nam je.", 404));
   } else {
     books = books.filter(
       (book) =>
@@ -263,7 +272,7 @@ const searchBooks = async (req, res, next) => {
   }
 
   if (!books) {
-    return next(new HttpError("There are no books found, sorry.", 404));
+    return next(new HttpError("Nema pronađenih knjiga, žao nam je.", 404));
   }
 
   res.json({
@@ -274,9 +283,7 @@ const searchBooks = async (req, res, next) => {
 const updateBook = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return next(
-      new HttpError("Invalid inputs passed, please check your data.", 422)
-    );
+    return next(new HttpError("Pogrešni unosi, proverite vaše podatke.", 422));
   }
 
   const { title, genre, description, language, year_published } = req.body;
@@ -287,8 +294,7 @@ const updateBook = async (req, res, next) => {
     book = await Book.findById(bookId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't update book."),
-      500
+      new HttpError("Nešto nije u redu, ažuriranje knjige nije moguće.", 500)
     );
   }
 
@@ -303,8 +309,7 @@ const updateBook = async (req, res, next) => {
     await book.save();
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't update book."),
-      500
+      new HttpError("Nešto nije u redu, ažuriranje knjige nije moguće.", 500)
     );
   }
 
@@ -319,14 +324,13 @@ const assignBook = async (req, res, next) => {
     book = await Book.findById(bookId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't assign book."),
-      500
+      new HttpError("Nešto nije u redu, dodeljivanje knjige nije moguće.", 500)
     );
   }
 
   if (!book) {
     return next(
-      new HttpError("Couldn't find a book for the provided ID."),
+      new HttpError("Nije moguće pronaći knjigu za pruženi ID."),
       404
     );
   }
@@ -336,14 +340,13 @@ const assignBook = async (req, res, next) => {
     book.save();
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't assign book."),
-      500
+      new HttpError("Nešto nije u redu, dodeljivanje knjige nije moguće.", 500)
     );
   }
 
   res.status(200).json({
     book: book.toObject({ getters: true }),
-    message: "Confirmed reservation.",
+    message: "Potvrđena rezervacija.",
   });
 };
 
@@ -356,14 +359,13 @@ const reserveBook = async (req, res, next) => {
     book = await Book.findById(bookId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't assign book."),
-      500
+      new HttpError("Nešto nije u redu, rezervacija knjige nije moguća.", 500)
     );
   }
 
   if (!book) {
     return next(
-      new HttpError("Couldn't find a book for the provided ID."),
+      new HttpError("Nije moguće pronaći knjigu za pruženi ID."),
       404
     );
   }
@@ -373,14 +375,15 @@ const reserveBook = async (req, res, next) => {
     foundUser = await User.findById(userId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't assign book."),
-      500
+      new HttpError("Nešto nije u redu, rezervacija knjige nije moguća.", 500)
     );
   }
 
   if (foundUser.books.length >= 3) {
     return next(
-      new HttpError("Couldn't assign book, user already has 3 books."),
+      new HttpError(
+        "Nije moguće rezervisati knjigu, korisnik već ima 3 knjige."
+      ),
       422
     );
   }
@@ -405,8 +408,7 @@ const reserveBook = async (req, res, next) => {
     await sess.commitTransaction();
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't assign book."),
-      500
+      new HttpError("Nešto nije u redu, rezervacija knjige nije moguća.", 500)
     );
   }
 
@@ -425,14 +427,13 @@ const returnBook = async (req, res, next) => {
     book = await Book.findById(foundBookId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't return book."),
-      500
+      new HttpError("Nešto nije u redu, vraćanje knjige nije moguće.", 500)
     );
   }
 
   if (!book) {
     return next(
-      new HttpError("Couldn't find a book for the provided ID."),
+      new HttpError("Nije moguće pronaći knjigu za pruženi ID."),
       404
     );
   }
@@ -442,8 +443,7 @@ const returnBook = async (req, res, next) => {
     user = await User.findById(userId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't return book."),
-      500
+      new HttpError("Nešto nije u redu, vraćanje knjige nije moguće.", 500)
     );
   }
 
@@ -466,8 +466,7 @@ const returnBook = async (req, res, next) => {
     await sess.commitTransaction();
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't return book."),
-      500
+      new HttpError("Nešto nije u redu, vraćanje knjige nije moguće.", 500)
     );
   }
 
@@ -485,14 +484,13 @@ const deleteBook = async (req, res, next) => {
     book = await Book.findById(bookId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't delete book."),
-      500
+      new HttpError("Nešto nije u redu, brisanje knjige nije moguće.", 500)
     );
   }
 
   if (!book) {
     return next(
-      new HttpError("Couldn't find a book for the provided ID."),
+      new HttpError("Nije moguće pronaći knjigu za pruženi ID."),
       404
     );
   }
@@ -501,12 +499,11 @@ const deleteBook = async (req, res, next) => {
     await book.remove();
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't delete book."),
-      500
+      new HttpError("Nešto nije u redu, brisanje knjige nije moguće.", 500)
     );
   }
 
-  res.status(200).json({ message: "Deleted book." });
+  res.status(200).json({ message: "Knjiga je obrisana." });
 };
 
 const getFilters = async (req, res, next) => {
@@ -515,7 +512,10 @@ const getFilters = async (req, res, next) => {
     books = await Book.find({});
   } catch (err) {
     return next(
-      new HttpError("Fetching books failed, please try again later.", 500)
+      new HttpError(
+        "Nalaženje knjiga nije uspelo, pokušajte ponovo kasnije.",
+        500
+      )
     );
   }
 
@@ -554,14 +554,13 @@ const setBookAsFavourite = async (req, res, next) => {
     book = await Book.findById(bookId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't find book."),
-      500
+      new HttpError("Nešto nije u redu, knjiga nije pronađena.", 500)
     );
   }
 
   if (!book) {
     return next(
-      new HttpError("Couldn't find a book for the provided ID."),
+      new HttpError("Nije moguće pronaći knjigu za pruženi ID."),
       404
     );
   }
@@ -571,8 +570,10 @@ const setBookAsFavourite = async (req, res, next) => {
     foundUser = await User.findById(userId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't assign book."),
-      500
+      new HttpError(
+        "Nešto nije u redu, dodavanje knjige među omiljene nije moguće.",
+        500
+      )
     );
   }
 
@@ -586,8 +587,10 @@ const setBookAsFavourite = async (req, res, next) => {
     await sess.commitTransaction();
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't assign book."),
-      500
+      new HttpError(
+        "Nešto nije u redu, dodavanje knjige među omiljene nije moguće.",
+        500
+      )
     );
   }
 
@@ -606,14 +609,16 @@ const removeBookFromFavourites = async (req, res, next) => {
     book = await Book.findById(foundBookId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't return book."),
-      500
+      new HttpError(
+        "Nešto nije u redu, vraćanje knjige iz omiljenih nije moguće.",
+        500
+      )
     );
   }
 
   if (!book) {
     return next(
-      new HttpError("Couldn't find a book for the provided ID."),
+      new HttpError("Nije moguće pronaći knjigu za pruženi ID."),
       404
     );
   }
@@ -623,8 +628,10 @@ const removeBookFromFavourites = async (req, res, next) => {
     user = await User.findById(userId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't return book."),
-      500
+      new HttpError(
+        "Nešto nije u redu, vraćanje knjige iz omiljenih nije moguće.",
+        500
+      )
     );
   }
 
@@ -638,8 +645,10 @@ const removeBookFromFavourites = async (req, res, next) => {
     await sess.commitTransaction();
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't return book."),
-      500
+      new HttpError(
+        "Nešto nije u redu, vraćanje knjige iz omiljenih nije moguće.",
+        500
+      )
     );
   }
 
@@ -657,34 +666,29 @@ const downloadBook = async (req, res, next) => {
     book = await Book.findById(bookId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't return book."),
-      500
+      new HttpError("Nešto nije u redu, preuzimanje knjige nije moguće.", 500)
     );
   }
 
-  // Path of the PDF file to be downloaded
   const filePath =
     "C:/Users/Administrator/Documents/GitHub/library_management_system/server/" +
     book.pdf.slice(22);
 
-  // Set the file name for the downloaded file
   const fileName = `book_${bookId}.pdf`;
 
   res.setHeader("Content-Type", "application/pdf");
 
-  // Set the headers to specify the file as an attachment
   res.setHeader("Content-Disposition", `attachment; filename=${fileName}`);
 
-  const fileStream = fs.createReadStream(filePath);
-  fileStream.pipe(res);
+  fs.createReadStream(filePath).pipe(res);
 };
 
 exports.getBooksByBranch = getBooksByBranch;
+exports.getBooksByUser = getBooksByUser;
+exports.getBookAvailability = getBookAvailability;
 exports.createBook = createBook;
 exports.importBooksFromExcel = importBooksFromExcel;
 exports.getBookById = getBookById;
-exports.getBooksByUser = getBooksByUser;
-exports.getBookAvailability = getBookAvailability;
 exports.searchBooks = searchBooks;
 exports.updateBook = updateBook;
 exports.assignBook = assignBook;

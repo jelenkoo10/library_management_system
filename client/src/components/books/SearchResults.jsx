@@ -115,7 +115,7 @@ const SearchResults = () => {
     <>
       {isLoading && <LoadingSpinner asOverlay />}
       {
-        <div className="sm:relative lg:fixed lg:top-[4.95rem] left-0 bg-white sm:w-4/5 md:w-3/5 sm:rounded-lg sm:py-8 sm:px-12 sm:mt-6 sm:mx-auto lg:w-1/5 xl:w-[250px] bg-opacity-90 sm:h-fit lg:h-[89.5%] lg:px-2 xl:px-4 lg:block">
+        <div className="sm:relative lg:fixed lg:top-[4.95rem] left-0 bg-white sm:w-4/5 md:w-3/5 sm:rounded-lg md:rounded-none sm:py-8 sm:px-12 sm:mt-6 lg:mt-0 sm:mx-auto lg:w-1/5 xl:w-[250px] bg-opacity-90 sm:h-fit lg:h-[89.5%] lg:px-2 xl:px-4 lg:block">
           <h1 className="text-2xl text-[#C75D2C] text-center mt-2">Filteri</h1>
           <Select
             selectStyle="my-4 block border-b-2 border-[#B8572A] sm:w-2/5 lg:w-2/5 xl:w-[100px]"

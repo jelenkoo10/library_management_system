@@ -18,7 +18,10 @@ const getUsers = async (req, res, next) => {
     users = await User.find({}, "-password");
   } catch (err) {
     return next(
-      new HttpError("Fetching users failed, please try again later.", 500)
+      new HttpError(
+        "Nalaženje korisnika nije uspelo, pokušajte ponovo kasnije.",
+        500
+      )
     );
   }
   res.json({
@@ -33,7 +36,10 @@ const getUserById = async (req, res, next) => {
     user = await User.findById(uid);
   } catch (err) {
     return next(
-      new HttpError("Fetching user failed, please try again later.", 500)
+      new HttpError(
+        "Nalaženje korisnika nije uspelo, pokušajte ponovo kasnije.",
+        500
+      )
     );
   }
   res.json({
@@ -49,7 +55,10 @@ const getUsersByBranch = async (req, res, next) => {
     users = await User.find({}, "-password");
   } catch (err) {
     return next(
-      new HttpError("Fetching users failed, please try again later.", 500)
+      new HttpError(
+        "Nalaženje korisnika nije uspelo, pokušajte ponovo kasnije.",
+        500
+      )
     );
   }
   res.json({
@@ -64,7 +73,7 @@ const signup = async (req, res, next) => {
   if (!errors.isEmpty()) {
     return next(
       new HttpError(
-        "Uneti su nevalidni podaci, proverite Vaše podatke i pokušajte ponovo.",
+        "Nevalidni unosi, proverite svoje podatke i pokušajte ponovo.",
         422
       )
     );
@@ -242,14 +251,14 @@ const resetForgottenPassword = async (req, res, next) => {
     user = await User.findOne({ email: email });
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't find user.", 500)
+      new HttpError("Došlo je do greške, nije moguće pronaći korisnika.", 500)
     );
   }
 
   const userEmail = user.email;
 
   if (!userEmail) {
-    return next(new HttpError("Invalid email address.", 400));
+    return next(new HttpError("Nevažeća email adresa.", 400));
   }
 
   const mailOptions = {
@@ -260,25 +269,25 @@ const resetForgottenPassword = async (req, res, next) => {
       <head>
         <style>
           body {
-            background-color: #f0f0f0; /* Siva pozadina da bude vidljivo u dark modu */
-            text-align: center; /* Centriranje teksta */
+            background-color: #f0f0f0; /* Grey background to be visible in dark mode */
+            text-align: center; /* Center-align text */
           }
           .card {
-            border: 1px solid #c75d2c; /* Border oko card-a */
-            padding: 20px; /* Razmak unutar card-a */
-            background-color: #ffffff; /* Bela pozadina card-a */
-            display: inline-block; /* Card će biti prikazan u liniji */
+            border: 1px solid #c75d2c; /* Border around the card */
+            padding: 20px; /* Spacing inside the card */
+            background-color: #ffffff; /* White background of the card */
+            display: inline-block; /* The card will be displayed in-line */
           }
           h1 {
-            color: #c75d2c; /* Boja teksta za h1 */
+            color: #c75d2c; /* Text color for h1 */
           }
         </style>
       </head>
       <body>
         <div class="card">
-          <p>Vaša nova lozinka je: </p>
+          <p>Your new password is: </p>
           <h1>${generatedPassword}</h1>
-          <p>Koristeći ovu lozinku, sada se možete ulogovati, i zatim, ako želite, ponovo promeniti lozinku prema Vašim potrebama.</p>
+          <p>Using this password, you can now log in, and then, if you wish, change the password according to your needs.</p>
         </div>
       </body>
     </html>`,
@@ -289,15 +298,18 @@ const resetForgottenPassword = async (req, res, next) => {
       console.log("Greška pri slanju mejla:", error);
       return next(new HttpError("Nije bilo moguće poslati mejl.", 500));
     } else {
-      console.log("Mejl je uspešno poslat:", info.response);
+      console.log("Mejl uspešno poslat:", info.response);
 
-      // Ažuriranje korisnikove lozinke u bazi podataka
+      // Update user's password in the database
       let hashedPassword;
       try {
         hashedPassword = await bcrypt.hash(generatedPassword, 12);
       } catch (err) {
         return next(
-          new HttpError("Could not create user, please try again.", 500)
+          new HttpError(
+            "Neuspešno ažuriranje lozinke, pokušajte ponovo kasnije.",
+            500
+          )
         );
       }
 
@@ -308,7 +320,7 @@ const resetForgottenPassword = async (req, res, next) => {
       } catch (err) {
         return next(
           new HttpError(
-            "Something went wrong, couldn't update user's password.",
+            "Neuspešno ažuriranje lozinke, pokušajte ponovo kasnije.",
             500
           )
         );
@@ -324,7 +336,7 @@ const resetPassword = async (req, res, next) => {
   if (!errors.isEmpty()) {
     return next(
       new HttpError(
-        "Invalid password passed, password should have at least 8 characters.",
+        "Uneta neispravna lozinka. Lozinka treba da sadrži najmanje 8 karaktera.",
         422
       )
     );
@@ -339,7 +351,7 @@ const resetPassword = async (req, res, next) => {
   } catch (err) {
     return next(
       new HttpError(
-        "Something went wrong, couldn't update user's password.",
+        "Došlo je do greške, nije moguće ažurirati lozinku korisnika.",
         500
       )
     );
@@ -350,7 +362,7 @@ const resetPassword = async (req, res, next) => {
     isValidPassword = await bcrypt.compare(oldPassword, user.password);
   } catch (err) {
     const error = new HttpError(
-      "Could not log you in, please check your credentials and try again.",
+      "Nije moguće prijaviti se, proverite svoje podatke i pokušajte ponovo.",
       500
     );
     return next(error);
@@ -358,11 +370,14 @@ const resetPassword = async (req, res, next) => {
 
   if (oldPassword !== repeatedOldPassword) {
     return next(
-      new HttpError("Old password doesn't match repeated old password.", 422)
+      new HttpError(
+        "Stara lozinka se ne podudara sa ponovo unetom starom lozinkom.",
+        422
+      )
     );
   } else if (!isValidPassword) {
     return next(
-      new HttpError("Typed password doesn't match your old password.", 422)
+      new HttpError("Uneta lozinka se ne podudara sa starom lozinkom.", 422)
     );
   } else {
     try {
@@ -372,7 +387,7 @@ const resetPassword = async (req, res, next) => {
     } catch (err) {
       return next(
         new HttpError(
-          "Something went wrong, couldn't update user's password.",
+          "Došlo je do greške, nije moguće ažurirati lozinku korisnika.",
           500
         )
       );
@@ -391,7 +406,10 @@ const updateUserData = async (req, res, next) => {
     user = await User.findById(userId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't update user's data.", 500)
+      new HttpError(
+        "Došlo je do greške, nije moguće ažurirati podatke korisnika.",
+        500
+      )
     );
   }
 
@@ -409,8 +427,10 @@ const updateUserData = async (req, res, next) => {
     await user.save();
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't update user's data."),
-      500
+      new HttpError(
+        "Došlo je do greške, nije moguće ažurirati podatke korisnika.",
+        500
+      )
     );
   }
 
@@ -424,14 +444,15 @@ const getUserReservations = async (req, res, next) => {
   const userId = req.params.uid;
 
   let startDateFormatted = new Date(startDate);
-
   let endDateFormatted = new Date(endDate);
 
   let user;
   try {
     user = await User.findById(userId);
   } catch (err) {
-    return next(new HttpError("Couldn't find user with the provided ID", 404));
+    return next(
+      new HttpError("Nije moguće pronaći korisnika sa datim ID-jem.", 404)
+    );
   }
 
   let bookIds;
@@ -463,7 +484,7 @@ const getUserReservations = async (req, res, next) => {
     } catch (err) {
       return next(
         new HttpError(
-          "Couldn't fetch books for the provided user, please try again later.",
+          "Nije moguće pronaći knjige za datog korisnika, pokušajte ponovo kasnije.",
           500
         )
       );
@@ -494,7 +515,9 @@ const getCurrentReservations = async (req, res, next) => {
   try {
     user = await User.findById(userId);
   } catch (err) {
-    return next(new HttpError("Couldn't find user with the provided ID", 404));
+    return next(
+      new HttpError("Nije moguće pronaći korisnika sa datim ID-jem.", 404)
+    );
   }
 
   let bookIds;
@@ -513,7 +536,7 @@ const getCurrentReservations = async (req, res, next) => {
     }
     bookIds = filteredReservations.map((reservation) => reservation.bookId);
   } catch (err) {
-    return next(new HttpError("Couldn't find any reservations.", 404));
+    return next(new HttpError("Nisu pronađene rezervacije.", 404));
   }
 
   for (let j = 0; j < bookIds.length; j++) {
@@ -523,7 +546,7 @@ const getCurrentReservations = async (req, res, next) => {
     } catch (err) {
       return next(
         new HttpError(
-          "Couldn't fetch books for the provided user, please try again later.",
+          "Nije moguće pronaći knjige za datog korisnika, pokušajte ponovo kasnije.",
           500
         )
       );
@@ -543,7 +566,9 @@ const getUserBranches = async (req, res, next) => {
   try {
     user = await User.findById(userId);
   } catch (err) {
-    return next(new HttpError("Couldn't find user with the provided ID", 404));
+    return next(
+      new HttpError("Nije moguće pronaći korisnika sa datim ID-jem.", 404)
+    );
   }
 
   let branches = [];
@@ -555,7 +580,7 @@ const getUserBranches = async (req, res, next) => {
   } catch (err) {
     return next(
       new HttpError(
-        "Couldn't fetch branches correctly, please try again later",
+        "Nije moguće pronaći ogranke, pokušajte ponovo kasnije.",
         404
       )
     );
@@ -573,14 +598,14 @@ const addUserBranch = async (req, res, next) => {
     user = await User.findById(userId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't assign user."),
+      new HttpError("Došlo je do greške, nije moguće dodati korisnika."),
       500
     );
   }
 
   if (!user) {
     return next(
-      new HttpError("Couldn't find a user for the provided ID."),
+      new HttpError("Nije moguće pronaći korisnika sa datim ID-jem."),
       404
     );
   }
@@ -590,7 +615,7 @@ const addUserBranch = async (req, res, next) => {
     branch = await Branch.findById(branchId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't add branch."),
+      new HttpError("Došlo je do greške, nije moguće izmeniti ogranak."),
       500
     );
   }
@@ -602,7 +627,7 @@ const addUserBranch = async (req, res, next) => {
     branch.save();
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't add branch."),
+      new HttpError("Došlo je do greške, nije moguće izmeniti ogranak."),
       500
     );
   }
@@ -620,7 +645,9 @@ const getUserFavorites = async (req, res, next) => {
   try {
     user = await User.findById(userId);
   } catch (err) {
-    return next(new HttpError("Couldn't find user with the provided ID", 404));
+    return next(
+      new HttpError("Nije moguće pronaći korisnika sa datim ID-jem.", 404)
+    );
   }
 
   let favorites = [];
@@ -632,7 +659,7 @@ const getUserFavorites = async (req, res, next) => {
   } catch (err) {
     return next(
       new HttpError(
-        "Couldn't fetch favorites correctly, please try again later",
+        "Nije moguće dohvatiti omiljene knjige, pokušajte ponovo kasnije.",
         404
       )
     );
@@ -649,7 +676,10 @@ const getUserRecommendations = async (req, res, next) => {
     user = await User.findById(uid);
   } catch (err) {
     return next(
-      new HttpError("Fetching user failed, please try again later.", 500)
+      new HttpError(
+        "Nalaženje korisnika nije uspelo, pokušajte ponovo kasnije.",
+        500
+      )
     );
   }
 
@@ -663,7 +693,10 @@ const getUserRecommendations = async (req, res, next) => {
         book = await Book.findById(favorites[i]);
       } catch (err) {
         return next(
-          new HttpError("Fetching book failed, please try again later.", 500)
+          new HttpError(
+            "Nalaženje knjige nije uspelo, pokušajte ponovo kasnije.",
+            500
+          )
         );
       }
       let bookGenres = book.genre.split(", ");
@@ -680,7 +713,10 @@ const getUserRecommendations = async (req, res, next) => {
     books = await Book.find({});
   } catch (err) {
     return next(
-      new HttpError("Fetching books failed, please try again later.", 500)
+      new HttpError(
+        "Nalaženje knjiga nije uspelo, pokušajte ponovo kasnije.",
+        500
+      )
     );
   }
 

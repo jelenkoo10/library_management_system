@@ -9,7 +9,10 @@ const getAuthors = async (req, res, next) => {
     authors = await Author.find();
   } catch (err) {
     return next(
-      new HttpError("Fetching authors failed, please try again later.", 500)
+      new HttpError(
+        "Nalaženje autora nije uspelo, pokušajte ponovo kasnije.",
+        500
+      )
     );
   }
   res.json({
@@ -25,7 +28,10 @@ const getAuthorById = async (req, res, next) => {
     author = await Author.findById(authorId);
   } catch (err) {
     return next(
-      new HttpError("Fetching author failed, please try again later.", 500)
+      new HttpError(
+        "Nalaženje autora nije uspelo, pokušajte ponovo kasnije.",
+        500
+      )
     );
   }
   res.json({
@@ -36,9 +42,7 @@ const getAuthorById = async (req, res, next) => {
 const addAuthor = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return next(
-      new HttpError("Invalid inputs passed, please check your data.", 422)
-    );
+    return next(new HttpError("Pogrešni unosi, proverite Vaše podatke.", 422));
   }
 
   const { name, surname, biography, date_of_birth, nationality, age } =
@@ -57,7 +61,9 @@ const addAuthor = async (req, res, next) => {
   try {
     await newAuthor.save();
   } catch (err) {
-    return next(new HttpError("Adding author failed, please try again.", 500));
+    return next(
+      new HttpError("Dodavanje autora nije uspelo, pokušajte ponovo.", 500)
+    );
   }
 
   res.status(201).json({ author: newAuthor.toObject({ getters: true }) });
@@ -66,9 +72,7 @@ const addAuthor = async (req, res, next) => {
 const updateAuthor = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return next(
-      new HttpError("Invalid inputs passed, please check your data.", 422)
-    );
+    return next(new HttpError("Pogrešni unosi, proverite Vaše podatke.", 422));
   }
 
   const { name, surname, biography, date_of_birth, nationality, age } =
@@ -80,8 +84,7 @@ const updateAuthor = async (req, res, next) => {
     author = await Author.findById(authorId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't update author."),
-      500
+      new HttpError("Nešto nije u redu, ažuriranje autora nije moguće.", 500)
     );
   }
 
@@ -96,8 +99,7 @@ const updateAuthor = async (req, res, next) => {
     await author.save();
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't update author."),
-      500
+      new HttpError("Nešto nije u redu, ažuriranje autora nije moguće.", 500)
     );
   }
 
@@ -112,14 +114,13 @@ const deleteAuthor = async (req, res, next) => {
     author = await Author.findById(authorId);
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't delete author."),
-      500
+      new HttpError("Nešto nije u redu, brisanje autora nije moguće.", 500)
     );
   }
 
   if (!author) {
     return next(
-      new HttpError("Couldn't find an author for the provided ID."),
+      new HttpError("Nije moguće pronaći autora za pruženi ID."),
       404
     );
   }
@@ -128,12 +129,11 @@ const deleteAuthor = async (req, res, next) => {
     await author.remove();
   } catch (err) {
     return next(
-      new HttpError("Something went wrong, couldn't delete author."),
-      500
+      new HttpError("Nešto nije u redu, brisanje autora nije moguće.", 500)
     );
   }
 
-  res.status(200).json({ message: "Deleted author." });
+  res.status(200).json({ message: "Autor je obrisan." });
 };
 
 exports.getAuthors = getAuthors;

@@ -121,7 +121,6 @@ const AdminAddBookForm = ({ closeModal }) => {
         "POST",
         formData
       );
-      closeModal();
       toast.success("Uspešno ste dodali knjigu!", {
         position: "top-right",
         autoClose: 3000,
@@ -132,6 +131,9 @@ const AdminAddBookForm = ({ closeModal }) => {
         progress: undefined,
         bodyClassName: "toast",
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 3500);
     } catch (err) {
       console.log(err);
       alert("Neuspešno dodavanje!", error);

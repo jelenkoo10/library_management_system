@@ -180,10 +180,16 @@ const importBooksFromExcel = async (req, res, next) => {
       branchName,
     } = bookData;
 
-    const existingBook = await Book.findOne({ title });
+    const existingBook = await Book.findOne({
+      title,
+      genre,
+      description,
+      language,
+      branch,
+    });
 
     if (existingBook) {
-      console.log(`Knjiga sa naslovom "${title}" već postoji u bazi.`);
+      return new HttpError(`Knjiga sa naslovom "${title}" već postoji u bazi.`);
     } else {
       const book = new Book({
         title,
@@ -210,6 +216,8 @@ const importBooksFromExcel = async (req, res, next) => {
       }
     }
   }
+
+  res.status(201).json({ message: "Knjige su uspešno ubačene u bazu." });
 };
 
 const getBookById = async (req, res, next) => {
@@ -392,6 +400,7 @@ const reserveBook = async (req, res, next) => {
     const sess = await mongoose.startSession();
     sess.startTransaction();
     book.status = "rezervisano";
+    book.user = userId;
     book.loan_expiry = new Date(
       new Date().setMonth(new Date().getMonth() + 1)
     ).toISOString();
@@ -683,6 +692,20 @@ const downloadBook = async (req, res, next) => {
   fs.createReadStream(filePath).pipe(res);
 };
 
+const downloadTemplate = async (req, res, next) => {
+  const filePath =
+    "C:/Users/Administrator/Documents/GitHub/library_management_system/server/uploads/images/template.xlsx";
+
+  res.setHeader(
+    "Content-Type",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  );
+
+  res.setHeader("Content-Disposition", `attachment; filename="template.xlsx"`);
+
+  fs.createReadStream(filePath).pipe(res);
+};
+
 exports.getBooksByBranch = getBooksByBranch;
 exports.getBooksByUser = getBooksByUser;
 exports.getBookAvailability = getBookAvailability;
@@ -699,3 +722,4 @@ exports.getFilters = getFilters;
 exports.setBookAsFavourite = setBookAsFavourite;
 exports.removeBookFromFavourites = removeBookFromFavourites;
 exports.downloadBook = downloadBook;
+exports.downloadTemplate = downloadTemplate;

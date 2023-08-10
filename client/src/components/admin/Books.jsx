@@ -3,12 +3,14 @@ import { useHttpClient } from "../../hooks/http-hook";
 import AdminBookCard from "./AdminBookCard";
 import LoadingSpinner from "../UIElements/LoadingSpinner/LoadingSpinner";
 import AdminBookUpdateModal from "./AdminBookUpdateModal";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Books = () => {
   const [books, setBooks] = useState([]);
   const [branches, setBranches] = useState([]);
   const [currentBranch, setCurrentBranch] = useState(null);
-  const { isLoading, sendRequest } = useHttpClient();
+  const { error, isLoading, sendRequest } = useHttpClient();
   const userData = JSON.parse(localStorage.getItem("userData"));
   const [reload, setReload] = useState(false);
   const [updating, setUpdating] = useState(null);
@@ -18,17 +20,32 @@ const Books = () => {
   }
 
   const deleteBook = async (id) => {
-    const response = await sendRequest(
-      `http://localhost:5000/api/books/${id}`,
-      "DELETE",
-      null,
-      {
-        "Content-Type": "application/json",
-      }
-    );
+    try {
+      const response = await sendRequest(
+        `http://localhost:5000/api/books/${id}`,
+        "DELETE",
+        null,
+        {
+          "Content-Type": "application/json",
+        }
+      );
 
-    if (response.message === "Deleted book.") {
-      reloadPage();
+      toast.success("Uspešno ste obrisali knjigu!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        bodyClassName: "toast",
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 3500);
+    } catch (err) {
+      console.log(err);
+      alert("Neuspešno brisanje", error);
     }
   };
 
@@ -42,9 +59,19 @@ const Books = () => {
       }
     );
 
-    if (response.message === "Confirmed reservation.") {
-      reloadPage();
-    }
+    toast.success("Uspešno ste potvrdili rezervaciju!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      bodyClassName: "toast",
+    });
+    setTimeout(() => {
+      window.location.reload();
+    }, 3500);
   };
 
   const updateBook = (book) => {

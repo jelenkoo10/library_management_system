@@ -24,7 +24,6 @@ const UserReturnBook = ({ user, closeModal }) => {
         "Content-Type": "application/json",
       }
     );
-    closeModal();
     toast.success("Uspešno je vraćena knjiga!", {
       position: "top-right",
       autoClose: 3000,
@@ -35,6 +34,9 @@ const UserReturnBook = ({ user, closeModal }) => {
       progress: undefined,
       bodyClassName: "toast",
     });
+    setTimeout(() => {
+      window.location.reload();
+    }, 3500);
   };
 
   const booksInputHandler = (e) => {
@@ -45,6 +47,7 @@ const UserReturnBook = ({ user, closeModal }) => {
 
   useEffect(() => {
     async function fetchBooks() {
+      let booksArray = [];
       const responseData = await sendRequest(
         `http://localhost:5000/api/books/${user._id}/books`,
         "GET",
@@ -53,12 +56,20 @@ const UserReturnBook = ({ user, closeModal }) => {
           "Content-Type": "application/json",
         }
       );
-
-      setBooks(responseData.books);
+      responseData.books
+        .filter((book) => {
+          return book.user == user._id;
+        })
+        .map((book) => booksArray.push({ name: book.title, id: book._id }));
+      setBooks(booksArray);
+      setInputData((oldData) => {
+        return { ...oldData, booksId: booksArray[0] && booksArray[0].id };
+      });
     }
     fetchBooks();
   }, []);
 
+  console.log(inputData);
   return (
     <form
       onSubmit={returnBook}
@@ -70,7 +81,7 @@ const UserReturnBook = ({ user, closeModal }) => {
         selectName="books"
         labelName="Knjiga"
         labelStyle="text-2xl text-[#C75D2C] mr-6 mt-2"
-        options={books && books.map((book) => book.title)}
+        options={books}
         onChange={booksInputHandler}
       />
       <Button

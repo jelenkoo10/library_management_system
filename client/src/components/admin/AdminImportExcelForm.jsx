@@ -16,10 +16,50 @@ const AdminImportExcelForm = ({ closeModal }) => {
     setSelectedFile(event.target.files[0]);
   };
 
-  const handleSubmit = async (event) => {
+  const downloadTemplate = async () => {
     try {
-      event.preventDefault();
-      // Kreirajte FormData objekat i dodajte izabrani fajl na njega
+      const response = await fetch(
+        `http://localhost:5000/api/books/downloadtemplate`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          responseType: "blob",
+        }
+      );
+
+      if (response.ok) {
+        const filename = "template.xlsx";
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        toast.success("Uspešno ste preuzeli Excel template datoteku!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          bodyClassName: "toast",
+        });
+      } else {
+        throw new Error("Greška u preuzimanju fajla");
+      }
+    } catch (error) {
+      console.error("Greška u preuzimanju fajla: ", error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
       const formData = new FormData();
       formData.append("excelFile", selectedFile);
       const responseData = await sendRequest(
@@ -28,10 +68,20 @@ const AdminImportExcelForm = ({ closeModal }) => {
         formData
       );
 
-      // Sada možete poslati formData objekat na server koristeći Fetch ili neki drugi API klijent
-      // Na serveru ćete tretirati ovaj fajl i obraditi ga kao što je objašnjeno u prethodnom odgovoru
+      toast.success("Uspešno ste dodali listu knjiga!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        bodyClassName: "toast",
+      });
 
-      // Resetujte stanje forme
+      setTimeout(() => {
+        window.location.reload();
+      }, 3500);
       setSelectedFile(null);
     } catch (err) {
       alert("Neuspešno dodavanje!", error);
@@ -46,8 +96,11 @@ const AdminImportExcelForm = ({ closeModal }) => {
           Umesto svake knjige pojedinačno, sada možete dodavati koliko god
           želite knjiga odjednom; uslov je da ih unesete u Excel datoteku, i da
           tu datoteku zatim prosledite na server putem dugmeta "Dodaj knjige".
-          Klikni <span className="text-[#C75D2C] font-bold">ovde</span> da
-          preuzmeš template datoteku, koju možete izmeniti radi unosa svojih
+          Klikni{" "}
+          <span className="text-[#C75D2C] font-bold" onClick={downloadTemplate}>
+            ovde
+          </span>{" "}
+          da preuzmeš template datoteku, koju možete izmeniti radi unosa svojih
           knjiga.
         </p>
         <input type="file" onChange={handleFileChange} />

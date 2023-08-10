@@ -5,7 +5,7 @@ import PhoneIcon from "../assets/icons8-phone-100.png";
 
 const Homepage = () => {
   return (
-    <div className="h-[80vh]">
+    <div className="min-h-[80vh]">
       <div className="py-[100px] flex flex-col items-center sm:px-6 h-1/2">
         <h1 className="mb-5 text-[#EEE] text-center font-bold text-4xl">
           Pravo mesto za sve ljubitelje dobre knjige!

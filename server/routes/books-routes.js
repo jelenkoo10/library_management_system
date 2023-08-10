@@ -20,6 +20,8 @@ router.get("/filters", booksController.getFilters);
 
 router.get("/download/:bid", booksController.downloadBook);
 
+router.get("/downloadtemplate", booksController.downloadTemplate);
+
 router.post(
   "/",
   fileUpload.single("pdf"),

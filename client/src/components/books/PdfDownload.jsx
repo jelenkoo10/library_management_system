@@ -41,10 +41,10 @@ const PdfDownload = (props) => {
           bodyClassName: "toast",
         });
       } else {
-        throw new Error("Failed to download the file");
+        throw new Error("Greška u preuzimanju fajla");
       }
     } catch (error) {
-      console.error("Error downloading file:", error);
+      console.error("Greška u preuzimanju fajla: ", error);
     }
   };
 

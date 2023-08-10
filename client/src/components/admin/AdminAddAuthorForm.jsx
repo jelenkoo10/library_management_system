@@ -57,7 +57,6 @@ const AdminAddAuthorForm = ({ closeModal }) => {
         }
       );
 
-      closeModal();
       toast.success("Uspešno ste dodali autora!", {
         position: "top-right",
         autoClose: 3000,
@@ -68,6 +67,10 @@ const AdminAddAuthorForm = ({ closeModal }) => {
         progress: undefined,
         bodyClassName: "toast",
       });
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 3500);
     } catch (err) {
       console.log(err);
       alert("Neuspešno dodavanje!", error);

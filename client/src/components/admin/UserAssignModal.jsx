@@ -18,14 +18,14 @@ const UserAssignModal = ({ closeModal, user }) => {
     const response = await sendRequest(
       `http://localhost:5000/api/books/assign/${inputData.booksId}`,
       "PATCH",
-      {
+      JSON.stringify({
         userId: user.id,
-      },
+      }),
       {
         "Content-Type": "application/json",
       }
     );
-    closeModal();
+
     toast.success("Uspešno ste dodelili knjigu!", {
       position: "top-right",
       autoClose: 3000,
@@ -36,6 +36,9 @@ const UserAssignModal = ({ closeModal, user }) => {
       progress: undefined,
       bodyClassName: "toast",
     });
+    setTimeout(() => {
+      window.location.reload();
+    }, 3500);
   };
 
   const booksInputHandler = (e) => {

@@ -684,13 +684,15 @@ const getUserRecommendations = async (req, res, next) => {
   }
 
   const favorites = user.favorites;
-  const genres = [];
+  let genres = [];
+  let favoriteBooks = [];
 
   if (favorites.length >= 1) {
     for (let i = 0; i < favorites.length; i++) {
       let book;
       try {
         book = await Book.findById(favorites[i]);
+        favoriteBooks.push(book);
       } catch (err) {
         return next(
           new HttpError(
@@ -699,6 +701,11 @@ const getUserRecommendations = async (req, res, next) => {
           )
         );
       }
+    }
+  }
+
+  for (let book of favoriteBooks) {
+    if (book != null) {
       let bookGenres = book.genre.split(", ");
       for (let j = 0; j < bookGenres.length; j++) {
         if (!genres.includes(bookGenres[j])) {
@@ -707,6 +714,8 @@ const getUserRecommendations = async (req, res, next) => {
       }
     }
   }
+
+  genres = Array.from(new Set(genres));
 
   let books = [];
   try {

@@ -326,6 +326,7 @@ const updateBook = async (req, res, next) => {
 
 const assignBook = async (req, res, next) => {
   const bookId = req.params.bid;
+  const { userId } = req.body;
 
   let book;
   try {
@@ -343,9 +344,43 @@ const assignBook = async (req, res, next) => {
     );
   }
 
+  let foundUser;
   try {
+    foundUser = await User.findById(userId);
+  } catch (err) {
+    return next(
+      new HttpError("Nešto nije u redu, rezervacija knjige nije moguća.", 500)
+    );
+  }
+
+  if (foundUser.books.length >= 3) {
+    return next(
+      new HttpError(
+        "Nije moguće rezervisati knjigu, korisnik već ima 3 knjige."
+      ),
+      422
+    );
+  }
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
     book.status = "zauzeto";
-    book.save();
+    book.user = userId;
+    book.loan_expiry = new Date(
+      new Date().setMonth(new Date().getMonth() + 1)
+    ).toISOString();
+    foundUser.reservations.push({
+      reservationDate: new Date().toISOString(),
+      returnDate: new Date(
+        new Date().setMonth(new Date().getMonth() + 1)
+      ).toISOString(),
+      bookId: bookId,
+    });
+    foundUser.books.push(book);
+    await foundUser.save({ session: sess });
+    await book.save({ session: sess });
+    await sess.commitTransaction();
   } catch (err) {
     return next(
       new HttpError("Nešto nije u redu, dodeljivanje knjige nije moguće.", 500)
@@ -354,6 +389,7 @@ const assignBook = async (req, res, next) => {
 
   res.status(200).json({
     book: book.toObject({ getters: true }),
+    user: foundUser.toObject({ getters: true }),
     message: "Potvrđena rezervacija.",
   });
 };

@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { ModalContext } from "../context/modal-context";
+import Wishlist from "./profile/Wishlist";
 
 const Footer = () => {
   let { handleModal } = React.useContext(ModalContext);
+  const userId = localStorage.getItem("userData")
+    ? JSON.parse(localStorage.getItem("userData")).userId
+    : null;
 
   return (
     <footer className="p-3 bg-[#C75D23] opacity-80 w-full">
@@ -40,6 +44,16 @@ const Footer = () => {
         <span className="px-4 cursor-pointer lg:border-l-2 sm:border-0">
           <Link to="search">Pretraga knjiga</Link>
         </span>
+        {userId && (
+          <span
+            className="px-4 cursor-pointer lg:border-l-2 sm:border-0"
+            onClick={() => {
+              handleModal("Lista želja", <Wishlist userId={userId} />);
+            }}
+          >
+            Lista želja
+          </span>
+        )}
         <span
           className="px-4 cursor-pointer lg:border-l-2 sm:border-0"
           onClick={() => {

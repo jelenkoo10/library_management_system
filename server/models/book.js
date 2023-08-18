@@ -11,12 +11,23 @@ const bookSchema = new Schema({
   loan_expiry: { type: String },
   status: { type: String, required: true },
   pdf: { type: String },
+  image: { type: String },
   author: { type: mongoose.Types.ObjectId, required: true, ref: "Author" },
   authorName: { type: String, required: true },
   branch: { type: mongoose.Types.ObjectId, required: true, ref: "Branch" },
   branchName: { type: String, required: true },
   user: { type: mongoose.Types.ObjectId, ref: "User" },
   likedBy: [{ type: mongoose.Types.ObjectId, ref: "User" }],
+  comments: [
+    {
+      commentDate: String,
+      commentText: String,
+      userId: mongoose.Types.ObjectId,
+      userName: String,
+      userBranches: [{ type: mongoose.Types.ObjectId, ref: "Branch" }],
+    },
+  ],
+  onWishlist: [{ type: mongoose.Types.ObjectId, ref: "User" }],
 });
 
 module.exports = mongoose.model("Book", bookSchema);

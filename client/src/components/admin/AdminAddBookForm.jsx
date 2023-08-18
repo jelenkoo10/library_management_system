@@ -11,6 +11,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 const AdminAddBookForm = ({ closeModal }) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const [inputData, setInputData] = useState({});
+  const [imageData, setImageData] = useState({});
   const [authors, setAuthors] = useState([]);
   const [branches, setBranches] = useState([]);
 
@@ -51,8 +53,6 @@ const AdminAddBookForm = ({ closeModal }) => {
       setInputData({ branchId: branches[0]._id, authorId: authors[0].id });
     }
   }, [branches, authors]);
-
-  const [inputData, setInputData] = useState({});
 
   const titleInputHandler = (e) => {
     setInputData((oldData) => {
@@ -104,6 +104,14 @@ const AdminAddBookForm = ({ closeModal }) => {
     }
   };
 
+  const imageInputHandler = (value, isValid) => {
+    if (isValid) {
+      setImageData((oldData) => {
+        return { ...oldData, image: value };
+      });
+    }
+  };
+
   const addBook = async (e) => {
     try {
       e.preventDefault();
@@ -121,6 +129,7 @@ const AdminAddBookForm = ({ closeModal }) => {
         "POST",
         formData
       );
+      if (imageData) await addImage();
       toast.success("Uspešno ste dodali knjigu!", {
         position: "top-right",
         autoClose: 3000,
@@ -134,6 +143,29 @@ const AdminAddBookForm = ({ closeModal }) => {
       setTimeout(() => {
         window.location.reload();
       }, 3500);
+    } catch (err) {
+      console.log(err);
+      alert("Neuspešno dodavanje!", error);
+    }
+  };
+
+  const addImage = async (e) => {
+    try {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append("title", inputData.title);
+      formData.append("genre", inputData.genre);
+      formData.append("language", inputData.language);
+      formData.append("description", inputData.description);
+      formData.append("year_published", inputData.year_published);
+      formData.append("authorId", inputData.authorId);
+      formData.append("branchId", inputData.branchId);
+      formData.append("image", imageData.image);
+      const responseData = await sendRequest(
+        `http://localhost:5000/api/books/addimage`,
+        "POST",
+        formData
+      );
     } catch (err) {
       console.log(err);
       alert("Neuspešno dodavanje!", error);
@@ -189,6 +221,12 @@ const AdminAddBookForm = ({ closeModal }) => {
             label="PDF knjige"
             extensions=".pdf"
             onInput={pdfInputHandler}
+          />
+          <ImageUpload
+            id="image"
+            label="Slika knjige"
+            extensions=".jpg, .jpeg, .png"
+            onInput={imageInputHandler}
           />
         </div>
         <div className="w-[45%] resize-none sm:w-full sm:flex sm:flex-col lg:w-[500px]">

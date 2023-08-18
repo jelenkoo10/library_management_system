@@ -75,6 +75,9 @@ const PasswordChange = (props) => {
         progress: undefined,
         bodyClassName: "toast",
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 3500);
     } catch (err) {
       toast.error(error, {
         position: "top-right",

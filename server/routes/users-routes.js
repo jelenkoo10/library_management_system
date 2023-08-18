@@ -20,6 +20,8 @@ router.get("/favorites/:uid", usersController.getUserFavorites);
 
 router.get("/recommendations/:uid", usersController.getUserRecommendations);
 
+router.get("/wishlist/:uid", usersController.getWishlistBooks);
+
 router.get(
   "/reservations/current/:uid",
   usersController.getCurrentReservations

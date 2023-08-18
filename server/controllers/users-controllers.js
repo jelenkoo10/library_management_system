@@ -747,6 +747,40 @@ const getUserRecommendations = async (req, res, next) => {
   res.json({ genres, books });
 };
 
+const getWishlistBooks = async (req, res, next) => {
+  const userId = req.params.uid;
+
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(
+      new HttpError(
+        "Prikaz liste želja nije moguć, pokušajte ponovo kasnije.",
+        500
+      )
+    );
+  }
+
+  let wishlistBooks = [];
+
+  for (let bookId of user.wishlist) {
+    try {
+      let book = await Book.findById(bookId);
+      wishlistBooks.push(book);
+    } catch (err) {
+      return next(
+        new HttpError(
+          "Prikaz liste želja nije moguć, pokušajte ponovo kasnije.",
+          500
+        )
+      );
+    }
+  }
+
+  res.status(200).json({ wishlistBooks });
+};
+
 exports.getUsers = getUsers;
 exports.getUserById = getUserById;
 exports.getUsersByBranch = getUsersByBranch;
@@ -761,3 +795,4 @@ exports.getUserBranches = getUserBranches;
 exports.addUserBranch = addUserBranch;
 exports.getUserFavorites = getUserFavorites;
 exports.getUserRecommendations = getUserRecommendations;
+exports.getWishlistBooks = getWishlistBooks;

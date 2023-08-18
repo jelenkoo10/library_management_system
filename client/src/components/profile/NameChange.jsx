@@ -41,6 +41,9 @@ const NameChange = (props) => {
             progress: undefined,
             bodyClassName: "toast",
           });
+          setTimeout(() => {
+            window.location.reload();
+          }, 3500);
         } catch (err) {
           handleModal("Neuspešna promena podataka", error);
         }

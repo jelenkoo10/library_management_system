@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Button from "../UIElements/Button";
 import Input from "../UIElements/Input";
+import ImageUpload from "../UIElements/ImageUpload";
 import { useHttpClient } from "../../hooks/http-hook";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -45,16 +46,29 @@ const AdminAddAuthorForm = ({ closeModal }) => {
     });
   };
 
+  const imageInputHandler = (value, isValid) => {
+    if (isValid) {
+      setInputData((oldData) => {
+        return { ...oldData, image: value };
+      });
+    }
+  };
+
   const addAuthor = async (e) => {
     try {
       e.preventDefault();
+      const formData = new FormData();
+      formData.append("name", inputData.name);
+      formData.append("surname", inputData.surname);
+      formData.append("biography", inputData.biography);
+      formData.append("date_of_birth", inputData.date_of_birth);
+      formData.append("nationality", inputData.nationality);
+      formData.append("age", inputData.age);
+      formData.append("image", inputData.image);
       const responseData = await sendRequest(
         `http://localhost:5000/api/authors`,
         "POST",
-        JSON.stringify(inputData),
-        {
-          "Content-Type": "application/json",
-        }
+        formData
       );
 
       toast.success("Uspešno ste dodali autora!", {
@@ -107,7 +121,7 @@ const AdminAddAuthorForm = ({ closeModal }) => {
           divStyle="flex justify-between items-center sm:w-full"
           labelStyle="text-2xl text-[#C75D2C]"
           inputType="date"
-          inputLabel="Godina rodjenja "
+          inputLabel="Datum rodjenja "
           onChange={date_of_birthInputHandler}
         />
       </div>{" "}
@@ -144,9 +158,15 @@ const AdminAddAuthorForm = ({ closeModal }) => {
             onChange={biographyInputHandler}
           ></textarea>
         </div>
+        <ImageUpload
+          id="image"
+          label="Slika autora"
+          extensions=".png, .jpeg, .jpg"
+          onInput={imageInputHandler}
+        />
         <Button
           btnStyle="mx-auto mt-10 block bg-[#C75D2C] px-6 py-2 text-white text-lg font-bold rounded-md hover:bg-[#D76D3C]"
-          btnText="Dodaj pisca"
+          btnText="Dodaj autora"
         />
       </div>
     </form>

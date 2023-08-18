@@ -23,9 +23,12 @@ router.get("/download/:bid", booksController.downloadBook);
 
 router.get("/downloadtemplate", booksController.downloadTemplate);
 
+router.get("/getcomments/:bid", booksController.getBookComments);
+
 router.post(
   "/",
   fileUpload.single("pdf"),
+  fileUpload.single("image"),
   [
     check("title").not().isEmpty(),
     check("genre").not().isEmpty(),
@@ -33,6 +36,12 @@ router.post(
     check("year_published").not().isEmpty(),
   ],
   booksController.createBook
+);
+
+router.post(
+  "/addimage",
+  fileUpload.single("image"),
+  booksController.importImage
 );
 
 router.post(
@@ -58,9 +67,19 @@ router.patch("/reserve/:bid", booksController.reserveBook);
 
 router.patch("/return/:bid", booksController.returnBook);
 
+router.patch(
+  "/comment/:bid",
+  [check("commentText").isLength({ min: 10 })],
+  booksController.addBookComment
+);
+
 router.patch("/setfavorite/:bid", booksController.setBookAsFavourite);
 
 router.patch("/removefavorite/:bid", booksController.removeBookFromFavourites);
+
+router.patch("/setwishlist/:bid", booksController.addBookToWishlist);
+
+router.patch("/removewishlist/:bid", booksController.removeBookFromWishlist);
 
 router.delete("/:bid", booksController.deleteBook);
 

@@ -742,6 +742,243 @@ const downloadTemplate = async (req, res, next) => {
   fs.createReadStream(filePath).pipe(res);
 };
 
+const importImage = async (req, res, next) => {
+  const {
+    title,
+    genre,
+    description,
+    language,
+    year_published,
+    authorId,
+    branchId,
+  } = req.body;
+
+  const { image } = req.file;
+
+  let bookToUpdate;
+  try {
+    bookToUpdate = await Book.findOne({
+      title,
+      genre,
+      description,
+      language,
+      year_published,
+      author: authorId,
+      branch: branchId,
+    });
+  } catch (err) {
+    const error = new HttpError("Greška prilikom pretrage knjige.", 500);
+    return next(error);
+  }
+
+  if (!bookToUpdate) {
+    const error = new HttpError("Knjiga nije pronađena za datu pretragu.", 404);
+    return next(error);
+  }
+
+  bookToUpdate.image = image.path;
+
+  try {
+    await bookToUpdate.save();
+  } catch (err) {
+    const error = new HttpError("Greška prilikom čuvanja knjige.", 500);
+    return next(error);
+  }
+
+  res.status(200).json({ book: bookToUpdate });
+};
+
+const addBookComment = async (req, res, next) => {
+  const bookId = req.params.bid;
+  const { comment, userId } = req.body;
+
+  let book;
+  try {
+    book = await Book.findById(bookId);
+  } catch (err) {
+    return next(
+      new HttpError("Nešto nije u redu, rezervacija knjige nije moguća.", 500)
+    );
+  }
+
+  if (!book) {
+    return next(
+      new HttpError("Nije moguće pronaći knjigu za pruženi ID."),
+      404
+    );
+  }
+
+  let foundUser;
+  try {
+    foundUser = await User.findById(userId);
+  } catch (err) {
+    return next(
+      new HttpError("Nešto nije u redu, rezervacija knjige nije moguća.", 500)
+    );
+  }
+
+  try {
+    book.comments.push({
+      commentDate: new Date().toISOString(),
+      commentText: comment,
+      userId: userId,
+      userName: foundUser.name + " " + foundUser.surname,
+      userBranches: foundUser.branches,
+    });
+    book.save();
+    console.log("Successfully saved book.");
+    foundUser.comments.push({
+      commentDate: new Date().toISOString(),
+      commentText: comment,
+      bookId: bookId,
+      bookName: book.title,
+      bookAuthor: book.author,
+    });
+    foundUser.save();
+    console.log("Successfully saved user.");
+  } catch (err) {
+    return next(
+      new HttpError("Nešto nije u redu, dodavanje komentara nije moguće.", 500)
+    );
+  }
+
+  res.status(200).json({
+    book: book.toObject({ getters: true }),
+    user: foundUser.toObject({ getters: true }),
+  });
+};
+
+const getBookComments = async (req, res, next) => {
+  const bookId = req.params.bid;
+
+  let book;
+  try {
+    book = await Book.findById(bookId);
+  } catch (err) {
+    return next(
+      new HttpError(
+        "Nešto nije u redu, prikazivanje komentara nije moguće.",
+        500
+      )
+    );
+  }
+
+  res.status(200).json({ comments: book.comments });
+};
+
+const addBookToWishlist = async (req, res, next) => {
+  const bookId = req.params.bid;
+  const { userId } = req.body;
+
+  let book;
+  try {
+    book = await Book.findById(bookId);
+  } catch (err) {
+    return next(
+      new HttpError("Nešto nije u redu, knjiga nije pronađena.", 500)
+    );
+  }
+
+  if (!book) {
+    return next(
+      new HttpError("Nije moguće pronaći knjigu za pruženi ID."),
+      404
+    );
+  }
+
+  let foundUser;
+  try {
+    foundUser = await User.findById(userId);
+  } catch (err) {
+    return next(
+      new HttpError(
+        "Nešto nije u redu, dodavanje knjige među omiljene nije moguće.",
+        500
+      )
+    );
+  }
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    foundUser.wishlist.push(book);
+    book.onWishlist.push(foundUser);
+    await foundUser.save({ session: sess });
+    await book.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    return next(
+      new HttpError(
+        "Nešto nije u redu, dodavanje knjige među omiljene nije moguće.",
+        500
+      )
+    );
+  }
+
+  res.json({
+    book: book.toObject({ getters: true }),
+    user: foundUser.toObject({ getters: true }),
+  });
+};
+
+const removeBookFromWishlist = async (req, res, next) => {
+  const foundBookId = req.params.bid;
+  const { userId } = req.body;
+
+  let book;
+  try {
+    book = await Book.findById(foundBookId);
+  } catch (err) {
+    return next(
+      new HttpError(
+        "Nešto nije u redu, vraćanje knjige iz omiljenih nije moguće.",
+        500
+      )
+    );
+  }
+
+  if (!book) {
+    return next(
+      new HttpError("Nije moguće pronaći knjigu za pruženi ID."),
+      404
+    );
+  }
+
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(
+      new HttpError(
+        "Nešto nije u redu, vraćanje knjige iz omiljenih nije moguće.",
+        500
+      )
+    );
+  }
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    book.onWishlist.pull(user);
+    await book.save({ session: sess });
+    user.wishlist.pull(book);
+    await user.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    return next(
+      new HttpError(
+        "Nešto nije u redu, vraćanje knjige iz omiljenih nije moguće.",
+        500
+      )
+    );
+  }
+
+  res.json({
+    book: book.toObject({ getters: true }),
+    user: user.toObject({ getters: true }),
+  });
+};
+
 exports.getBooksByBranch = getBooksByBranch;
 exports.getBooksByUser = getBooksByUser;
 exports.getBookAvailability = getBookAvailability;
@@ -759,3 +996,8 @@ exports.setBookAsFavourite = setBookAsFavourite;
 exports.removeBookFromFavourites = removeBookFromFavourites;
 exports.downloadBook = downloadBook;
 exports.downloadTemplate = downloadTemplate;
+exports.importImage = importImage;
+exports.addBookComment = addBookComment;
+exports.getBookComments = getBookComments;
+exports.addBookToWishlist = addBookToWishlist;
+exports.removeBookFromWishlist = removeBookFromWishlist;

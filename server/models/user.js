@@ -22,6 +22,16 @@ const userSchema = new Schema({
   books: [{ type: mongoose.Types.ObjectId, required: true, ref: "Book" }],
   favorites: [{ type: mongoose.Types.ObjectId, ref: "Book" }],
   branches: [{ type: mongoose.Types.ObjectId, required: true, ref: "Branch" }],
+  comments: [
+    {
+      commentDate: String,
+      commentText: String,
+      bookId: mongoose.Types.ObjectId,
+      bookName: String,
+      bookAuthor: String,
+    },
+  ],
+  wishlist: [{ type: mongoose.Types.ObjectId, ref: "Book" }],
 });
 
 userSchema.plugin(uniqueValidator);

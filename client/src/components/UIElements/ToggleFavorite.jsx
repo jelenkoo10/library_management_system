@@ -3,9 +3,11 @@ import { useState, useEffect } from "react";
 import { useHttpClient } from "../../hooks/http-hook";
 import EmptyStar from "../../assets/icons8-star-30.png";
 import FilledStar from "../../assets/icons8-star-filled-30.png";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ToggleFavorite = (props) => {
-  const { userId, bookId } = props;
+  const { userId, bookId, likedBy } = props;
   const [user, setUser] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -39,6 +41,16 @@ const ToggleFavorite = (props) => {
           "Content-Type": "application/json",
         }
       );
+      toast.success("Uklonili ste knjigu iz omiljenih knjiga.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        bodyClassName: "toast",
+      });
     } else {
       responseData = await sendRequest(
         `http://localhost:5000/api/books/setfavorite/${bookId}`,
@@ -48,17 +60,30 @@ const ToggleFavorite = (props) => {
           "Content-Type": "application/json",
         }
       );
+      toast.success("Označili ste knjigu kao omiljenu.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        bodyClassName: "toast",
+      });
     }
     setIsFavorite((prev) => !prev);
   };
 
   return (
-    <img
-      src={isFavorite ? FilledStar : EmptyStar}
-      alt="A star icon"
-      onClick={toggleStar}
-      className="cursor-pointer"
-    />
+    <div className="flex flex-col items-center">
+      <img
+        src={isFavorite ? FilledStar : EmptyStar}
+        alt="A star icon"
+        onClick={toggleStar}
+        className="cursor-pointer"
+      />
+      <span>{likedBy}</span>
+    </div>
   );
 };
 

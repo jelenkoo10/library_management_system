@@ -1,8 +1,10 @@
 import React from "react";
 import PdfDownload from "./PdfDownload";
+import Button from "../UIElements/Button";
 
 const BookDetailed = (props) => {
-  const { description, genre, language, pdf } = props;
+  const { description, genre, language, pdf, isOnWishlist, setIsOnWishlist } =
+    props;
   const user = JSON.parse(localStorage.getItem("userData"));
 
   return (
@@ -15,6 +17,15 @@ const BookDetailed = (props) => {
         Jezik: <span className="font-bold">{language}</span>
       </p>
       {user && pdf ? !user.is_admin && <PdfDownload pdf={pdf} /> : null}
+      {user && (
+        <Button
+          btnStyle="text-[#C75D2C] underline font-bold text-lg mt-3"
+          btnText={`${
+            isOnWishlist ? "Ukloni iz liste" : "Dodaj na listu"
+          } želja`}
+          onClick={setIsOnWishlist}
+        />
+      )}
     </div>
   );
 };

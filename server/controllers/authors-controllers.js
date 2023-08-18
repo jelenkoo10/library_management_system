@@ -55,6 +55,7 @@ const addAuthor = async (req, res, next) => {
     date_of_birth,
     nationality,
     age,
+    image: req.file ? "http://localhost:5000/" + req.file.path : null,
     books: [],
   });
 
@@ -94,6 +95,9 @@ const updateAuthor = async (req, res, next) => {
   author.date_of_birth = date_of_birth;
   author.nationality = nationality;
   author.age = age;
+  author.image = req.file
+    ? "http://localhost:5000/" + req.file.path
+    : author.image;
 
   try {
     await author.save();

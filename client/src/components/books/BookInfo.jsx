@@ -5,7 +5,7 @@ import AuthorCard from "../authors/AuthorCard";
 import ToggleFavorite from "../UIElements/ToggleFavorite";
 
 const BookInfo = (props) => {
-  const { title, authorName, year_published, author } = props;
+  const { title, authorName, year_published, author, likedBy } = props;
   const { handleModal } = useContext(ModalContext);
   const { bid } = useParams();
   const user = JSON.parse(localStorage.getItem("userData"));
@@ -27,7 +27,13 @@ const BookInfo = (props) => {
         </p>
       </div>
       {user
-        ? !user.is_admin && <ToggleFavorite userId={user.userId} bookId={bid} />
+        ? !user.is_admin && (
+            <ToggleFavorite
+              userId={user.userId}
+              bookId={bid}
+              likedBy={likedBy}
+            />
+          )
         : null}
     </div>
   );

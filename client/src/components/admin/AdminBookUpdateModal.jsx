@@ -110,6 +110,9 @@ const AdminBookUpdateModal = ({ book, branches, stopUpdating, reloadPage }) => {
         progress: undefined,
         bodyClassName: "toast",
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 3500);
     } catch (err) {
       console.log(err);
       alert("Neuspešna izmena", error);

@@ -22,9 +22,12 @@ const AuthorCard = (props) => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-5">
-        {author.name} {author.surname}
-      </h1>
+      <div className="flex justify-between items-center mb-2">
+        <h1 className="text-2xl font-bold mb-5">
+          {author.name} {author.surname}
+        </h1>
+        <img src={author.image} alt="Slika autora" width="60px" />
+      </div>
       <p>
         <span className="font-semibold">Datum rođenja</span>:{" "}
         {author.date_of_birth} ({author.age} godina)

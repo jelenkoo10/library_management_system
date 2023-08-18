@@ -5,6 +5,7 @@ import LoadingSpinner from "../UIElements/LoadingSpinner/LoadingSpinner";
 import AdminBookUpdateModal from "./AdminBookUpdateModal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AdminAnalyticsPage from "./AdminAnalyticsPage";
 
 const Books = () => {
   const [books, setBooks] = useState([]);

@@ -22,6 +22,8 @@ router.get("/recommendations/:uid", usersController.getUserRecommendations);
 
 router.get("/wishlist/:uid", usersController.getWishlistBooks);
 
+router.get("/analytics/:brid/data", usersController.getUserDataFromBranch);
+
 router.get(
   "/reservations/current/:uid",
   usersController.getCurrentReservations

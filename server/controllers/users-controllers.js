@@ -457,6 +457,8 @@ const getUserReservations = async (req, res, next) => {
 
   let bookIds;
   let books = [];
+  let bookGenres = [];
+  let bookAuthors = [];
   let filteredReservations = [];
   if (user.reservations) {
     bookIds = user.reservations.map((reservation) => reservation.bookId);
@@ -481,6 +483,8 @@ const getUserReservations = async (req, res, next) => {
       ) {
         books.push(book);
       }
+      bookGenres.push(book.genre);
+      bookAuthors.push(book.authorName);
     } catch (err) {
       return next(
         new HttpError(
@@ -502,8 +506,80 @@ const getUserReservations = async (req, res, next) => {
     res.json({
       reservations: filteredReservations,
       books,
+      bookGenres,
+      bookAuthors,
     });
   }
+};
+
+const getUserDataFromBranch = async (req, res, next) => {
+  const startDate = req.query.startdate;
+  const endDate = req.query.enddate;
+  const branchId = req.params.brid;
+
+  let startDateFormatted = new Date(startDate);
+  let endDateFormatted = new Date(endDate);
+
+  let users;
+  try {
+    users = await User.find({}, "-password");
+  } catch (err) {
+    return next(
+      new HttpError(
+        "Nalaženje korisnika nije uspelo, pokušajte ponovo kasnije.",
+        500
+      )
+    );
+  }
+
+  users = users.filter((user) => user.branches.includes(branchId));
+
+  let bookIds = [];
+  let bookTitles = [];
+  let bookGenres = [];
+  let bookAuthors = [];
+  let filteredReservations = [];
+
+  for (let user of users) {
+    if (user.reservations) {
+      bookIds = user.reservations.map((reservation) => reservation.bookId);
+    }
+
+    if (startDate !== "" && endDate !== "") {
+      for (let i = 0; i < user.reservations.length; i++) {
+        let resDate = new Date(user.reservations[i].reservationDate);
+        if (resDate > startDateFormatted && resDate < endDateFormatted) {
+          filteredReservations.push(user.reservations[i]);
+        }
+      }
+      bookIds = filteredReservations.map((reservation) => reservation.bookId);
+    }
+
+    for (let j = 0; j < bookIds.length; j++) {
+      try {
+        let book = await Book.findById(bookIds[j]);
+        if (book) {
+          bookTitles.push(book.title);
+          bookGenres.push(book.genre);
+          bookAuthors.push(book.authorName);
+        }
+      } catch (err) {
+        return next(
+          new HttpError(
+            "Nije moguće pronaći knjige za datog korisnika, pokušajte ponovo kasnije.",
+            500
+          )
+        );
+      }
+    }
+  }
+
+  res.json({
+    users,
+    bookAuthors,
+    bookGenres,
+    bookTitles,
+  });
 };
 
 const getCurrentReservations = async (req, res, next) => {
@@ -796,3 +872,4 @@ exports.addUserBranch = addUserBranch;
 exports.getUserFavorites = getUserFavorites;
 exports.getUserRecommendations = getUserRecommendations;
 exports.getWishlistBooks = getWishlistBooks;
+exports.getUserDataFromBranch = getUserDataFromBranch;

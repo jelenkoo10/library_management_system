@@ -69,7 +69,7 @@ const ProfilePage = () => {
           onClick={() => setIsChanged((prev) => !prev)}
           to="recommendations"
         >
-          Preporuke
+          Preporuke i statistika
         </NavLink>
         <NavLink
           className={`border border-[#C75D2C] xl:p-8 sm:p-2 lg:w-[220px] lg:py-4 xl:w-full bg-[#DDD] ${

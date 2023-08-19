@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { google } = require("googleapis");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
+const schedule = require("node-schedule");
 
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
@@ -11,6 +12,19 @@ const Book = require("../models/book");
 const Branch = require("../models/branch");
 
 dotenv.config();
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require("twilio")(accountSid, authToken);
+
+const oAuth2Client = new google.auth.OAuth2(
+  process.env.CLIENT_ID,
+  process.env.CLIENT_SECRET,
+  process.env.REDIRECT_URI
+);
+oAuth2Client.setCredentials({
+  refresh_token: process.env.REFRESH_TOKEN,
+});
 
 const getUsers = async (req, res, next) => {
   let users;
@@ -143,6 +157,8 @@ const signup = async (req, res, next) => {
     );
   }
 
+  sendWelcomeSMS(phone, name);
+
   res.status(201).json({
     userId: newUser.id,
     email: newUser.email,
@@ -218,15 +234,6 @@ const login = async (req, res, next) => {
     image: existingUser.image,
   });
 };
-
-const oAuth2Client = new google.auth.OAuth2(
-  process.env.CLIENT_ID,
-  process.env.CLIENT_SECRET,
-  process.env.REDIRECT_URI
-);
-oAuth2Client.setCredentials({
-  refresh_token: process.env.REFRESH_TOKEN,
-});
 
 const resetForgottenPassword = async (req, res, next) => {
   const accessToken = await oAuth2Client.getAccessToken();
@@ -395,6 +402,19 @@ const resetPassword = async (req, res, next) => {
   }
 
   res.status(200).json({ user: user.toObject({ getters: true }) });
+};
+
+const sendWelcomeSMS = (phoneNumber, name) => {
+  const message = `Dobrodošli, ${name}! Vaša članarina je uplaćena. Uživajte u prednostima i knjigama naše biblioteke.`;
+
+  client.messages
+    .create({
+      body: message,
+      from: process.env.TWILIO_PHONE_NUMBER, // Twilio broj sa kojeg šaljete SMS
+      to: phoneNumber, // Broj korisnika na kojeg šaljete SMS
+    })
+    .then((message) => console.log(message.sid))
+    .catch((error) => console.error(error));
 };
 
 const updateUserData = async (req, res, next) => {
@@ -856,6 +876,76 @@ const getWishlistBooks = async (req, res, next) => {
 
   res.status(200).json({ wishlistBooks });
 };
+
+// Postavljanje agendnika da se izvršava svakog dana u određeno vreme
+schedule.scheduleJob("0 12 * * *", async () => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Izračunaj datum koji je tačno 5 dana od danas
+  const fiveDaysFromNow = new Date(today);
+  fiveDaysFromNow.setDate(fiveDaysFromNow.getDate() + 5);
+
+  // Izračunaj datum koji je tačno 6 dana od danas (za kraj raspona od 5 dana)
+  const sixDaysFromNow = new Date(today);
+  sixDaysFromNow.setDate(sixDaysFromNow.getDate() + 6);
+
+  // Pronađite sve knjige sa datumom isteka pozajmice unutar raspona od 5 dana
+  const booksToRemind = await Book.find({
+    loan_expiry: {
+      $gte: fiveDaysFromNow,
+      $lt: sixDaysFromNow,
+    },
+  });
+
+  // Za svaku knjigu, dohvatite korisnički broj telefona i pošaljite SMS poruku
+  for (const book of booksToRemind) {
+    const user = await User.findById(book.user); // Pretpostavljamo da je user polje u modelu Book
+    const phoneNumber = user.phone; // Pretpostavljamo da je phoneNumber polje u modelu User
+
+    // Koristite Twilio API za slanje SMS poruke
+    const message = `Pozdrav, "${user.name}"! Imate knjigu "${book.title}" pozajmljenu kod nas, čiji rok pozajmice ističe za 5 dana. Molimo Vas da je vratite na vreme. Hvala!`;
+
+    // client.messages
+    //   .create({
+    //     body: message,
+    //     from: process.env.TWILIO_PHONE_NUMBER, // Twilio broj sa kojeg šaljete SMS
+    //     to: phoneNumber, // Broj korisnika na kojeg šaljete SMS
+    //   })
+    //   .then((message) => console.log(message.sid))
+    //   .catch((error) => console.error(error));
+  }
+
+  // Izračunaj sutrašnji datum
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  // Pronađite sve knjige sa datumom isteka pozajmice između danas i sutra
+  const booksToReturn = await Book.find({
+    loan_expiry: {
+      $gte: today,
+      $lt: tomorrow,
+    },
+  });
+
+  // Za svaku knjigu, dohvatite korisnički broj telefona i pošaljite SMS poruku
+  for (const book of booksToReturn) {
+    const user = await User.findById(book.user); // Pretpostavljamo da je user polje u modelu Book
+    const phoneNumber = user.phone; // Pretpostavljamo da je phoneNumber polje u modelu User
+
+    // Koristite Twilio API za slanje SMS poruke
+    const message = `Pozdrav, "${user.name}"! Rok pozajmice za knjigu "${book.title}" ističe danas. Molimo Vas da je vratite što je pre moguće. Hvala!`;
+
+    // client.messages
+    //   .create({
+    //     body: message,
+    //     from: process.env.TWILIO_PHONE_NUMBER, // Twilio broj sa kojeg šaljete SMS
+    //     to: phoneNumber, // Broj korisnika na kojeg šaljete SMS
+    //   })
+    //   .then((message) => console.log(message.sid))
+    //   .catch((error) => console.error(error));
+  }
+});
 
 exports.getUsers = getUsers;
 exports.getUserById = getUserById;

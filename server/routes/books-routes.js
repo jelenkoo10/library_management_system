@@ -27,8 +27,16 @@ router.get("/getcomments/:bid", booksController.getBookComments);
 
 router.post(
   "/",
-  fileUpload.single("pdf"),
-  fileUpload.single("image"),
+  fileUpload.fields([
+    {
+      name: "pdf",
+      maxCount: 1,
+    },
+    {
+      name: "image",
+      maxCount: 1,
+    },
+  ]),
   [
     check("title").not().isEmpty(),
     check("genre").not().isEmpty(),
@@ -39,12 +47,6 @@ router.post(
 );
 
 router.post(
-  "/addimage",
-  fileUpload.single("image"),
-  booksController.importImage
-);
-
-router.post(
   "/import",
   fileUpload.single("excelFile"),
   booksController.importBooksFromExcel
@@ -52,6 +54,16 @@ router.post(
 
 router.patch(
   "/:bid",
+  fileUpload.fields([
+    {
+      name: "pdf",
+      maxCount: 1,
+    },
+    {
+      name: "image",
+      maxCount: 1,
+    },
+  ]),
   [
     check("title").not().isEmpty(),
     check("genre").not().isEmpty(),

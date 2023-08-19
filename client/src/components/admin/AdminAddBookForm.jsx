@@ -12,7 +12,6 @@ import "react-toastify/dist/ReactToastify.css";
 const AdminAddBookForm = ({ closeModal }) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [inputData, setInputData] = useState({});
-  const [imageData, setImageData] = useState({});
   const [authors, setAuthors] = useState([]);
   const [branches, setBranches] = useState([]);
 
@@ -106,7 +105,7 @@ const AdminAddBookForm = ({ closeModal }) => {
 
   const imageInputHandler = (value, isValid) => {
     if (isValid) {
-      setImageData((oldData) => {
+      setInputData((oldData) => {
         return { ...oldData, image: value };
       });
     }
@@ -123,13 +122,13 @@ const AdminAddBookForm = ({ closeModal }) => {
       formData.append("year_published", inputData.year_published);
       formData.append("authorId", inputData.authorId);
       formData.append("branchId", inputData.branchId);
+      formData.append("image", inputData.image);
       formData.append("pdf", inputData.pdf);
       const responseData = await sendRequest(
         `http://localhost:5000/api/books`,
         "POST",
         formData
       );
-      if (imageData) await addImage();
       toast.success("Uspešno ste dodali knjigu!", {
         position: "top-right",
         autoClose: 3000,
@@ -149,34 +148,12 @@ const AdminAddBookForm = ({ closeModal }) => {
     }
   };
 
-  const addImage = async (e) => {
-    try {
-      e.preventDefault();
-      const formData = new FormData();
-      formData.append("title", inputData.title);
-      formData.append("genre", inputData.genre);
-      formData.append("language", inputData.language);
-      formData.append("description", inputData.description);
-      formData.append("year_published", inputData.year_published);
-      formData.append("authorId", inputData.authorId);
-      formData.append("branchId", inputData.branchId);
-      formData.append("image", imageData.image);
-      const responseData = await sendRequest(
-        `http://localhost:5000/api/books/addimage`,
-        "POST",
-        formData
-      );
-    } catch (err) {
-      console.log(err);
-      alert("Neuspešno dodavanje!", error);
-    }
-  };
-
   return (
     <>
       {isLoading && <LoadingSpinner asOverlay />}
       <form
         onSubmit={addBook}
+        encType="multipart/form-data"
         className="p-4 mx-auto bg-white flex justify-between sm:w-3/4 sm:p-4 sm:rounded-lg sm:mx-0 sm:flex-col"
       >
         <div className="w-[45%] sm:w-full sm:flex sm:flex-col lg:w-[500px]">

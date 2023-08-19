@@ -99,6 +99,7 @@ const BookPage = () => {
               year_published={book.year_published}
               author={book.author}
               likedBy={book.likedBy?.length}
+              image={book.image}
             />
             <BookDetailed
               description={book.description}

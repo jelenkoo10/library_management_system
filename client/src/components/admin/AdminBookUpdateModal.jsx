@@ -89,16 +89,31 @@ const AdminBookUpdateModal = ({ book, branches, stopUpdating, reloadPage }) => {
     }
   };
 
+  const imageInputHandler = (value, isValid) => {
+    if (isValid) {
+      setInputData((oldData) => {
+        return { ...oldData, image: value };
+      });
+    }
+  };
+
   const updateBook = async (e) => {
     try {
       e.preventDefault();
+      const formData = new FormData();
+      formData.append("title", inputData.title);
+      formData.append("genre", inputData.genre);
+      formData.append("language", inputData.language);
+      formData.append("description", inputData.description);
+      formData.append("year_published", inputData.year_published);
+      formData.append("authorId", inputData.authorId);
+      formData.append("branchId", inputData.branchId);
+      formData.append("pdf", inputData.pdf);
+      formData.append("image", inputData.image);
       const responseData = await sendRequest(
         `http://localhost:5000/api/books/${book._id}`,
         "PATCH",
-        JSON.stringify(inputData),
-        {
-          "Content-Type": "application/json",
-        }
+        formData
       );
       toast.success("Uspešno ste izmenili knjigu!", {
         position: "top-right",
@@ -172,6 +187,12 @@ const AdminBookUpdateModal = ({ book, branches, stopUpdating, reloadPage }) => {
             label="PDF knjige"
             extensions=".pdf"
             onInput={pdfInputHandler}
+          />
+          <ImageUpload
+            id="image"
+            label="Slika knjige"
+            extensions=".jpg, .jpeg, .png"
+            onInput={imageInputHandler}
           />
         </div>
         <div className="w-[45%] resize-none sm:w-full sm:flex sm:flex-col lg:w-[500px]">

@@ -118,6 +118,8 @@ const createBook = async (req, res, next) => {
     branchId,
   } = req.body;
 
+  console.log(req.files);
+
   let author;
   let branch;
 
@@ -133,6 +135,9 @@ const createBook = async (req, res, next) => {
     return next(new HttpError("Nešto nije u redu, pokušajte ponovo.", 500));
   }
 
+  let pdf = "http://localhost:5000/" + req.files.pdf[0].path;
+  let image = "http://localhost:5000/" + req.files.image[0].path;
+
   const newBook = new Book({
     title,
     genre,
@@ -141,12 +146,17 @@ const createBook = async (req, res, next) => {
     year_published,
     loan_expiry: null,
     status: "slobodno",
-    pdf: req.file ? "http://localhost:5000/" + req.file.path : null,
+    // pdf: req.files.pdf ? "http://localhost:5000/" + req.files.pdf.path : null,
+    pdf,
     author: authorId,
     authorName: author.name + " " + author.surname,
     branch: branchId,
     branchName: branch.name + ", " + branch.city,
     user: null,
+    image,
+    // image: req.files.image
+    //   ? "http://localhost:5000/" + req.files.image.path
+    //   : null,
   });
 
   try {
@@ -306,12 +316,16 @@ const updateBook = async (req, res, next) => {
     );
   }
 
+  let pdf = "http://localhost:5000/" + req.files.pdf[0].path;
+  let image = "http://localhost:5000/" + req.files.image[0].path;
+
   book.title = title;
   book.year_published = year_published;
   book.genre = genre;
   book.description = description;
   book.language = language;
-  book.pdf = req.file ? "http://localhost:5000/" + req.file.path : book.pdf;
+  book.pdf = pdf;
+  book.image = image;
 
   try {
     await book.save();
@@ -742,52 +756,6 @@ const downloadTemplate = async (req, res, next) => {
   fs.createReadStream(filePath).pipe(res);
 };
 
-const importImage = async (req, res, next) => {
-  const {
-    title,
-    genre,
-    description,
-    language,
-    year_published,
-    authorId,
-    branchId,
-  } = req.body;
-
-  const { image } = req.file;
-
-  let bookToUpdate;
-  try {
-    bookToUpdate = await Book.findOne({
-      title,
-      genre,
-      description,
-      language,
-      year_published,
-      author: authorId,
-      branch: branchId,
-    });
-  } catch (err) {
-    const error = new HttpError("Greška prilikom pretrage knjige.", 500);
-    return next(error);
-  }
-
-  if (!bookToUpdate) {
-    const error = new HttpError("Knjiga nije pronađena za datu pretragu.", 404);
-    return next(error);
-  }
-
-  bookToUpdate.image = image.path;
-
-  try {
-    await bookToUpdate.save();
-  } catch (err) {
-    const error = new HttpError("Greška prilikom čuvanja knjige.", 500);
-    return next(error);
-  }
-
-  res.status(200).json({ book: bookToUpdate });
-};
-
 const addBookComment = async (req, res, next) => {
   const bookId = req.params.bid;
   const { comment, userId } = req.body;
@@ -996,7 +964,6 @@ exports.setBookAsFavourite = setBookAsFavourite;
 exports.removeBookFromFavourites = removeBookFromFavourites;
 exports.downloadBook = downloadBook;
 exports.downloadTemplate = downloadTemplate;
-exports.importImage = importImage;
 exports.addBookComment = addBookComment;
 exports.getBookComments = getBookComments;
 exports.addBookToWishlist = addBookToWishlist;

@@ -26,7 +26,9 @@ const AuthorCard = (props) => {
         <h1 className="text-2xl font-bold mb-5">
           {author.name} {author.surname}
         </h1>
-        <img src={author.image} alt="Slika autora" width="60px" />
+        {author.image && (
+          <img src={author.image} alt="Slika autora" width="60px" />
+        )}
       </div>
       <p>
         <span className="font-semibold">Datum rođenja</span>:{" "}

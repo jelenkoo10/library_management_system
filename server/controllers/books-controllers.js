@@ -118,8 +118,6 @@ const createBook = async (req, res, next) => {
     branchId,
   } = req.body;
 
-  console.log(req.files);
-
   let author;
   let branch;
 
@@ -146,7 +144,6 @@ const createBook = async (req, res, next) => {
     year_published,
     loan_expiry: null,
     status: "slobodno",
-    // pdf: req.files.pdf ? "http://localhost:5000/" + req.files.pdf.path : null,
     pdf,
     author: authorId,
     authorName: author.name + " " + author.surname,
@@ -154,9 +151,6 @@ const createBook = async (req, res, next) => {
     branchName: branch.name + ", " + branch.city,
     user: null,
     image,
-    // image: req.files.image
-    //   ? "http://localhost:5000/" + req.files.image.path
-    //   : null,
   });
 
   try {

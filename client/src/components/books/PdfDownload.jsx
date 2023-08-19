@@ -51,7 +51,7 @@ const PdfDownload = (props) => {
   // download target="_blank"
   return (
     <div
-      className="mt-4 p-2 rounded-md border border-[#C75D2C] w-fit text-[#C75D2C] font-semibold flex bg-[#DDD]"
+      className="mt-4 p-2 rounded-md border border-[#C75D2C] w-fit text-[#C75D2C] font-semibold flex bg-[#DDD] cursor-pointer"
       onClick={downloadBook}
     >
       <svg

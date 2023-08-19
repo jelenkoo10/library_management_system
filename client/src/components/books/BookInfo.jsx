@@ -26,7 +26,6 @@ const BookInfo = (props) => {
           Godina izdavanja: {year_published}
         </p>
       </div>
-      <img src={image} alt="Book's image" />
       {user
         ? !user.is_admin && (
             <ToggleFavorite
@@ -36,6 +35,7 @@ const BookInfo = (props) => {
             />
           )
         : null}
+      <img src={image} alt="Book's image" className="w-[80px]" />
     </div>
   );
 };

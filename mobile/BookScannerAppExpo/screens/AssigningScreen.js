@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
 const AssigningScreen = ({ navigation }) => {
@@ -7,6 +7,8 @@ const AssigningScreen = ({ navigation }) => {
   const [step, setStep] = useState("book");
   const [bookScannedData, setBookScannedData] = useState(null);
   const [userScannedData, setUserScannedData] = useState(null);
+  const [bookId, setBookId] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -15,13 +17,41 @@ const AssigningScreen = ({ navigation }) => {
     })();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  useEffect(() => {
+    const assignBook = async () => {
+      try {
+        const bookResponse = await fetch(
+          `http://192.168.0.18:5000/api/books/barcode/${bookScannedData}`
+        );
+        const bookData = await bookResponse.json();
+        console.log("Book Data:", bookData);
+
+        const userResponse = await fetch(
+          `http://192.168.0.18:5000/api/users/barcode/${userScannedData}`
+        );
+        const userData = await userResponse.json();
+        console.log("User Data:", userData);
+
+        setBookId(bookData.bookId);
+        setUserId(userData.userId);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    if (bookScannedData && userScannedData) {
+      assignBook();
+    }
+  }, [bookScannedData, userScannedData]);
+
+  const handleBarCodeScanned = async ({ type, data }) => {
     if (step === "book") {
       setBookScannedData(data);
     } else if (step === "user") {
       setUserScannedData(data);
       // Implementiraj logiku za zaduživanje koristeći bookScannedData i userScannedData
-      // Resetuj stanja nakon zaduživanja
+      // Resetuj stanja nakon
+
       // setBookScannedData(null);
       // setUserScannedData(null);
       // setStep("book");
@@ -55,39 +85,52 @@ const AssigningScreen = ({ navigation }) => {
           {bookScannedData && step == "book" && (
             <View style={styles.scannedDataContainer}>
               <Text>Barkod: {bookScannedData}</Text>
-              <Button
-                title={"Skenirajte ponovo"}
+              <TouchableOpacity
+                style={styles.button}
                 onPress={() => {
                   setBookScannedData(null);
                   setStep("book");
                 }}
-              />
-              <Button
-                title={"Skenirajte barkod korisnika"}
+              >
+                <Text style={styles.buttonText}>Skenirajte knjigu ponovo</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
                 onPress={() => {
                   setUserScannedData(null);
                   setStep("user");
                 }}
-              />
+              >
+                <Text style={styles.buttonText}>
+                  Skenirajte barkod korisnika
+                </Text>
+              </TouchableOpacity>
             </View>
           )}
           {userScannedData && step == "user" && (
             <View style={styles.scannedDataContainer}>
               <Text>Barkod: {userScannedData}</Text>
-              <Button
-                title={"Skenirajte ponovo"}
+              <TouchableOpacity
+                style={styles.button}
                 onPress={() => {
                   setUserScannedData(null);
                   setStep("user");
                 }}
-              />
-              <Button
-                title={"Skenirajte barkod knjige"}
+              >
+                <Text style={styles.buttonText}>
+                  Skenirajte korisnika ponovo
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
                 onPress={() => {
                   setBookScannedData(null);
+                  setUserScannedData(null);
                   setStep("book");
                 }}
-              />
+              >
+                <Text style={styles.buttonText}>Skenirajte barkod knjige</Text>
+              </TouchableOpacity>
             </View>
           )}
         </View>
@@ -110,6 +153,20 @@ const styles = StyleSheet.create({
   },
   scanner: {
     ...StyleSheet.absoluteFillObject,
+  },
+  button: {
+    backgroundColor: "#C75D2C",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginVertical: 10,
+    borderColor: "#D76D3C",
+    borderWidth: 2,
+    borderRadius: 3,
+    borderStyle: "solid",
+  },
+  buttonText: {
+    fontWeight: "bold",
+    color: "#fff",
   },
   scannedDataContainer: {
     position: "absolute",

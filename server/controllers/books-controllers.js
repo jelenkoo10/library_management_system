@@ -103,6 +103,29 @@ const getBookAvailability = async (req, res, next) => {
   });
 };
 
+const getBookIdByBarcode = async (req, res, next) => {
+  const barcode = req.params.bc;
+
+  let book;
+  try {
+    book = await Book.findOne({ barcode: barcode });
+  } catch (err) {
+    return next(
+      new HttpError("Nije moguće pronaći knjigu sa pruženim ID.", 404)
+    );
+  }
+
+  if (!book) {
+    return next(
+      new HttpError("Nije moguće pronaći knjigu sa pruženim ID.", 404)
+    );
+  }
+
+  res.json({
+    bookId: book.id,
+  });
+};
+
 const createBook = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -114,7 +137,6 @@ const createBook = async (req, res, next) => {
     description,
     language,
     year_published,
-    barcode,
     authorId,
     branchId,
   } = req.body;
@@ -136,6 +158,11 @@ const createBook = async (req, res, next) => {
 
   let pdf = "http://localhost:5000/" + req.files.pdf[0].path;
   let image = "http://localhost:5000/" + req.files.image[0].path;
+
+  let barcode = "";
+  for (let i = 0; i < 12; i++) {
+    barcode += Math.floor(Math.random() * 10);
+  }
 
   const newBook = new Book({
     title,
@@ -949,6 +976,7 @@ const removeBookFromWishlist = async (req, res, next) => {
 exports.getBooksByBranch = getBooksByBranch;
 exports.getBooksByUser = getBooksByUser;
 exports.getBookAvailability = getBookAvailability;
+exports.getBookIdByBarcode = getBookIdByBarcode;
 exports.createBook = createBook;
 exports.importBooksFromExcel = importBooksFromExcel;
 exports.getBookById = getBookById;

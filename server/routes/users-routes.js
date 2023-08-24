@@ -12,6 +12,8 @@ router.get("/id/:uid", usersController.getUserById);
 
 router.get("/:brid", usersController.getUsersByBranch);
 
+router.get("/barcode/:bc", usersController.getUserIdByBarcode);
+
 router.get("/reservations/:uid", usersController.getUserReservations);
 
 router.get("/branches/:uid", usersController.getUserBranches);

@@ -6,6 +6,7 @@ const ShowBookScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [scannedData, setScannedData] = useState(null);
+  const [bookId, setBookId] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -13,6 +14,26 @@ const ShowBookScreen = ({ navigation }) => {
       setHasPermission(status === "granted");
     })();
   }, []);
+
+  useEffect(() => {
+    const showBook = async () => {
+      try {
+        const bookResponse = await fetch(
+          `http://192.168.0.18:5000/api/books/barcode/${bookScannedData}`
+        );
+        const bookData = await bookResponse.json();
+        console.log("Book Data:", bookData);
+
+        setBookId(bookData.bookId);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    if (bookScannedData) {
+      showBook();
+    }
+  }, [bookScannedData]);
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);

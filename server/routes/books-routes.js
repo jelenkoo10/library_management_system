@@ -15,6 +15,8 @@ router.get("/:uid/books", booksController.getBooksByUser);
 
 router.get("/availability", booksController.getBookAvailability);
 
+router.get("/barcode/:bc", booksController.getBookIdByBarcode);
+
 router.get("/search", booksController.searchBooks);
 
 router.get("/filters", booksController.getFilters);

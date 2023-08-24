@@ -82,6 +82,29 @@ const getUsersByBranch = async (req, res, next) => {
   });
 };
 
+const getUserIdByBarcode = async (req, res, next) => {
+  const barcode = req.params.bc;
+
+  let user;
+  try {
+    user = await User.findOne({ barcode: barcode });
+  } catch (err) {
+    return next(
+      new HttpError("Nije moguće pronaći knjigu sa pruženim ID.", 404)
+    );
+  }
+
+  if (!user) {
+    return next(
+      new HttpError("Nije moguće pronaći knjigu sa pruženim ID.", 404)
+    );
+  }
+
+  res.json({
+    userId: user.id,
+  });
+};
+
 const signup = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -124,6 +147,11 @@ const signup = async (req, res, next) => {
     );
   }
 
+  let barcode = "";
+  for (let i = 0; i < 12; i++) {
+    barcode += Math.floor(Math.random() * 10);
+  }
+
   const newUser = new User({
     name,
     surname,
@@ -136,6 +164,7 @@ const signup = async (req, res, next) => {
     books: [],
     branches: [branchId],
     image: req.file ? "http://localhost:5000/" + req.file.path : null,
+    barcode,
   });
 
   try {
@@ -950,6 +979,7 @@ schedule.scheduleJob("0 12 * * *", async () => {
 exports.getUsers = getUsers;
 exports.getUserById = getUserById;
 exports.getUsersByBranch = getUsersByBranch;
+exports.getUserIdByBarcode = getUserIdByBarcode;
 exports.signup = signup;
 exports.login = login;
 exports.resetForgottenPassword = resetForgottenPassword;

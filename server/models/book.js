@@ -12,6 +12,7 @@ const bookSchema = new Schema({
   status: { type: String, required: true },
   pdf: { type: String },
   image: { type: String },
+  barcode: { type: String, unique: true, required: true },
   author: { type: mongoose.Types.ObjectId, required: true, ref: "Author" },
   authorName: { type: String, required: true },
   branch: { type: mongoose.Types.ObjectId, required: true, ref: "Branch" },

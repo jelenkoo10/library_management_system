@@ -114,6 +114,7 @@ const createBook = async (req, res, next) => {
     description,
     language,
     year_published,
+    barcode,
     authorId,
     branchId,
   } = req.body;
@@ -145,6 +146,7 @@ const createBook = async (req, res, next) => {
     loan_expiry: null,
     status: "slobodno",
     pdf,
+    barcode,
     author: authorId,
     authorName: author.name + " " + author.surname,
     branch: branchId,
@@ -178,6 +180,7 @@ const importBooksFromExcel = async (req, res, next) => {
       year_published,
       loan_expiry,
       status,
+      barcode,
       author,
       authorName,
       branch,
@@ -190,6 +193,7 @@ const importBooksFromExcel = async (req, res, next) => {
       description,
       language,
       branch,
+      barcode,
     });
 
     if (existingBook) {
@@ -203,6 +207,7 @@ const importBooksFromExcel = async (req, res, next) => {
         year_published,
         loan_expiry,
         status,
+        barcode,
         author,
         authorName,
         branch,

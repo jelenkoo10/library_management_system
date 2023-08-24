@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@react-navigation/native": "^6.1.7",
+    "@react-navigation/stack": "^6.3.17",
+    "react-native-camera": "^4.2.1"
+  }
+}

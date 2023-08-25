@@ -7,6 +7,8 @@ const ReturningScreen = ({ navigation }) => {
   const [step, setStep] = useState("book");
   const [bookScannedData, setBookScannedData] = useState(null);
   const [userScannedData, setUserScannedData] = useState(null);
+  const [bookId, setBookId] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -32,6 +34,25 @@ const ReturningScreen = ({ navigation }) => {
 
         setBookId(bookData.bookId);
         setUserId(userData.userId);
+
+        const returnResponse = await fetch(
+          `http://192.168.0.18:5000/api/books/return/${bookData.bookId}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId: userData.userId }),
+          }
+        );
+        const returnData = await returnResponse.json();
+        console.log("Response Data:", returnData);
+
+        if (returnResponse.ok) {
+          alert("Knjiga je uspešno vraćena!");
+        } else {
+          alert("Došlo je do greške prilikom vraćanja knjige.");
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }

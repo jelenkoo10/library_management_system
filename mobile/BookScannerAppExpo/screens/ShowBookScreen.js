@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, Linking } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
 const ShowBookScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
-  const [scannedData, setScannedData] = useState(null);
-  const [bookId, setBookId] = useState(null);
+  const [bookScannedData, setBookScannedData] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -24,7 +22,26 @@ const ShowBookScreen = ({ navigation }) => {
         const bookData = await bookResponse.json();
         console.log("Book Data:", bookData);
 
-        setBookId(bookData.bookId);
+        console.log(bookData.bookId);
+
+        const response = await fetch(
+          `http://192.168.0.18:5000/api/books/openurl`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              url: `http://localhost:3000/book/${bookData.bookId}`,
+            }),
+          }
+        );
+
+        if (response.ok) {
+          console.log("URL otvoren na računaru.");
+        } else {
+          console.error("Greška pri otvaranju URL-a na računaru.");
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -36,8 +53,7 @@ const ShowBookScreen = ({ navigation }) => {
   }, [bookScannedData]);
 
   const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    setScannedData(data);
+    setBookScannedData(data);
   };
 
   return (
@@ -49,15 +65,15 @@ const ShowBookScreen = ({ navigation }) => {
       ) : (
         <View style={styles.scannerContainer}>
           <BarCodeScanner
-            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            onBarCodeScanned={handleBarCodeScanned}
             style={styles.scanner}
           />
-          {scanned && (
+          {bookScannedData && (
             <View style={styles.scannedDataContainer}>
-              <Text>Barkod: {scannedData}</Text>
+              <Text>Barkod: {bookScannedData}</Text>
               <Button
                 title={"Skenirajte ponovo"}
-                onPress={() => setScanned(false)}
+                onPress={() => setBookScannedData(null)}
               />
             </View>
           )}

@@ -34,6 +34,25 @@ const AssigningScreen = ({ navigation }) => {
 
         setBookId(bookData.bookId);
         setUserId(userData.userId);
+
+        const assignResponse = await fetch(
+          `http://192.168.0.18:5000/api/books/assign/${bookData.bookId}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId: userData.userId }),
+          }
+        );
+        const assignData = await assignResponse.json();
+        console.log("Response Data:", assignData);
+
+        if (assignResponse.ok) {
+          alert("Knjiga je uspešno zadužena!");
+        } else {
+          alert("Došlo je do greške prilikom zaduživanja knjige.");
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }

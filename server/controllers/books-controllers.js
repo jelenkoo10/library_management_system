@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const download = require("download");
 const fs = require("fs");
 const xlsx = require("xlsx");
+const { exec } = require("child_process");
 
 const HttpError = require("../models/http-error");
 const Book = require("../models/book");
@@ -123,6 +124,20 @@ const getBookIdByBarcode = async (req, res, next) => {
 
   res.json({
     bookId: book.id,
+  });
+};
+
+const openBookURL = async (req, res, next) => {
+  const { url } = req.body;
+
+  exec(`start chrome ${url}`, (error, stdout, stderr) => {
+    if (error) {
+      console.error("Error opening URL:", error);
+      res.status(500).json({ message: "Error opening URL" });
+    } else {
+      console.log("URL opened in Chrome:", url);
+      res.status(200).json({ message: "URL opened in Chrome" });
+    }
   });
 };
 
@@ -537,16 +552,17 @@ const returnBook = async (req, res, next) => {
     sess.startTransaction();
     book.status = "slobodno";
     book.loan_expiry = null;
-    const resIndex = user.reservations
-      .map((res) => res.bookId)
-      .lastIndexOf(foundBookId);
-    user.reservations[resIndex] = Object.assign(
-      {},
-      user.reservations[resIndex],
-      { returnDate: new Date().toISOString() }
-    );
-    await book.save({ session: sess });
+    book.user = null;
+    // const resIndex = user.reservations
+    //   .map((res) => res.bookId)
+    //   .lastIndexOf(foundBookId);
+    // user.reservations[resIndex] = Object.assign(
+    //   {},
+    //   user.reservations[resIndex],
+    //   { returnDate: new Date().toISOString() }
+    // );
     user.books.pull(book);
+    await book.save({ session: sess });
     await user.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
@@ -977,6 +993,7 @@ exports.getBooksByBranch = getBooksByBranch;
 exports.getBooksByUser = getBooksByUser;
 exports.getBookAvailability = getBookAvailability;
 exports.getBookIdByBarcode = getBookIdByBarcode;
+exports.openBookURL = openBookURL;
 exports.createBook = createBook;
 exports.importBooksFromExcel = importBooksFromExcel;
 exports.getBookById = getBookById;

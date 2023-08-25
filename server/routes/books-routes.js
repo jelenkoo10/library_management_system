@@ -54,6 +54,8 @@ router.post(
   booksController.importBooksFromExcel
 );
 
+router.post("/openurl", booksController.openBookURL);
+
 router.patch(
   "/:bid",
   fileUpload.fields([

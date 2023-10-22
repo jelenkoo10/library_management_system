@@ -16,7 +16,7 @@ const BookDetailed = (props) => {
       <p className="text-[#C75D2C]">
         Jezik: <span className="font-bold">{language}</span>
       </p>
-      {user && pdf ? !user.is_admin && <PdfDownload pdf={pdf} /> : null}
+      {user && pdf && <PdfDownload pdf={pdf} />}
       {user && (
         <Button
           btnStyle="text-[#C75D2C] underline font-bold text-lg mt-3"

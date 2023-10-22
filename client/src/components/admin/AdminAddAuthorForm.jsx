@@ -99,27 +99,27 @@ const AdminAddAuthorForm = ({ closeModal }) => {
       <div className="sm:w-full lg:w-[500px]">
         <Input
           inputId="name"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[180px] sm:ml-auto"
+          inputStyle="my-2 block border-b-2 border-[#B8572A] focus:border w-[220px] sm:ml-auto"
           divStyle="flex justify-between items-center sm:w-full"
-          labelStyle="text-2xl text-[#C75D2C]"
+          labelStyle="text-xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Ime "
           onChange={nameInputHandler}
         />
         <Input
           inputId="surname"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[180px] sm:ml-auto"
+          inputStyle="my-2 block border-b-2 border-[#B8572A] focus:border w-[220px] sm:ml-auto"
           divStyle="flex justify-between items-center sm:w-full"
-          labelStyle="text-2xl text-[#C75D2C]"
+          labelStyle="text-xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Prezime "
           onChange={surnameInputHandler}
         />
         <Input
           inputId="date_of_birth"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[180px] sm:ml-auto"
+          inputStyle="my-2 block border-b-2 border-[#B8572A] focus:border w-[220px] sm:ml-auto"
           divStyle="flex justify-between items-center sm:w-full"
-          labelStyle="text-2xl text-[#C75D2C]"
+          labelStyle="text-xl text-[#C75D2C]"
           inputType="date"
           inputLabel="Datum rodjenja "
           onChange={date_of_birthInputHandler}
@@ -128,18 +128,18 @@ const AdminAddAuthorForm = ({ closeModal }) => {
       <div className="sm:w-full lg:w-[500px]">
         <Input
           inputId="nationality"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[180px] sm:ml-auto"
+          inputStyle="my-2 block border-b-2 border-[#B8572A] focus:border w-[220px] sm:ml-auto"
           divStyle="flex justify-between items-center sm:w-full"
-          labelStyle="text-2xl text-[#C75D2C]"
+          labelStyle="text-xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Nacionalnost "
           onChange={nationalityInputHandler}
         />
         <Input
           inputId="age"
-          inputStyle="my-4 block border-b-2 border-[#B8572A] focus:border w-[180px] sm:ml-auto"
+          inputStyle="my-2 block border-b-2 border-[#B8572A] focus:border w-[220px] sm:ml-auto"
           divStyle="flex justify-between items-center sm:w-full"
-          labelStyle="text-2xl text-[#C75D2C]"
+          labelStyle="text-xl text-[#C75D2C]"
           inputType="text"
           inputLabel="Godine "
           onChange={ageInputHandler}
@@ -147,13 +147,13 @@ const AdminAddAuthorForm = ({ closeModal }) => {
         <div className="flex justify-between items-center sm:w-full">
           <label
             htmlFor="biography"
-            className="text-2xl text-[#C75D2C] pt-[-80px]"
+            className="text-xl text-[#C75D2C] pt-[-80px]"
           >
             Biografija
           </label>
           <textarea
             id="biography"
-            className="my-4 p-2 border-2 border-[#B8572A] focus:border w-[180px] h-[150px] resize-none"
+            className="my-2 p-2 border-2 border-[#B8572A] focus:border w-[280px] h-[120px] resize-none"
             type="text"
             onChange={biographyInputHandler}
           ></textarea>

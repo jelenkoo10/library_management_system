@@ -186,7 +186,7 @@ const signup = async (req, res, next) => {
     );
   }
 
-  sendWelcomeSMS(phone, name);
+  // sendWelcomeSMS(phone, name);
 
   res.status(201).json({
     userId: newUser.id,
@@ -434,13 +434,13 @@ const resetPassword = async (req, res, next) => {
 };
 
 const sendWelcomeSMS = (phoneNumber, name) => {
-  const message = `Dobrodošli, ${name}! Vaša članarina je uplaćena. Uživajte u prednostima i knjigama naše biblioteke.`;
+  const message = `Dobrodošli, ${name}! Vaš nalog je kreiran. Uživajte u prednostima koje nudi naša biblioteka.`;
 
   client.messages
     .create({
       body: message,
-      from: process.env.TWILIO_PHONE_NUMBER, // Twilio broj sa kojeg šaljete SMS
-      to: phoneNumber, // Broj korisnika na kojeg šaljete SMS
+      from: process.env.TWILIO_PHONE_NUMBER,
+      to: phoneNumber,
     })
     .then((message) => console.log(message.sid))
     .catch((error) => console.error(error));
@@ -678,6 +678,10 @@ const getCurrentReservations = async (req, res, next) => {
     }
   }
 
+  books = books.filter((book) => {
+    return book.status == "rezervisano";
+  });
+
   res.json({
     reservations: filteredReservations,
     books,
@@ -911,15 +915,12 @@ schedule.scheduleJob("0 12 * * *", async () => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Izračunaj datum koji je tačno 5 dana od danas
   const fiveDaysFromNow = new Date(today);
   fiveDaysFromNow.setDate(fiveDaysFromNow.getDate() + 5);
 
-  // Izračunaj datum koji je tačno 6 dana od danas (za kraj raspona od 5 dana)
   const sixDaysFromNow = new Date(today);
   sixDaysFromNow.setDate(sixDaysFromNow.getDate() + 6);
 
-  // Pronađite sve knjige sa datumom isteka pozajmice unutar raspona od 5 dana
   const booksToRemind = await Book.find({
     loan_expiry: {
       $gte: fiveDaysFromNow,
@@ -927,12 +928,10 @@ schedule.scheduleJob("0 12 * * *", async () => {
     },
   });
 
-  // Za svaku knjigu, dohvatite korisnički broj telefona i pošaljite SMS poruku
   for (const book of booksToRemind) {
-    const user = await User.findById(book.user); // Pretpostavljamo da je user polje u modelu Book
-    const phoneNumber = user.phone; // Pretpostavljamo da je phoneNumber polje u modelu User
+    const user = await User.findById(book.user);
+    const phoneNumber = user.phone;
 
-    // Koristite Twilio API za slanje SMS poruke
     const message = `Pozdrav, "${user.name}"! Imate knjigu "${book.title}" pozajmljenu kod nas, čiji rok pozajmice ističe za 5 dana. Molimo Vas da je vratite na vreme. Hvala!`;
 
     // client.messages
@@ -945,11 +944,9 @@ schedule.scheduleJob("0 12 * * *", async () => {
     //   .catch((error) => console.error(error));
   }
 
-  // Izračunaj sutrašnji datum
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
 
-  // Pronađite sve knjige sa datumom isteka pozajmice između danas i sutra
   const booksToReturn = await Book.find({
     loan_expiry: {
       $gte: today,
@@ -957,12 +954,10 @@ schedule.scheduleJob("0 12 * * *", async () => {
     },
   });
 
-  // Za svaku knjigu, dohvatite korisnički broj telefona i pošaljite SMS poruku
   for (const book of booksToReturn) {
-    const user = await User.findById(book.user); // Pretpostavljamo da je user polje u modelu Book
-    const phoneNumber = user.phone; // Pretpostavljamo da je phoneNumber polje u modelu User
+    const user = await User.findById(book.user);
+    const phoneNumber = user.phone;
 
-    // Koristite Twilio API za slanje SMS poruke
     const message = `Pozdrav, "${user.name}"! Rok pozajmice za knjigu "${book.title}" ističe danas. Molimo Vas da je vratite što je pre moguće. Hvala!`;
 
     // client.messages

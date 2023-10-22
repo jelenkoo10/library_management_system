@@ -130,11 +130,11 @@ const AdminAnalyticsPage = () => {
   });
 
   const genreChartData = {
-    labels: Object.keys(genreCounts), // Korišćenje ključeva iz objekta koji sadrži brojanje žanrova
+    labels: Object.keys(genreCounts),
     datasets: [
       {
         label: "Broj rezervacija po žanru",
-        data: Object.values(genreCounts), // Korišćenje vrednosti iz objekta koji sadrži brojanje žanrova
+        data: Object.values(genreCounts),
         backgroundColor: "rgba(199, 93, 44, 0.8)",
         borderColor: "rgba(230, 123, 74, 1)",
         borderWidth: 1,
@@ -143,11 +143,11 @@ const AdminAnalyticsPage = () => {
   };
 
   const authorChartData = {
-    labels: Object.keys(authorCounts), // Korišćenje ključeva iz objekta koji sadrži brojanje autora
+    labels: Object.keys(authorCounts),
     datasets: [
       {
         label: "Broj rezervacija po autoru",
-        data: Object.values(authorCounts), // Korišćenje vrednosti iz objekta koji sadrži brojanje autora
+        data: Object.values(authorCounts),
         backgroundColor: "rgba(199, 93, 44, 0.8)",
         borderColor: "rgba(230, 123, 74, 1)",
         borderWidth: 1,
@@ -156,11 +156,11 @@ const AdminAnalyticsPage = () => {
   };
 
   const titleChartData = {
-    labels: Object.keys(titleCounts), // Korišćenje ključeva iz objekta koji sadrži brojanje autora
+    labels: Object.keys(titleCounts),
     datasets: [
       {
         label: "Broj rezervacija po knjizi",
-        data: Object.values(titleCounts), // Korišćenje vrednosti iz objekta koji sadrži brojanje autora
+        data: Object.values(titleCounts),
         backgroundColor: "rgba(199, 93, 44, 0.8)",
         borderColor: "rgba(230, 123, 74, 1)",
         borderWidth: 1,

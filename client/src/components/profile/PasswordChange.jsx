@@ -104,7 +104,7 @@ const PasswordChange = (props) => {
               divStyle="flex justify-between items-center"
               labelStyle="text-2xl text-[#C75D2C] mr-6"
               inputType="password"
-              inputLabel="Stara šifra "
+              inputLabel="Stara lozinka "
               onChange={oldPasswordHandler}
             />
             <Input
@@ -113,7 +113,7 @@ const PasswordChange = (props) => {
               divStyle="flex justify-between items-center"
               labelStyle="text-2xl text-[#C75D2C] mr-6"
               inputType="password"
-              inputLabel="Stara šifra, ponovljena "
+              inputLabel="Stara lozinka, ponovljena "
               onChange={repeatedOldPasswordHandler}
             />
             <Input
@@ -122,7 +122,7 @@ const PasswordChange = (props) => {
               divStyle="flex justify-between items-center"
               labelStyle="text-2xl text-[#C75D2C] mr-6"
               inputType="password"
-              inputLabel="Nova šifra "
+              inputLabel="Nova lozinka "
               onChange={newPasswordHandler}
             />
           </>

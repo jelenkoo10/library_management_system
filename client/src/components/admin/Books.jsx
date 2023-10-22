@@ -51,10 +51,19 @@ const Books = () => {
   };
 
   const confirmBookReservation = async (id) => {
+    const res = await sendRequest(
+      `http://localhost:5000/api/books/id/${id}`,
+      "GET",
+      null,
+      {
+        "Content-Type": "application/json",
+      }
+    );
+
     const response = await sendRequest(
       `http://localhost:5000/api/books/assign/${id}`,
       "PATCH",
-      null,
+      JSON.stringify({ userId: res.book.user }),
       {
         "Content-Type": "application/json",
       }
@@ -118,7 +127,7 @@ const Books = () => {
     <>
       {isLoading && <LoadingSpinner asOverlay />}
       <section className="p-5 bg-[#DDD] border border-[#C75D2C] bg-opacity-90 sm:h-fit sm:max-h-fit xl:w-2/3 lg:min-h-[70vh]">
-        <div className="grid grid-cols-4 gap-4 place-items-center items-center h-[100%] sm:flex sm:flex-col md:grid md:grid-cols-2 md:gap-4 md:mx-auto md:h-[60vh] lg:grid-cols-3 lg:gap-2">
+        <div className="grid grid-cols-4 gap-4 place-items-center items-center h-[100%] sm:flex sm:flex-col md:grid md:grid-cols-2 md:gap-4 md:mx-auto md:h-[60vh] lg:grid-cols-3 lg:gap-2 lg:h-auto">
           {books &&
             books.map((book) => (
               <AdminBookCard

@@ -17,7 +17,7 @@ const ShowBookScreen = ({ navigation }) => {
     const showBook = async () => {
       try {
         const bookResponse = await fetch(
-          `http://192.168.0.18:5000/api/books/barcode/${bookScannedData}`
+          `http://192.168.50.252:5000/api/books/barcode/${bookScannedData}`
         );
         const bookData = await bookResponse.json();
         console.log("Book Data:", bookData);
@@ -25,7 +25,7 @@ const ShowBookScreen = ({ navigation }) => {
         console.log(bookData.bookId);
 
         const response = await fetch(
-          `http://192.168.0.18:5000/api/books/openurl`,
+          `http://192.168.50.252:5000/api/books/openurl`,
           {
             method: "POST",
             headers: {

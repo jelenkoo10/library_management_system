@@ -55,7 +55,7 @@ const Admin = () => {
           />
           <Button
             btnStyle="py-2 px-5 mx-2 mt-3 bg-[#C75D2C] text-white font-semibold opacity-100 rounded-md sm:h-[45px] sm:text-sm md:text-lg md:w-2/3 md:mx-auto lg:w-3/4 lg:p-2 lg:h-[80px] xl:w-full xl:py-4"
-            btnText="Dodaj pisca"
+            btnText="Dodaj autora"
             onClick={() =>
               handleModal("Dodavanje autora", <AdminAddAuthorForm />)
             }

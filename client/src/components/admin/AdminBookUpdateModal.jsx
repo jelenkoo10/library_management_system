@@ -139,14 +139,14 @@ const AdminBookUpdateModal = ({ book, branches, stopUpdating, reloadPage }) => {
       {isLoading && <LoadingSpinner asOverlay />}
       <form
         onSubmit={updateBook}
-        className="p-4 mx-auto bg-white flex justify-between sm:w-3/4 sm:p-4 sm:rounded-lg sm:mx-0 sm:flex-col"
+        className="p-4 mx-auto bg-white flex justify-between sm:w-3/4 sm:p-2 sm:rounded-lg sm:mx-0 sm:flex-col"
       >
         <div className="w-[45%] sm:w-full sm:flex sm:flex-col lg:w-[500px]">
           <Input
             inputId="title"
-            inputStyle="my-2 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
+            inputStyle="my-1 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
             divStyle="flex justify-between items-center"
-            labelStyle="text-2xl text-[#C75D2C]"
+            labelStyle="text-xl text-[#C75D2C]"
             inputType="text"
             inputLabel="Naslov "
             onChange={titleInputHandler}
@@ -154,9 +154,9 @@ const AdminBookUpdateModal = ({ book, branches, stopUpdating, reloadPage }) => {
           />
           <Input
             inputId="genre"
-            inputStyle="my-2 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
+            inputStyle="my-1 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
             divStyle="flex justify-between items-center"
-            labelStyle="text-2xl text-[#C75D2C]"
+            labelStyle="text-xl text-[#C75D2C]"
             inputType="text"
             inputLabel="Zanr "
             onChange={genreInputHandler}
@@ -164,9 +164,9 @@ const AdminBookUpdateModal = ({ book, branches, stopUpdating, reloadPage }) => {
           />
           <Input
             inputId="year_published"
-            inputStyle="my-2 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
+            inputStyle="my-1 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
             divStyle="flex justify-between items-center"
-            labelStyle="text-2xl text-[#C75D2C]"
+            labelStyle="text-xl text-[#C75D2C]"
             inputType="text"
             inputLabel="Godina "
             onChange={year_publishedInputHandler}
@@ -174,9 +174,9 @@ const AdminBookUpdateModal = ({ book, branches, stopUpdating, reloadPage }) => {
           />
           <Input
             inputId="language"
-            inputStyle="my-2 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
+            inputStyle="my-1 block border-b-2 border-[#B8572A] focus:border w-[200px] sm:w-1/2"
             divStyle="flex justify-between items-center"
-            labelStyle="text-2xl text-[#C75D2C]"
+            labelStyle="text-xl text-[#C75D2C]"
             inputType="text"
             inputLabel="Jezik "
             onChange={languageInputHandler}
@@ -197,22 +197,22 @@ const AdminBookUpdateModal = ({ book, branches, stopUpdating, reloadPage }) => {
         </div>
         <div className="w-[45%] resize-none sm:w-full sm:flex sm:flex-col lg:w-[500px]">
           <Select
-            selectStyle="my-2 block border-b-2 border-[#B8572A] w-[200px] sm:w-1/2"
+            selectStyle="my-1 block border-b-2 border-[#B8572A] w-[200px] sm:w-1/2"
             selectId="author"
             selectName="author"
             labelName="Autor"
-            labelStyle="text-2xl text-[#C75D2C]"
+            labelStyle="text-xl text-[#C75D2C]"
             options={authors}
             onChange={authorInputHandler}
             isAuthor
             value={inputData.author}
           />
           <Select
-            selectStyle="my-2 block border-b-2 border-[#B8572A] w-[200px] sm:w-1/2"
+            selectStyle="my-1 block border-b-2 border-[#B8572A] w-[200px] sm:w-1/2"
             selectId="branch"
             selectName="branch"
             labelName="Ogranak"
-            labelStyle="text-2xl text-[#C75D2C]"
+            labelStyle="text-xl text-[#C75D2C]"
             options={branches}
             onChange={branchInputHandler}
           />
@@ -220,13 +220,13 @@ const AdminBookUpdateModal = ({ book, branches, stopUpdating, reloadPage }) => {
           <div className="flex justify-between items-center">
             <label
               htmlFor="description"
-              className="text-2xl text-[#C75D2C] pt-[-80px]"
+              className="text-xl text-[#C75D2C] pt-[-80px]"
             >
               Opis
             </label>
             <textarea
               id="description"
-              className="my-2 p-2 border-2 border-[#B8572A] focus:border w-[200px] sm:w-3/4 h-[150px] resize-none"
+              className="my-1 p-2 border-2 border-[#B8572A] focus:border w-[220px] sm:w-3/4 h-[120px] resize-none"
               type="text"
               onChange={descriptionInputHandler}
               value={inputData.description}

@@ -204,6 +204,7 @@ const createBook = async (req, res, next) => {
   }
 
   res.status(201).json({ book: newBook.toObject({ getters: true }) });
+  yy;
 };
 
 const importBooksFromExcel = async (req, res, next) => {
@@ -357,8 +358,9 @@ const updateBook = async (req, res, next) => {
     );
   }
 
-  let pdf = "http://localhost:5000/" + req.files.pdf[0].path;
-  let image = "http://localhost:5000/" + req.files.image[0].path;
+  let pdf = req.files.pdf && "http://localhost:5000/" + req.files.pdf[0].path;
+  let image =
+    req.files.image && "http://localhost:5000/" + req.files.image[0].path;
 
   book.title = title;
   book.year_published = year_published;
@@ -502,7 +504,6 @@ const reserveBook = async (req, res, next) => {
       ).toISOString(),
       bookId: bookId,
     });
-    foundUser.books.push(book);
     await foundUser.save({ session: sess });
     await book.save({ session: sess });
     await sess.commitTransaction();
@@ -552,6 +553,7 @@ const returnBook = async (req, res, next) => {
     sess.startTransaction();
     book.status = "slobodno";
     book.loan_expiry = null;
+    user.books.pull(book);
     book.user = null;
     // const resIndex = user.reservations
     //   .map((res) => res.bookId)
@@ -561,7 +563,6 @@ const returnBook = async (req, res, next) => {
     //   user.reservations[resIndex],
     //   { returnDate: new Date().toISOString() }
     // );
-    user.books.pull(book);
     await book.save({ session: sess });
     await user.save({ session: sess });
     await sess.commitTransaction();

@@ -61,7 +61,7 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    "mongodb+srv://veljkojelenkovic00:<password>@cluster0.bcgyedy.mongodb.net/library?retryWrites=true&w=majority",
+    "mongodb+srv://veljkojelenkovic00:OGCDgjVWA2SOB1sB@cluster0.bcgyedy.mongodb.net/library?retryWrites=true&w=majority",
     { useNewUrlParser: true }
   )
   .then(() => {

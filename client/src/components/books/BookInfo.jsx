@@ -35,7 +35,7 @@ const BookInfo = (props) => {
             />
           )
         : null}
-      <img src={image} alt="Book's image" className="w-[80px]" />
+      {image && <img src={image} alt="Book's image" className="w-[80px]" />}
     </div>
   );
 };

@@ -50,7 +50,7 @@ const ImageUpload = (props) => {
         />
         {!isValid && <p>{props.errorText}</p>}
       </div>
-      <p className="text-md text-[#C75D2C]">
+      <p className="text-sm text-[#C75D2C]">
         Podržane ekstenzije: {props.extensions}
       </p>
     </>
